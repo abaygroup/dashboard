@@ -1,0 +1,111 @@
+// Шрифты
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+// ===========================================
+@import './pages/accounts';
+
+@import './components/alert';
+
+// Общие 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Компонент body
+body {
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+    background-color: "#fafafa";
+    color: black;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+
+
+#root {
+    position: relative;
+    min-height: 100vh;
+}
+
+.i18next {
+    position: fixed; 
+    bottom: 20px;
+    right: 20px; 
+    z-index: 10000;
+  
+    button {
+        display: inline-block;
+        background: none;
+        border: none;
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+        background-color: #fffdfd47;
+        backdrop-filter: blur(10px);
+        border-radius: 5px;
+        margin: 0 1px;
+        font-size: 14px;
+        font-family: 'Inter', sans-serif;
+        padding: 5px;
+        transition: all .3s;
+    
+        &:hover {
+        box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+        } 
+    }
+}
+
+// ===========================================
+@media screen and (max-width: 700px) {
+    .i18next {
+        bottom: 45px;
+        right: 10px;
+    
+        button {
+        font-size: 12px;
+        padding: 3px;
+    
+        }
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555;
+}
+
+// Медиазапросы
+// ==========================================
+@import "./responsive/accounts";
+
+
+
+
+
+
+
+
+
+
+
+
+
