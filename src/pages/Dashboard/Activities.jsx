@@ -19,10 +19,13 @@ const ActivityContainer = styled.div`
         .del-all-btn {
             text-align: right;
             padding: 5px 20px;
-            background: ${({theme}) => theme.background};
             cursor: pointer;
             border: 1px solid ${({theme}) => theme.borderColor};
             border-radius: 5px;
+
+            &:hover {
+                border: 1px solid ${({theme}) => theme.color};
+            }
         }
 
         .box {

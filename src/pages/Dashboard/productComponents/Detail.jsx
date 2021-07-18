@@ -94,8 +94,12 @@ const ProductDetail = styled.div`
                     padding: 4px 20px;
                     border-radius: 5px;
                     border: 1px solid ${({theme}) => theme.borderColor};
-                    font-size: 12px;
+                    font-size: 13px;
                     cursor: pointer;
+
+                    &:hover {
+                        border: 1px solid ${({theme}) => theme.color};
+                    }
                 }
             }
         }
@@ -135,6 +139,7 @@ const Center = styled.div`
 
 const Detail = () => {
     const [product, setProduct] = useState({})
+    const [videohosting, setVideohosting] = useState([])
     const [features, setFeatures] = useState([])
     const [loading, setLoading] = useState(true)
     const [ai, setAi] = useState([])
@@ -170,6 +175,7 @@ const Detail = () => {
                 if(!cleanupFunction) {
                     setProduct(response.data.products);
                     setFeatures(response.data.features);
+                    setVideohosting(response.data.videohosting);
                     setAi(response.data.ai)
                     setLoading(false)
                 }
@@ -240,6 +246,21 @@ const Detail = () => {
                                 <span key={i}><strong>{feature.label}:</strong> {feature.value}</span>
                             )
                         }) : <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>Нет характеристики</small>}
+                    </div>
+
+                    <div className="videohosting">
+                        <h4>Видеохостинг</h4>
+                        {videohosting.length > 0 ? videohosting.map((video, i) => {
+                            return (
+                                <div className="video-box" key={i}>
+                                    <iframe  height="auto" src={video.frame_url} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                    <h4>{video.title}</h4>
+                                    <small>{video.body}</small>
+                                    <span>{video.timestamp}</span>
+                                    <hr />
+                                </div>
+                            )
+                        }) : <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>Нет видеохостинг</small>}
                     </div>
                 </motion.div>
             }

@@ -23,6 +23,7 @@ const Create = () => {
     const [loading, setLoading] = useState(true)
     const { register, handleSubmit } = useForm();
     const [product, setProduct] = useState({})
+    const [dashboard, setDashboard] = useState({});
 
     const [created, setCreated] = useState(false)
     const [disable, setDisable] = useState(false)
@@ -66,11 +67,35 @@ const Create = () => {
 
     // UseEffect
     useEffect(() => {
-        setLoading(false)
+        let cleanupFunction = false;
+        const fetchData = async () => {
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
+                const response = await axios.get(`http://127.0.0.1:8000/`, localStorage.getItem('access') && config);
+                if(!cleanupFunction) {
+                    
+                    setDashboard(response.data.dashboard)
+                    setLoading(false)
+                }
+            } catch (e) {
+                console.error(e.message)
+            }
+        };
+        fetchData()
+        return () => cleanupFunction = true;
     }, [])
 
     if (created) {
         return <Redirect to={`/product/${product.owner.brandname}/${product.isbn_code}/`}/>
+    }
+    
+    if(dashboard.branding === false) {
+        return <Redirect to='/' />
     }
 
     // For motion

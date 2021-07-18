@@ -62,6 +62,18 @@ const ProfileContainer = styled.div`
                 }
 
             }
+
+            .checked {
+                position: relative;
+
+                img {
+                    position: absolute;
+                    top: 10px;
+                    width: 24px;
+                    box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+                    border-radius: 50%;
+                }
+            }
         }
 
         .create-proj-btn {
@@ -97,11 +109,18 @@ const Profile = ({dashboard, brand}) => {
                     <div className="title">
                         <h1>{brand.brandname ? brand.brandname : <Loader />}</h1>
                         <span>Интеграция веб сайта</span>
-                        <a href="/"><i className="fas fa-globe"></i> {dashboard.website}</a>
+                        {dashboard.website ?
+                            <a href="/"><i className="fas fa-globe"></i> {dashboard.website}</a>
+                        : <small>Не определено</small>}
                     </div>
+                    {dashboard.branding &&
+                        <div className="checked">
+                            <img src="https://img.icons8.com/fluent/48/000000/verified-badge.png" alt="" />
+                        </div>
+                    }
                 </div>
                 
-                <Link to="/product/create" className="create-proj-btn">Импорт продукт</Link>
+                {dashboard.branding && <Link to="/product/create" className="create-proj-btn">Импорт продукт</Link>}
             </div>
         </ProfileContainer>
     )

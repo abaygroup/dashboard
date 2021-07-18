@@ -54,7 +54,6 @@ const Main = (props) => {
         return <Redirect to="/accounts/login" />
     }
     
-    
     document.title = `${brand.brandname || "..."} | Панель управления`;
     return (
         <ThemeProvider theme={themeMode}>
