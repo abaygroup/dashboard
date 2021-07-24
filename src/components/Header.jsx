@@ -143,7 +143,7 @@ const Header = (props) => {
                         }} to="/activities">Активности</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/reviews">{count.nochecked_count !== 0 && <span>{count.nochecked_count} </span>}Уведомление</NavLink>
+                        }} to="/reviews">{count.nochecked_count > 0 && <span>{count.nochecked_count} </span>}Уведомление</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
                         }} to="/message">Сообщение</NavLink>
