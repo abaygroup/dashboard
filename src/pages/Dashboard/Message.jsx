@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { LOCAL_URL } from '../../actions/types';
 
 
@@ -15,6 +15,97 @@ const MessageContainer = styled.div`
     align-items: flex-start;
     width: 1280px;
     margin: 0 auto;
+
+    .message {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+
+        .instruction {
+            width: 50%;
+            margin: 0 20px 20px 20px;
+            display: inline-block;
+            h4 {
+                text-align: left;
+                padding-left: 5px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid ${({theme}) => theme.borderColor};
+            }
+            small {
+                ul {
+                    margin: 10px 40px;
+                    line-height: 1.5;
+                }
+            }
+        }
+
+        form {
+            width: 50%;
+            margin: 0 20px 20px 20px;
+            h4 {
+                text-align: left;
+                padding-bottom: 5px;
+                
+                border-bottom: 1px solid ${({theme}) => theme.borderColor};
+            }
+
+            .form-group {
+                padding: 10px 0;
+
+                label {
+                    display: inline-block;
+                    font-size: 14px;
+                    margin: 0 5px;
+                }
+                input, textarea {
+                    display: inline-block;
+                    margin: 0 5px;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    border: 1px solid ${({theme}) => theme.borderColor};
+                    color: ${({theme}) => theme.color};
+                    background: ${({theme}) => theme.background};
+                    font-family: "Inter", sans-serif;
+                }
+                textarea {
+                    resize: vertical;
+                    display: block;
+                }
+
+                span {
+                    display: inline-block;
+                    padding: 5px 10px;
+                    cursor: pointer;
+                }
+            }
+            .submit {
+                input {
+                    display: inline-block;
+                    padding: 5px 15px;
+                    border: 1px solid black;
+                    color: ${({theme}) => theme.btnColor};
+                    transition: all .3s;
+                    background: ${({theme}) => theme.btnBackground};
+                    border-radius: 5px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    font-weight: 400;
+                    font-family: 'Inter', sans-serif;
+        
+                    &:hover {
+                        border: 1px solid ${({theme}) => theme.btnBackground};
+                        color: ${({theme}) => theme.btnBackground};
+                        background: transparent;
+                    }
+
+                    &:disabled {
+                        opacity: .5;
+                        cursor: inherit;
+                    }
+                }
+            }
+        }
+    }
 `;
 
 const Center = styled.div`
@@ -30,7 +121,7 @@ const Message = () => {
     const [loading, setLoading] = useState(true)
     const { register, handleSubmit } = useForm();
     const [disable, setDisable] = useState(false);
-    const [created, setCreated] = useState(false)
+    const [created, setCreated] = useState(false);
 
     const onSubmit = async (data) => {
         setDisable(true);
@@ -80,9 +171,38 @@ const Message = () => {
                 transition={{duration: 0.25}}
                 className="message"
             >
-                <p>Сообщение</p>
-                <h3>Вы можете отправить нам письмо здесь</h3>
+                <div className="instruction">
+                    <h4>Инструкция по отправка сообщение</h4>
+                    <small>
+                        Вы можете импортировать товар по выбранной вами категории. 
+                        Т. е. какое направление выбрал бренд, работа ведется по той же категории. 
+                        Если выбранная категория неверна, <Link to={'#'}>напишите здесь</Link>
+
+                        <ul>
+                            <li>Обязательно нужно написать название товара</li>
+                            <li>Для наглядности на товар нужно поставить рисунок. Но это не имеет значения. 
+                                Рисунок лучше нарисовать в максимально квадратичном формате. Например 400x400
+                            </li>
+                            <li>
+                                Обязательно нужно написать цену. Цена указана в двух видах. 
+                                Первая начальная цена, верхняя цена товара. 
+                                И последняя цена это последняя цена после торговли через клиента.
+                            </li>
+                            <li>
+                                Описание товара у вас очень важное поле. А нам не важно :). 
+                                Это поле можно оставить пустым. Но мы рекомендуем написать 
+                                описание продукта, максимально используя это поле. Потому 
+                                что продукт с четко прописанным описанием торгуется быстро.
+                            </li>
+                        </ul>
+
+                        После импорта товара с подробной справкой отправляет товар на главную страницу. 
+                        Там же даются формы для нанесения дополнительных рисунков на товар и выдачи 
+                        дополнительной характеристики.
+                    </small>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    <h4>Вы можете отправить нам письмо здесь</h4>
                     <div className="form-group">
                         <label htmlFor="">Тема</label>
                         <input type="text" {...register("title")} placeholder="Тема вашего вопроса" required/>

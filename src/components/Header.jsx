@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -63,7 +64,23 @@ const Navigation = styled.div`
             display: inline-block;
             border-bottom: 1px solid ${({theme}) => theme.activeBar };
             transition: all .3s;
+            position: relative;
             
+            span {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background: #d40000d1;
+                color: white;
+                padding: 2px;
+                margin-right: 5px;
+                font-size: 12px;
+                box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+            }
+
             &:first-child, &:last-child {
                 margin: 0;
             }
@@ -74,6 +91,29 @@ const Navigation = styled.div`
 const Header = (props) => {
     const { logout } = props;
     const color = localStorage.getItem('theme') === 'dark' ? "black": "white";
+    const [count, setCount] = useState({})
+
+    useEffect(() => {
+        let cleanupFunction = false;
+        const fetchData = async () => {
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
+                const response = await axios.get(`http://127.0.0.1:8000/notification/count/`, localStorage.getItem('access') && config);
+                if(!cleanupFunction) {
+                    setCount(response.data);
+                }
+            } catch (e) {
+                console.error(e.message)
+            }
+        };
+        fetchData()
+        return () => cleanupFunction = true;
+    }, [count])
 
     return (
         <React.Fragment>
@@ -103,7 +143,7 @@ const Header = (props) => {
                         }} to="/activities">Активности</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/reviews">Уведомление</NavLink>
+                        }} to="/reviews">{count.nochecked_count !== 0 && <span>{count.nochecked_count} </span>}Уведомление</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
                         }} to="/message">Сообщение</NavLink>

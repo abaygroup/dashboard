@@ -13,6 +13,53 @@ const NotificationContainer = styled.div`
     align-items: flex-start;
     width: 1280px;
     margin: 0 auto;
+
+    .notification {
+        width: 80%;
+        margin: 0 auto;
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid ${({theme}) => theme.borderColor};
+
+
+            .body-ms {
+                display: flex;
+                width: 70%;
+                
+                .logo-box {
+                    margin-right: 20px;
+                    img {
+                        width: 32px;
+                    }
+                }
+
+            }
+
+            .access {
+                
+                button {
+                    padding: 5px 20px;
+                    margin: 5px auto;
+                    display: block;
+                    cursor: pointer;
+                    border: 1px solid ${({theme}) => theme.borderColor};
+                    color: ${({theme}) => theme.color};
+                    border-radius: 5px;
+                    background: transparent;
+        
+                    &:hover {
+                        border: 1px solid ${({theme}) => theme.color};
+                    }
+                }
+             
+            }
+            
+        }
+    }
+
 `;
 
 const Center = styled.div`
@@ -26,6 +73,22 @@ const Center = styled.div`
 const Notification = () => {
     const [loading, setLoading] = useState(true)
     const [notification, setNotification] = useState([])
+
+    const checkedMessage = async (id) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
+        try {
+            await axios.post(`${LOCAL_URL}/notification/${id}/`, {}, localStorage.getItem('access') && config);
+        } catch (e) {
+            console.error(e.message)
+        }
+
+        console.log(id);
+    }
 
 
     useEffect(() => {
@@ -49,7 +112,7 @@ const Notification = () => {
         };
         fetchData()
         return () => cleanupFunction = true;
-    }, [])
+    }, [notification])
 
     // For motion
     const item = {
@@ -71,16 +134,24 @@ const Notification = () => {
                 transition={{duration: 0.25}}
                 className="notification"
             >
-                <p>Уведомление</p>
                 {notification.map((n_item, i) => {
                     const date = new Date(Date.parse(n_item.date_send))
                     return (
                         <div className="item" key={i}>
-                            <small>Кому: <strong>{n_item.to_send.brandname}</strong></small> 
-                            <h4>{n_item.title}</h4>
-                            <p>{n_item.body}</p>
-                            <small><Moment locale="ru" fromNow>{date}</Moment></small>
-                            <hr />
+                            <div className="body-ms">
+                                <div className="logo-box">
+                                    <img src="https://img.icons8.com/fluent/96/000000/topic-push-notification.png" alt=""/>
+                                </div>
+                                <div className="from-ms">
+                                    <small>От кого: <strong>@{n_item.to_send.brandname}</strong></small>
+                                    <h4>{n_item.title}</h4>
+                                    <small>{n_item.body}</small>
+                                </div>
+                            </div>
+                            <div className="access">
+                                <small><Moment locale="ru" fromNow>{date}</Moment></small><br />
+                                {!n_item.checked && <button onClick={() => checkedMessage(n_item.id)}>Принять</button>}
+                            </div>
                         </div>
                     )
                 })}    

@@ -29,6 +29,21 @@ const InformationContainer = styled.div`
     .form-group {
         padding: 10px 0;
 
+        .logotype-side {
+            display: flex;
+            align-items: center;
+
+            img {
+                border-radius: 10px;
+                width: 64px;
+                margin: 10px;
+            }
+            .delete-logo-btn {
+                cursor: pointer;
+            }
+        }
+       
+
         label {
             display: inline-block;
             font-size: 14px;
@@ -46,6 +61,7 @@ const InformationContainer = styled.div`
         }
         textarea {
             resize: vertical;
+            display: block;
         }
 
         span {
@@ -149,6 +165,11 @@ const Information = () => {
         }
     }
 
+    
+    const deleteLogo = () => {
+        alert('Deleted!')
+    }
+
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
@@ -201,7 +222,11 @@ const Information = () => {
                     className="profile" onSubmit={handleSubmit(onSubmit)}>
                     <h4>Ваше Данные</h4>
                     <div className="form-group">
-                        <input type="file" {...register("logotype")} onChange={handleChange}/>
+                        <div className="logotype-side">
+                            <img src={profile.logotype} alt="" />
+                            <big className="delete-logo-btn" onClick={deleteLogo} title="Удалить">&times;</big>
+                        </div>
+                        <input type="file" {...register("logotype")} disabled={profile.logotype && true} onChange={handleChange}/>
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
@@ -258,7 +283,7 @@ const Information = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="">Адрес</label>
-                        <textarea cols="40" defaultValue={profile.address} {...register("address")} />
+                        <textarea cols="40" rows="5" defaultValue={profile.address} {...register("address")} />
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
