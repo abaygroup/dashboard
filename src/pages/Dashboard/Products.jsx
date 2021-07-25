@@ -7,9 +7,11 @@ import { motion } from "framer-motion";
 import Loader from '../../components/Loader';
 import Search from '../../components/Search';
 
-
 import picture from '../../assets/images/picture.jpg';
 import { LOCAL_URL } from '../../actions/types';
+
+import { useTranslation } from 'react-i18next';
+
 
 const ProductsContainer = styled.div`
     display: flex;
@@ -165,6 +167,7 @@ const Products = () => {
     const [loading, setLoading] = useState(true)
     const [mainInput, setMainInput] = useState('')
 
+    const { t } = useTranslation();
 
     useEffect(() => {
         let cleanupFunction = false;
@@ -232,15 +235,15 @@ const Products = () => {
                                     <div className="title">
                                         <div className="header">
                                             <h4>{product.title}</h4>
-                                            <Link to={`product/${product.owner.brandname}/${product.isbn_code}`}>Посещать</Link>
+                                            <Link to={`product/${product.owner.brandname}/${product.isbn_code}`}>{t('dashboard.products.product.visit')}</Link>
                                         </div>
                                         <p>{product.body}</p>
                                         <hr />
                                         <div className="owner">
-                                            <small>Дата выпуска <strong>{date.getDate()}.{date.getMonth()}.{date.getFullYear()} {date.getHours()}:{date.getMinutes()}</strong></small> | 
-                                            <small>Рассмотрение <strong>{product.view}</strong></small> | 
-                                            <small className="deleteBtn" onClick={() => window.confirm('Вы действительно хотите удалить?') && deleteProductHandle(product.owner.brandname, product.isbn_code)}>Удалить</small> | 
-                                            <small className="editBtn"><Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>Изменить</Link></small>
+                                            <small>{t('dashboard.products.product.date')}: <strong>{date.getDate()}.{date.getMonth()}.{date.getFullYear()} {date.getHours()}:{date.getMinutes()}</strong></small> | 
+                                            <small>{t('dashboard.products.product.view')} <strong>{product.view}</strong></small> | 
+                                            <small className="deleteBtn" onClick={() => window.confirm(t('dashboard.products.product.confirm')) && deleteProductHandle(product.owner.brandname, product.isbn_code)}>{t('dashboard.products.product.delete_btn')}</small> | 
+                                            <small className="editBtn"><Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>{t('dashboard.products.product.update_btn')}</Link></small>
                                         </div>
                                     </div>
                                     <div className="image">
@@ -250,7 +253,7 @@ const Products = () => {
                             )
                         })}
                     </React.Fragment>
-                : <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>Продукты пока нет</small>}
+                : <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>{t('dashboard.products.product.view_all')}</small>}
             </motion.div>
             <motion.div 
                 initial="hidden" 
@@ -258,10 +261,10 @@ const Products = () => {
                 variants={item} 
                 transition={{duration: 0.25}} 
                 className="filter">
-                <h4>Фильтрация продуктов</h4>
+                <h4>{t('dashboard.products.filter.h4')}</h4>
                 <form action="">
                     <div className="form-group">
-                        <label htmlFor="production">В публикаций</label>
+                        <label htmlFor="production">{t('dashboard.products.filter.public')}</label>
                         <input type="checkbox" name="production" id="production"/>
                     </div>
                 </form>

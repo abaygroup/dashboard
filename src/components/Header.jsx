@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+
 
 
 const HeaderContainer = styled.div`
@@ -91,7 +93,8 @@ const Navigation = styled.div`
 const Header = (props) => {
     const { logout } = props;
     const color = localStorage.getItem('theme') === 'dark' ? "black": "white";
-    const [count, setCount] = useState({})
+    const [count, setCount] = useState({});
+    const { t } = useTranslation();
 
     useEffect(() => {
         let cleanupFunction = false;
@@ -119,7 +122,7 @@ const Header = (props) => {
         <React.Fragment>
             <HeaderContainer>
                 <div className="intro-header">
-                    <h3>Панель управления aBay <small>st.</small></h3>
+                    <h3>{t('dashboard.header.h3')} aBay <small>st.</small></h3>
                     <div className="authorization">
                         <NavLink to="#" onClick={e => props.handleToggleTheme(e)}>
                             {props.theme === 'dark' ? <img src="https://img.icons8.com/ios/96/000000/crescent-moon.png" title="Ночь" width="17" alt=""/>
@@ -134,25 +137,25 @@ const Header = (props) => {
                 <nav>
                     <NavLink exact activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }}  to="/">Обзор</NavLink>
+                        }}  to="/">{t('dashboard.header.overview')}</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/products">Продукты</NavLink>
+                        }} to="/products">{t('dashboard.header.products')}</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/activities">Активности</NavLink>
+                        }} to="/activities">{t('dashboard.header.activities')}</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/reviews">{count.nochecked_count > 0 && <span>{count.nochecked_count} </span>}Уведомление</NavLink>
+                        }} to="/reviews">{count.nochecked_count > 0 && <span>{count.nochecked_count} </span>} {t('dashboard.header.notification')}</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/message">Сообщение</NavLink>
+                        }} to="/message">{t('dashboard.header.message')}</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/profile">Данные</NavLink>
+                        }} to="/profile">{t('dashboard.header.information')}</NavLink>
                     <NavLink activeStyle={{
                         borderBottom: `1px solid ${color}`
-                        }} to="/settings">Настройки</NavLink>
+                        }} to="/settings">{t('dashboard.header.settings')}</NavLink>
                 </nav>
             </Navigation>
         </React.Fragment>

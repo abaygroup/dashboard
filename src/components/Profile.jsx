@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import picture from '../assets/images/picture.jpg';
 import Loader from './Loader';
+import { useTranslation } from 'react-i18next';
 
 
 const ProfileContainer = styled.div`
@@ -99,6 +100,8 @@ const ProfileContainer = styled.div`
 `;
 
 const Profile = ({dashboard, brand}) => {
+    const { t } = useTranslation();
+
     return (
         <ProfileContainer>
             <div className="intro-profile">
@@ -108,10 +111,10 @@ const Profile = ({dashboard, brand}) => {
                     </div>
                     <div className="title">
                         <h1>{brand.brandname ? brand.brandname : <Loader />}</h1>
-                        <span>Интеграция веб сайта</span>
+                        <span>{t('dashboard.profile.integration')}</span>
                         {dashboard.website ?
                             <a href="/"><i className="fas fa-globe"></i> {dashboard.website}</a>
-                        : <small>Не определено</small>}
+                        : <small>{t('dashboard.profile.undefined')}</small>}
                     </div>
                     {dashboard.branding &&
                         <div className="checked">
@@ -120,7 +123,7 @@ const Profile = ({dashboard, brand}) => {
                     }
                 </div>
                 
-                {dashboard.branding && <Link to="/product/create" className="create-proj-btn">Импорт продукт</Link>}
+                {dashboard.branding && <Link to="/product/create" className="create-proj-btn">{t('dashboard.profile.importing')}</Link>}
             </div>
         </ProfileContainer>
     )

@@ -7,6 +7,8 @@ import { LOCAL_URL } from '../../actions/types';
 import axios from 'axios';
 import Moment from 'react-moment';
 
+import { useTranslation } from 'react-i18next';
+
 
 const NotificationContainer = styled.div`
     display: flex;
@@ -73,6 +75,8 @@ const Center = styled.div`
 const Notification = () => {
     const [loading, setLoading] = useState(true)
     const [notification, setNotification] = useState([])
+
+    const { t } = useTranslation();
 
     const checkedMessage = async (id) => {
         const config = {
@@ -143,20 +147,20 @@ const Notification = () => {
                                     <img src="https://img.icons8.com/fluent/96/000000/topic-push-notification.png" alt=""/>
                                 </div>
                                 <div className="from-ms">
-                                    <small>От кого: <strong>@{n_item.to_send.brandname}</strong></small>
+                                    <small>{t('dashboard.notification.from')} <strong>@{n_item.to_send.brandname}</strong></small>
                                     <h4>{n_item.title}</h4>
                                     <small>{n_item.body}</small>
                                 </div>
                             </div>
                             <div className="access">
-                                <small><Moment locale="ru" fromNow>{date}</Moment></small><br />
-                                {!n_item.checked && <button onClick={() => checkedMessage(n_item.id)}>Принять</button>}
+                                <small><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small><br />
+                                {!n_item.checked && <button onClick={() => checkedMessage(n_item.id)}>{t('dashboard.notification.accept')}</button>}
                             </div>
                         </div>
                     )
                 })}    
             </motion.div>
-            : <small style={{ display: "block", width: "100%", textAlign: "center" }}>Пока уведомление нет</small>}
+            : <small style={{ display: "block", width: "100%", textAlign: "center" }}>{t('dashboard.notification.while')}</small>}
         </NotificationContainer>
     )
 }

@@ -7,6 +7,7 @@ import Loader from './../../components/Loader';
 import { motion } from "framer-motion";
 import { LOCAL_URL } from '../../actions/types';
 
+import { useTranslation } from 'react-i18next';
 
 const InformationContainer = styled.div`
     width: 1280px;
@@ -128,6 +129,8 @@ const Information = () => {
 
     const [logotypeImg, setLogotypeImg] = useState(null);
 
+    const { t } = useTranslation();
+
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'logotype') {
 			setLogotypeImg({
@@ -220,44 +223,44 @@ const Information = () => {
                     variants={item} 
                     transition={{duration: 0.25}}
                     className="profile" onSubmit={handleSubmit(onSubmit)}>
-                    <h4>Ваше Данные</h4>
+                    <h4>{t('dashboard.information.profile.brand_form.h4')}</h4>
                     <div className="form-group">
                         <div className="logotype-side">
                             <img src={profile.logotype} alt="" />
-                            <big className="delete-logo-btn" onClick={deleteLogo} title="Удалить">&times;</big>
+                            <big className="delete-logo-btn" onClick={deleteLogo} title={t('dashboard.information.title')}>&times;</big>
                         </div>
                         <input type="file" {...register("logotype")} disabled={profile.logotype && true} onChange={handleChange}/>
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Имя бренда</label>
+                        <label htmlFor="">{t('dashboard.information.profile.brand_form.brandname')}</label>
                         <input type="text" defaultValue={profile.brand.brandname} {...register("brandname")} disabled={true}/>
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Email адрес</label>
+                        <label htmlFor="">{t('dashboard.information.profile.brand_form.email')}</label>
                         <input type="email" defaultValue={profile.brand.email} {...register("email")} disabled={true}/>
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Отрасль</label>
+                        <label htmlFor="">{t('dashboard.information.profile.brand_form.branch')}</label>
                         <input type="text" defaultValue={profile.branch.category_name} {...register("branch")} disabled={true}/>
                         <small className="help-text"></small>
                     </div>
-                    <h4>Персональные данные</h4>
+                    <h4>{t('dashboard.information.profile.profile_form.h4')}</h4>
                     <div className="form-group">
-                        <label htmlFor="">Ваше имя</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.first_name')}</label>
                         <input type="text" defaultValue={profile.first_name} {...register("first_name")} />
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Ваше фамилия</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.last_name')}</label>
                         <input type="text" defaultValue={profile.last_name} {...register("last_name")} />
                         <small className="help-text"></small>
                     </div>
                     {genders.find(gender => gender.label === profile.gender) &&
                     <div className="form-group">
-                        <label htmlFor="">Пол</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.gender')}</label>
                         <select defaultValue={genders.find(gender => gender.label === profile.gender).value} {...register("gender")}>
                             {genders.map((gender, i) => (
                                 <option key={i} value={gender.value}>{gender.label}</option>
@@ -268,7 +271,7 @@ const Information = () => {
                     }
                     {cities.find(city => city.label === profile.city) && 
                     <div className="form-group">
-                        <label htmlFor="">Город</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.city')}</label>
                         <select defaultValue={cities.find(city => city.label === profile.city).value} {...register("city")} id="city">
                             {cities.map((city, i) => (
                                 <option key={i} value={city.value}>{city.label}</option>
@@ -277,27 +280,27 @@ const Information = () => {
                         <small className="help-text"></small>
                     </div>}
                     <div className="form-group">
-                        <label htmlFor="">Телефон</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.phone')}</label>
                         <input type="phone" defaultValue={profile.phone} {...register("phone")} />
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Адрес</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.address')}</label>
                         <textarea cols="40" rows="5" defaultValue={profile.address} {...register("address")} />
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Резервный email</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.reserve_email')}</label>
                         <input type="email" defaultValue={profile.reserve_email} {...register("reserve_email")} />
                         <small className="help-text"></small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Вы открываете это для клиента?</label>
+                        <label htmlFor="">{t('dashboard.information.profile.profile_form.for_clients')}</label>
                         <input type="checkbox" defaultChecked={profile.for_clients} {...register("for_clients")} />
                         <small className="help-text"></small>
                     </div>
                     <div className="submit">
-                        {disable ? <Loader /> : <input type="submit" value="Сохранить" />}
+                        {disable ? <Loader /> : <input type="submit" value={t('dashboard.information.profile.profile_form.save')} />}
                     </div>
                 </motion.form>
 
@@ -307,9 +310,9 @@ const Information = () => {
                     variants={item} 
                     transition={{duration: 0.25}}
                     action="" className="domain">
-                    <h4>Домены</h4>
+                    <h4>{t('dashboard.information.domain.h4')}</h4>
                     <div className="form-group">
-                        <label htmlFor="">Веб сайт</label>
+                        <label htmlFor="">{t('dashboard.information.domain.website')}</label>
                         <input type="text" defaultValue={profile.website} name="website" disabled={true}/>
                         <small className="help-text"></small>
                     </div>

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { LOCAL_URL } from '../../actions/types';
 
+import { useTranslation } from 'react-i18next';
 
 
 const MessageContainer = styled.div`
@@ -123,6 +124,8 @@ const Message = () => {
     const [disable, setDisable] = useState(false);
     const [created, setCreated] = useState(false);
 
+    const { t } = useTranslation();
+
     const onSubmit = async (data) => {
         setDisable(true);
         const config = {
@@ -172,7 +175,7 @@ const Message = () => {
                 className="message"
             >
                 <div className="instruction">
-                    <h4>Инструкция по отправка сообщение</h4>
+                    <h4>{t('dashboard.message.instruction.h4')}</h4>
                     <small>
                         Вы можете импортировать товар по выбранной вами категории. 
                         Т. е. какое направление выбрал бренд, работа ведется по той же категории. 
@@ -202,17 +205,17 @@ const Message = () => {
                     </small>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <h4>Вы можете отправить нам письмо здесь</h4>
+                    <h4>{t('dashboard.message.sending.h4')}</h4>
                     <div className="form-group">
-                        <label htmlFor="">Тема</label>
-                        <input type="text" {...register("title")} placeholder="Тема вашего вопроса" required/>
+                        <label htmlFor="">{t('dashboard.message.sending.title')}</label>
+                        <input type="text" {...register("title")} placeholder={t('dashboard.message.sending.placeholder')} required/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Тело сообщение</label>
+                        <label htmlFor="">{t('dashboard.message.sending.body')}</label>
                         <textarea {...register("body")} cols="50" rows="5"></textarea>
                     </div>
                     <div className="submit">
-                        {disable ? <Loader /> : <input type="submit" value="Отправить" />}
+                        {disable ? <Loader /> : <input type="submit" value={t('dashboard.message.sending.submit')} />}
                     </div>
                 </form>
             </motion.div>}

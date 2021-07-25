@@ -9,6 +9,8 @@ import Moment from 'react-moment';
 import 'moment/locale/ru';
 import 'moment/locale/kk';
 
+import { useTranslation } from 'react-i18next';
+
 
 const OverviewContainer = styled.div`
     width: 1024px;
@@ -181,6 +183,8 @@ const Overview = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const { t } = useTranslation();
+
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
@@ -230,29 +234,29 @@ const Overview = () => {
                             <div className="box" key={i}>
                                 <div className="head">
                                     <h3>{product.title}</h3>
-                                    <Link to={`product/${product.owner.brandname}/${product.isbn_code}/`}>Посещение</Link>
+                                    <Link to={`product/${product.owner.brandname}/${product.isbn_code}/`}>{t('dashboard.overview.product.visit')}</Link>
                                 </div>
                                 <div className="actions">
                                     <div className="action">
                                         <span className="status"></span>
-                                        <Link to="">{product.title} интегрировано на {dashboard.website}</Link>
+                                        <Link to="">{product.title} {t('dashboard.overview.product.integrate')} {dashboard.website}</Link>
                                         <small>Продакшен</small>
                                     </div>
                                     <div className="action">
                                         <span className="status"></span>
-                                        <Link to="">ISBN штрих код: {product.isbn_code}</Link>
-                                        <small>Детально</small>
+                                        <Link to="">{t('dashboard.overview.product.isbn_code')} {product.isbn_code}</Link>
+                                        <small>{t('dashboard.overview.product.detail')}</small>
                                     </div>
                                 </div>
                                 <div className="end">
                                     <Link to="/"><i className="far fa-copyright"></i> {product.owner.brandname} | {product.title}</Link>
-                                    <small className="date"><Moment locale="ru" fromNow>{date}</Moment></small>
+                                    <small className="date"><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small>
                                 </div>
                             </div>
                         )
-                    }) : <small style={{ display: "block", textAlign: "center", marginTop: "50px" }}>Продукты пока нет</small>}
+                    }) : <small style={{ display: "block", textAlign: "center", marginTop: "50px" }}>{t('dashboard.overview.product.while')}</small>}
                     
-                {products.length > 0 && <Link to="/products" className="view-all">Просмотреть все действия</Link>}
+                {products.length > 0 && <Link to="/products" className="view-all">{t('dashboard.overview.product.all_view')}</Link>}
             </motion.div>
 
             <motion.div
@@ -261,7 +265,7 @@ const Overview = () => {
                 variants={item} 
                 transition={{duration: 0.25}} 
                 className="activity">
-                <h4>Недавняя активность</h4>
+                <h4>{t('dashboard.overview.activity.h4')}</h4>
                 
                 <div className="activities">
                     {activities.length > 0 ? activities.map((activity, i) => {
@@ -272,12 +276,12 @@ const Overview = () => {
                                     <img src={dashboard.logotype} style={{borderRadius: "50%"}} alt="" />
                                     <p>{activity.message}</p>
                                 </div>
-                                <small style={{ textAlign: "center"}}><Moment locale="ru" fromNow>{date}</Moment></small>
+                                <small style={{ textAlign: "center"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small>
                             </div>
                         )
-                    }) : <small style={{ display: "block" }}>Пока активности нет</small>}
+                    }) : <small style={{ display: "block" }}>{t('dashboard.overview.activity.while')}</small>}
                 </div>
-                {activities.length > 0 && <Link to="/activities" className="view-all">Просмотреть все действия</Link>}
+                {activities.length > 0 && <Link to="/activities" className="view-all">{t('dashboard.overview.activity.all_view')}</Link>}
             </motion.div>
         </OverviewContainer>
     )

@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+
 
 const SearchContainer = styled.form`
     display: flex;
@@ -48,6 +50,7 @@ const SearchContainer = styled.form`
     }
 `;
 const Search = (props) => {
+    const { t } = useTranslation();
 
     const getSearchResult = e => {
         e.preventDefault();
@@ -61,7 +64,7 @@ const Search = (props) => {
     }
     return (
         <SearchContainer onSubmit={e => clearInput(e) }>
-            <input type="text" className="search" name={props.input} onChange={e => getSearchResult(e)} placeholder="Вы можете искать по названию продукта, описанию или категории" />
+            <input type="text" className="search" name={props.input} onChange={e => getSearchResult(e)} placeholder={t('dashboard.search.placeholder')} />
             <div className="search-btn">
                 <button>{props.input ? <i className="x">&#10005;</i>:<i className="fab fa-sistrix"></i>}</button>
             </div>

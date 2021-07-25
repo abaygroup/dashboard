@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Loader from '../../components/Loader';
 import Moment from 'react-moment';
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
+
 
 
 const ActivityContainer = styled.div`
@@ -87,6 +89,8 @@ const Activity = () => {
     const [activities, setActivities] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const { t } = useTranslation();
+
     const deleteAll = () => {
         const config = {
             headers: {
@@ -140,7 +144,7 @@ const Activity = () => {
                 variants={item} 
                 transition={{duration: 0.25}}
                 className="activities">
-                {activities.length > 0 && <small onClick={deleteAll} className="del-all-btn">Удалить все</small>}
+                {activities.length > 0 && <small onClick={deleteAll} className="del-all-btn">{t('dashboard.activities.delete_btn')}</small>}
                 {loading ? <Center><Loader /></Center> : activities.length > 0 ?
                 activities.map((activity, i) => {
                     const date = new Date(Date.parse(activity.created_at))
@@ -150,10 +154,10 @@ const Activity = () => {
                                 <img src={dashboard.logotype} width="60px" style={{borderRadius: "50%"}} alt="" />
                                 <p>{activity.message}</p>
                             </div>
-                            <small style={{ textAlign: "center"}}><Moment locale="ru" fromNow>{date}</Moment></small>
+                            <small style={{ textAlign: "center"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small>
                         </div>
                     )
-                }) : <small style={{ display: "block", width: "100%", textAlign: "center" }}>Пока активности нет</small>}
+                }) : <small style={{ display: "block", width: "100%", textAlign: "center" }}>{t('dashboard.activities.while')}</small>}
             </motion.div>
             <motion.div
                 initial="hidden" 
