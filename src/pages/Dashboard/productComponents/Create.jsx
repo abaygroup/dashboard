@@ -10,7 +10,6 @@ import { LOCAL_URL } from '../../../actions/types';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom'; 
 
-
 const Center = styled.div`
     width: 100%;
     padding: 20px 0;

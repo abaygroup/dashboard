@@ -8,6 +8,7 @@ import { LOCAL_URL } from '../../../actions/types';
 import Loader from '../../../components/Loader';
 import picture from '../../../assets/images/picture.jpg';
 import Moment from 'react-moment';
+import Linkify from 'react-linkify';
 
 
 const ProductDetail = styled.div`
@@ -34,6 +35,7 @@ const ProductDetail = styled.div`
         margin: 40px 0px;
 
         .product {
+
             .images {
                 align-items: center;
         
@@ -83,7 +85,12 @@ const ProductDetail = styled.div`
                 }
         
                 p {
+                    text-align: left;
                     font-size: 14px;
+                    a {
+                        color: rgb(0,110,255);
+                        &:hover { text-decoration: underline; }
+                    }
                 }
     
                 .buttons {
@@ -151,13 +158,20 @@ const ProductDetail = styled.div`
                 }
                 small {
                     font-weight: normal;
+
                 }
             }
 
             small.body {
+                text-align: left;
                 display: block;
                 padding: 10px;
                 border-bottom: 1px solid ${({theme}) => theme.borderColor};
+
+                a {
+                    color: rgb(0,110,255);
+                    &:hover { text-decoration: underline; }
+                }
             }
 
             .access {
@@ -212,6 +226,7 @@ const Detail = () => {
             console.log(e.message);
         }
     }
+
 
     useEffect(() => {
         let cleanupFunction = false;
@@ -285,8 +300,7 @@ const Detail = () => {
                         <div className="product-info">
                             <h3>{product.title}</h3>
                             <h1><small>{product.last_price}тг</small> - {product.first_price}тг</h1>
-                            <p>{product.body}</p>
-                            
+                            <Linkify><p>{product.body}</p></Linkify>
                             <div className="buttons">
                                 <Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>Изменить</Link>
                                 <span onClick={() => window.confirm('Вы действительно хотите удалить?') && deleteProductHandle(product.owner.brandname, product.isbn_code)}>Удалить</span>
@@ -311,7 +325,7 @@ const Detail = () => {
                                         <a href={video.frame_url} rel="noreferrer" target="_blank">{video.title}</a>
                                         <small>Свернуть</small>
                                     </h4>
-                                    <small className="body">{video.body}</small>
+                                    <Linkify><small className="body">{video.body}</small></Linkify>
                                     <div className="access">
                                         {video.access ? 
                                             <span>
