@@ -15,9 +15,10 @@ import { Center } from './styles/overview';
 
 
 const Products = () => {
-    const [products, setProducts] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [mainInput, setMainInput] = useState('')
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [mainInput, setMainInput] = useState('');
+    const [check, setCheck] = useState({production: false});
 
     const { t } = useTranslation();
 
@@ -31,7 +32,7 @@ const Products = () => {
                         'Authorization': `JWT ${localStorage.getItem('access')}`
                     }
                 }
-                const response = await axios.get(`http://127.0.0.1:8000/products/${mainInput ? `?search=${mainInput}`: ''}`, localStorage.getItem('access') && config);
+                const response = await axios.get(`http://127.0.0.1:8000/products/${mainInput ? `?search=${mainInput}&production=${check.production}`: ''}`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProducts(response.data)
                     setLoading(false)
@@ -42,7 +43,7 @@ const Products = () => {
         };
         fetchData()
         return () => cleanupFunction = true;
-    }, [products, mainInput])
+    }, [products, mainInput, check])
 
     const deleteProductHandle = async (owner, isbn_code) => {
         try {
@@ -117,7 +118,7 @@ const Products = () => {
                 <form action="">
                     <div className="form-group">
                         <label htmlFor="production">{t('dashboard.products.filter.public')}</label>
-                        <input type="checkbox" name="production" id="production"/>
+                        <input type="checkbox" value={check} onChange={(e) => setCheck({[e.target.name]: e.target.checked })} name="production" id="production"/>
                     </div>
                 </form>
                 
