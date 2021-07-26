@@ -29,7 +29,6 @@
                 padding: 5px;
                 color: black;
                 font-size: 14px;
-                font-weight: 300;
 
                 &:hover {
                     text-decoration: underline;
@@ -59,7 +58,7 @@
             
             .logo {
                 width: 280px;
-                margin: 0 auto;
+                margin: 0 auto 20px auto;
                 height: 110px;
                 background-size: contain;
                 background-position: center;
@@ -69,8 +68,7 @@
             h1 {
                 line-height: 1;
                 padding: 10px 0;
-                font-size: 2.5rem;
-                font-weight: normal;
+                font-size: 18px;
             }
             small {
                 padding: 0 20px;
@@ -89,7 +87,7 @@
                     border-radius: 5px;
                     border: 1px solid silver;
                     background-color: rgb(221, 221, 221);
-                    font-size: 15px;
+                    font-size: 14px;
                     font-family: 'Inter', sans-serif;
                     
                     &:focus {
@@ -107,7 +105,7 @@
                 }
             }
             button {
-                background-color: #0066fe;
+                background-color: black;
                 display: inline-block;
                 padding: 10px 40px;
                 margin: 10px auto;
@@ -115,13 +113,16 @@
                 cursor: pointer;
                 color: white;
                 transition: all .3s;
-                font-family: 'Montserrat', sans-serif;
-                font-size: 16px;
+                font-family: 'Inter', sans-serif;
+                font-size: 15px;
                 border-radius: 5px;
-                box-shadow: 0 0 5px gray;
+                box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+                border: 1px solid black;
 
                 &:hover {
-                    opacity: .7;
+                    color: black;
+                    background-color: transparent;
+                    border: 1px solid black;
                 }
             }
             a {

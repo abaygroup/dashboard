@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../../../components/Loader';
-import { Container } from './Edit';
-import styled from 'styled-components';
 
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
@@ -10,13 +8,11 @@ import { LOCAL_URL } from '../../../actions/types';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom'; 
 
-const Center = styled.div`
-    width: 100%;
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
+import { useTranslation } from 'react-i18next';
+import { Center } from '../styles/overview';
+import { Container } from '../styles/productComponents';
+
+
 
 const Create = () => {
     const [loading, setLoading] = useState(true)
@@ -28,6 +24,8 @@ const Create = () => {
     const [disable, setDisable] = useState(false)
 
     const [productImage, setProductImage] = useState(null);
+
+    const { t } = useTranslation();
 
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'picture') {
@@ -109,12 +107,10 @@ const Create = () => {
     return (
         <Container>
             {loading ? 
-                <Center>
-                    <Loader />
-                </Center>
+                <Center><Loader /></Center>
             :
             <React.Fragment>
-                <h4>Импортировать новый продукт</h4>
+                <h4>{t('dashboard.create.h4')}</h4>
                 <motion.div 
                     initial="hidden" 
                     animate="visible" 
@@ -123,45 +119,29 @@ const Create = () => {
                     className="create-form">
                     {/* Инструкция товара */}
                     <div className="instruction">
-                        <h4>Инструкция по импорту товара</h4>
-                        <small>
-                            Вы можете импортировать товар по выбранной вами категории. 
-                            Т. е. какое направление выбрал бренд, работа ведется по той же категории. 
-                            Если выбранная категория неверна, <Link to={'#'}>напишите здесь</Link>
-
+                        <h4>{t('dashboard.create.instruction.h4')}</h4>
+                        <small>{t('dashboard.create.instruction.small')} 
+                            <Link to={'#'}>{t('dashboard.create.instruction.link')}</Link>
                             <ul>
-                                <li>Обязательно нужно написать название товара</li>
-                                <li>Для наглядности на товар нужно поставить рисунок. Но это не имеет значения. 
-                                    Рисунок лучше нарисовать в максимально квадратичном формате. Например 400x400
-                                </li>
-                                <li>
-                                    Обязательно нужно написать цену. Цена указана в двух видах. 
-                                    Первая начальная цена, верхняя цена товара. 
-                                    И последняя цена это последняя цена после торговли через клиента.
-                                </li>
-                                <li>
-                                    Описание товара у вас очень важное поле. А нам не важно :). 
-                                    Это поле можно оставить пустым. Но мы рекомендуем написать 
-                                    описание продукта, максимально используя это поле. Потому 
-                                    что продукт с четко прописанным описанием торгуется быстро.
-                                </li>
+                                <li>{t('dashboard.create.instruction.ul.first')}</li>
+                                <li>{t('dashboard.create.instruction.ul.sixth')}</li>
+                                <li>{t('dashboard.create.instruction.ul.second')}</li>
+                                <li>{t('dashboard.create.instruction.ul.third')}</li>
+                                <li>{t('dashboard.create.instruction.ul.fourth')}</li>
                             </ul>
-
-                            После импорта товара с подробной справкой отправляет товар на главную страницу. 
-                            Там же даются формы для нанесения дополнительных рисунков на товар и выдачи 
-                            дополнительной характеристики.
+                            {t('dashboard.create.instruction.ul.fives')}
                         </small>
                     </div>
                     {/* Описание товара */}
                     <form action="" className="description" onSubmit={handleSubmit(handleProduct)}>
-                        <h4>Описание товара</h4>
+                        <h4>{t('dashboard.create.form.h4')}</h4>
                         <div className="form-group">
-                            <label htmlFor="">Название продукта</label>
+                            <label htmlFor="">{t('dashboard.create.form.title')}</label>
                             <input type="text" {...register("title")} required minLength="3"/>
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="">Название бренда</label>
+                            <label htmlFor="">{t('dashboard.create.form.brand')}</label>
                             <input type="text" {...register("brand")} required minLength="3"/>
                             <small className="help-text"></small>
                         </div>
@@ -169,19 +149,19 @@ const Create = () => {
                             <input type="file" accept="image/*" {...register("picture")} name="picture" onChange={handleChange} />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="">Цена</label>
-                            <input type="number" {...register("first_price")} placeholder="Начальная цена" required/>
-                            <input type="number" {...register("last_price")} placeholder="Окончательная цена" required/>
+                            <label htmlFor="">{t('dashboard.create.form.price.title')}</label>
+                            <input type="number" {...register("first_price")} placeholder={t('dashboard.create.form.price.first_price')} required/>
+                            <input type="number" {...register("last_price")} placeholder={t('dashboard.create.form.price.last_price')} required/>
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="">Описание</label>
+                            <label htmlFor="">{t('dashboard.create.form.body')}</label>
                             <small className="help-text"></small>
                             <br />
                             <textarea {...register("body")} cols="50" rows="10"></textarea>
                         </div>
                         <div className="submit">
-                            {disable ? <Loader/> : <input type="submit" value="Создать" />}
+                            {disable ? <Loader/> : <input type="submit" value={t('dashboard.create.form.submit')} />}
                         </div>
                     </form>
                 </motion.div>

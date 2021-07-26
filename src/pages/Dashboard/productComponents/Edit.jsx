@@ -1,198 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
-import styled from 'styled-components';
 import { LOCAL_URL } from '../../../actions/types';
 import { motion } from "framer-motion";
 import Loader from '../../../components/Loader';
 import { useForm } from "react-hook-form";
 
+import { useTranslation } from 'react-i18next';
+import { Container } from '../styles/productComponents';
+import { Center } from '../styles/overview';
 
-export const Container = styled.div`
-    width: 1280px;
-    margin: 0 auto;
-
-    h4 {
-        padding-bottom: 10px;
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .edit-form, .create-form {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-
-        .instruction {
-            width: 50%;
-            margin: 0 20px 20px 20px;
-            display: inline-block;
-            h4 {
-                text-align: left;
-                padding-left: 5px;
-                padding-bottom: 5px;
-                border-bottom: 1px solid ${({theme}) => theme.borderColor};
-            }
-            small {
-                ul {
-                    margin: 10px 40px;
-                    line-height: 1.5;
-                }
-            }
-        }
-
-        .main-edit {
-            form {
-                width: auto;
-            }
-        }
-
-        form {
-            width: 50%;
-            margin: 0 20px 20px 20px;
-            h4 {
-                text-align: left;
-                padding-bottom: 5px;
-                
-                border-bottom: 1px solid ${({theme}) => theme.borderColor};
-            }
-
-            .form-group {
-                padding: 10px 0;
-
-                .picture-side {
-                    display: flex;
-                    align-items: center;
-        
-                    img {
-                        border-radius: 10px;
-                        width: 120px;
-                        margin: 10px;
-                    }
-                    .delete-logo-btn {
-                        cursor: pointer;
-                    }
-                }
-
-                label {
-                    display: inline-block;
-                    font-size: 14px;
-                    margin: 0 5px;
-                }
-                input, textarea {
-                    display: inline-block;
-                    margin: 0 5px;
-                    padding: 5px 10px;
-                    border-radius: 5px;
-                    border: 1px solid ${({theme}) => theme.borderColor};
-                    color: ${({theme}) => theme.color};
-                    background: ${({theme}) => theme.background};
-                    font-family: "Inter", sans-serif;
-                }
-                textarea {
-                    resize: vertical;
-                    width: 80%;
-                }
-
-                span {
-                    display: inline-block;
-                    padding: 5px 10px;
-                    cursor: pointer;
-                }
-            }
-            .submit {
-                input {
-                    display: inline-block;
-                    padding: 5px 15px;
-                    border: 1px solid black;
-                    color: ${({theme}) => theme.btnColor};
-                    transition: all .3s;
-                    background: ${({theme}) => theme.btnBackground};
-                    border-radius: 5px;
-                    font-size: 14px;
-                    cursor: pointer;
-                    font-weight: 400;
-                    font-family: 'Inter', sans-serif;
-        
-                    &:hover {
-                        border: 1px solid ${({theme}) => theme.btnBackground};
-                        color: ${({theme}) => theme.btnBackground};
-                        background: transparent;
-                    }
-
-                    &:disabled {
-                        opacity: .5;
-                        cursor: inherit;
-                    }
-                }
-            }
-
-            .col-field {
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-            }
-        }
-
-        form.ai {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-
-            h4 {
-                width: 100%;
-            }
-
-            .form-group {
-                display: flex;
-                align-items: center;
-                width: 100%;
-            }
-        }
-    }
-
-    .videohosting {
-
-        .col-field {
-            .form-group {
-                margin: 0 5px;
-
-                a {
-                    display: block;
-                    width: 360px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    font-size: 14px;
-                    &:hover {
-                        text-decoration: underline; 
-                    }
-                }
-
-                img {
-                    margin: 0 5px;
-                    width: 20px;
-                }
-                textarea {
-                    width: 90%;
-                }
-            }
-        }
-        .lists {
-            border-bottom: 1px solid ${({theme}) => theme.borderColor};
-        }
-    }
-
-
-`;
-
-const Center = styled.div`
-    width: 100%;
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
 
 
 const Edit = () => {
@@ -207,6 +24,8 @@ const Edit = () => {
 
     const { register, handleSubmit } = useForm();
     const [productImage, setProductImage] = useState(null);
+
+    const { t } = useTranslation();
 
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'picture') {
@@ -414,12 +233,10 @@ const Edit = () => {
     return (
         <Container>
             {loading ? 
-                <Center>
-                    <Loader />
-                </Center>
+                <Center><Loader /></Center>
             :
             <React.Fragment>
-                <h4>Редактировать продукт {product.title}</h4>
+                <h4>{t('dashboard.update.h4')} {product.title}</h4>
                 <motion.div 
                     initial="hidden" 
                     animate="visible" 
@@ -429,85 +246,85 @@ const Edit = () => {
                     <div className="main-edit">
                         <form action="" className="description" onSubmit={handleSubmit(onSubmit)}>
                             {/* Описание товара */}
-                            <h4>Описание товара</h4>
+                            <h4>{t('dashboard.update.main_form.h4')}</h4>
                             <div className="form-group">
                                 <div className="picture-side">
                                     <img src={product.picture} alt="" />
-                                    <big className="delete-logo-btn" onClick={deleteLogo} title="Удалить">&times;</big>
+                                    <big className="delete-logo-btn" onClick={deleteLogo} title={t('dashboard.update.title')}>&times;</big>
                                 </div>
                                 <input type="file" {...register("picture")} disabled={product.picture && true}  name="picture" onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Название продукта</label>
+                                <label htmlFor="">{t('dashboard.update.main_form.title')}</label>
                                 <input type="text" defaultValue={product.title} {...register("title")} name="title" required/>
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Название бренда</label>
+                                <label htmlFor="">{t('dashboard.update.main_form.brand')}</label>
                                 <input type="text" defaultValue={product.brand} {...register("brand")} required minLength="3"/>
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Цена</label>
-                                <input type="number" defaultValue={product.first_price} {...register("first_price")} placeholder="Начальная цена" required/>
-                                <input type="number" defaultValue={product.last_price} {...register("last_price")} placeholder="Окончательная цена" required/>
+                                <label htmlFor="">{t('dashboard.update.main_form.price.title')}</label>
+                                <input type="number" defaultValue={product.first_price} {...register("first_price")} placeholder={t('dashboard.update.main_form.price.first_price')} required/>
+                                <input type="number" defaultValue={product.last_price} {...register("last_price")} placeholder={t('dashboard.update.main_form.price.last_price')} required/>
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Описание</label>
+                                <label htmlFor="">{t('dashboard.update.main_form.body')}</label>
                                 <small className="help-text"></small>
                                 <br />
                                 <textarea defaultValue={product.body} {...register("body")} cols="50" rows="10"></textarea>
                             </div>
 
                             <div className="submit">
-                                {disable ? <Loader/> : <input type="submit" value="Сохранить" />}
+                                {disable ? <Loader/> : <input type="submit" value={t('dashboard.update.main_form.submit')} />}
                             </div>
                         </form>
 
                         {/* Xарактеристики */}
                         <form action="" className="features" onSubmit={handleFeature}>
-                            <h4>Характеристики</h4>
+                            <h4>{t('dashboard.update.feature_form.h4')}</h4>
                             {features.length > 0 && features.map((feature, i) => {
                                 return (
                                     <div className="col-field" key={i}>
                                         <div className="form-group">
-                                            <label htmlFor="">Название</label>
+                                            <label htmlFor="">{t('dashboard.update.feature_form.label')}</label>
                                             <input type="text" value={feature.label} name="label" disabled={true}/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="">Значение</label>
+                                            <label htmlFor="">{t('dashboard.update.feature_form.value')}</label>
                                             <input type="text" value={feature.value}  name="value" disabled={true}/>
                                         </div>
                                         <div className="form-group">
-                                            <span onClick={() => window.confirm("Вы действительно хотите удалить?") && deleteFeatureHandle(product.owner.brandname, product.isbn_code, feature.id)}>&times;</span>
+                                            <span onClick={() => window.confirm(t('dashboard.update.confirm')) && deleteFeatureHandle(product.owner.brandname, product.isbn_code, feature.id)} title={t('dashboard.update.title')}>&times;</span>
                                         </div>
                                     </div>
                                 )
                             })}
                             <div className="col-field">
                                 <div className="form-group">
-                                    <label htmlFor="">Название</label>
+                                    <label htmlFor="">{t('dashboard.update.feature_form.label')}</label>
                                     <input type="text" value={label} onChange={featureChange}  name="label" required/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="">Значение</label>
+                                    <label htmlFor="">{t('dashboard.update.feature_form.value')}</label>
                                     <input type="text" value={value} onChange={featureChange} name="value" required/>
                                 </div>
                             </div>
                             <div className="submit">
-                                {disable ? <Loader /> : <input type="submit" value="Создать"/>}
+                                {disable ? <Loader /> : <input type="submit" value={t('dashboard.update.feature_form.submit')}/>}
                             </div>
                         </form>
 
                         {/* Дополнительный иллюстраций */} 
                         <form action="" className="ai" onSubmit={handleAI}>
-                            <h4>Дополнительный иллюстраций</h4>
+                            <h4>{t('dashboard.update.ai_form.h4')}</h4>
                             {ai.length > 0 && ai.map((img, i) => 
                                 (<div className="form-group" key={i}>
                                     <img src={img.image} width="32px" alt="" />
                                     <input type="file" disabled={true}/>
-                                    <span onClick={() => window.confirm("Вы действительно хотите удалить?") && deleteAI(product.owner.brandname, product.isbn_code, img.id)}>&times;</span>
+                                    <span onClick={() => window.confirm(t('dashboard.update.confirm')) && deleteAI(product.owner.brandname, product.isbn_code, img.id)}>&times;</span>
                                 </div>)
                             )}
                             <div className="col-field">
@@ -515,7 +332,7 @@ const Edit = () => {
                                     <input type="file" accept="image/*" onChange={e => handleAIChange(e)} name="image" required/>
                                 </div>
                                 <div className="submit">
-                                    {disable ? <Loader /> : <input type="submit" value="Сохранить"/>}
+                                    {disable ? <Loader /> : <input type="submit" value={t('dashboard.update.ai_form.submit')}/>}
                                 </div>        
                             </div>
                         </form>
@@ -535,31 +352,31 @@ const Edit = () => {
                                         : <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNDgiIGhlaWdodD0iNDgiCnZpZXdCb3g9IjAgMCAxNzIgMTcyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE3MnYtMTcyaDE3MnYxNzJ6IiBmaWxsPSJub25lIj48L3BhdGg+PHBhdGggZD0iTTg2LDE3MmMtNDcuNDk2NDksMCAtODYsLTM4LjUwMzUxIC04NiwtODZ2MGMwLC00Ny40OTY0OSAzOC41MDM1MSwtODYgODYsLTg2djBjNDcuNDk2NDksMCA4NiwzOC41MDM1MSA4Niw4NnYwYzAsNDcuNDk2NDkgLTM4LjUwMzUxLDg2IC04Niw4NnoiIGZpbGw9IiNlNzQ2M2MiPjwvcGF0aD48ZyBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNNDYuNzY0NjUsNDMuNTAwOTVsLTMuMjYzNywzLjI2MzdsMzkuMjM1MzUsMzkuMjM1MzVsLTM5LjIzNTM1LDM5LjIzNTM1bDMuMjYzNywzLjI2MzdsMzkuMjM1MzUsLTM5LjIzNTM1bDM5LjIzNTM1LDM5LjIzNTM1bDMuMjYzNywtMy4yNjM3bC0zOS4yMzUzNSwtMzkuMjM1MzVsMzkuMjM1MzUsLTM5LjIzNTM1bC0zLjI2MzcsLTMuMjYzN2wtMzkuMjM1MzUsMzkuMjM1MzV6Ij48L3BhdGg+PC9nPjwvZz48L3N2Zz4=" alt=""/>}
                                     </div> |
                                     <div className="form-group">
-                                        <span onClick={() => window.confirm("Вы действительно хотите удалить?") && deleteVideo(product.owner.brandname, product.isbn_code, video.id)}>&times;</span>
+                                        <span onClick={() => window.confirm("Вы действительно хотите удалить?") && deleteVideo(product.owner.brandname, product.isbn_code, video.id)} title={t('dashboard.update.title')}>&times;</span>
                                     </div>
                                 </div>
                             )
                         })}
                         <div className="col-field">
                             <div className="form-group">
-                                <label htmlFor="">Название</label>
+                                <label htmlFor="">{t('dashboard.update.videohosting.title')}</label>
                                 <input type="text" value={title} onChange={videoChange}  name="title" required/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Ссылка</label>
+                                <label htmlFor="">{t('dashboard.update.videohosting.link')}</label>
                                 <input type="text" value={frame_url} onChange={videoChange} name="frame_url" required/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Описание</label>
+                                <label htmlFor="">{t('dashboard.update.videohosting.body')}</label>
                                 <textarea value={body} onChange={videoChange} cols="50" rows="5"  name="body"/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Доступ к видео</label>
+                                <label htmlFor="">{t('dashboard.update.videohosting.access')}</label>
                                 <input type="checkbox" checked={access} onChange={videoChange} name="access"/>
                             </div>
                         </div>
                         <div className="submit">
-                            {disable ? <Loader /> : <input type="submit" value="Создать"/>}
+                            {disable ? <Loader /> : <input type="submit" value={t('dashboard.update.videohosting.submit')}/>}
                         </div>
                     </form>
                 </motion.div>

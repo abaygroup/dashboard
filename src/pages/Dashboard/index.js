@@ -53,6 +53,7 @@ const Main = (props) => {
     if (!isAuthenticated) {
         return <Redirect to="/accounts/login" />
     }
+
     
     document.title = `${brand.brandname || "..."} | Панель управления`;
     return (

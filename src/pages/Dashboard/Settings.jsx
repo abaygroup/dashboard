@@ -1,24 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
 
-const SettingContainer = styled.div`
-    display: flex;
-    align-items: flex-start;
-    width: 1280px;
-    margin: 0 auto;
-`;
-
-const Center = styled.div`
-    width: 100%;
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-
+import { Center } from './styles/overview';
+import { SettingContainer } from './styles/settings';
 
 const Settings = () => {
     const [loading, setLoading] = useState(true);
