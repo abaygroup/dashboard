@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../../components/Loader';
+import picture from '../../assets/images/picture.jpg';
 
 import { motion } from "framer-motion";
 import axios from 'axios';
@@ -108,7 +109,7 @@ const Overview = () => {
                         return (
                             <div className="box" key={i}>
                                 <div className="signal">
-                                    <img src={dashboard.logotype} style={{borderRadius: "50%"}} alt="" />
+                                    <img src={dashboard.logotype || picture} style={{borderRadius: "50%"}} alt="" />
                                     <p>{activity.message}</p>
                                 </div>
                                 <small style={{ textAlign: "center"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small>

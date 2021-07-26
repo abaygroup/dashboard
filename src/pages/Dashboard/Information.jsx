@@ -75,7 +75,17 @@ const Information = () => {
 
     
     const deleteLogo = () => {
-        alert('Deleted!')
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
+        axios.delete(`${LOCAL_URL}/owner/logo/`, localStorage.getItem('access') && config)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => console.log(error.error))
     }
 
     useEffect(() => {
@@ -128,10 +138,11 @@ const Information = () => {
                     className="profile" onSubmit={handleSubmit(onSubmit)}>
                     <h4>{t('dashboard.information.profile.brand_form.h4')}</h4>
                     <div className="form-group">
+                        {profile.logotype &&
                         <div className="logotype-side">
                             <img src={profile.logotype} alt="" />
-                            <big className="delete-logo-btn" onClick={deleteLogo} title={t('dashboard.information.title')}>&times;</big>
-                        </div>
+                            <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.information.confirm')) && deleteLogo()} title={t('dashboard.information.title')}>&times;</big>
+                        </div>}
                         <input type="file" {...register("logotype")} disabled={profile.logotype && true} onChange={handleChange}/>
                         <small className="help-text"></small>
                     </div>

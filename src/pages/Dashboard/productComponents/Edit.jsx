@@ -62,8 +62,18 @@ const Edit = () => {
         }
     }
 
-    const deleteLogo = () => {
-        alert('Deleted!')
+    const deletePicture = (owner, isbn_code) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
+        axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/picture/`, localStorage.getItem('access') && config)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => console.log(error.error))
     }
 
     // Features
@@ -248,10 +258,11 @@ const Edit = () => {
                             {/* Описание товара */}
                             <h4>{t('dashboard.update.main_form.h4')}</h4>
                             <div className="form-group">
+                                {product.picture &&
                                 <div className="picture-side">
                                     <img src={product.picture} alt="" />
-                                    <big className="delete-logo-btn" onClick={deleteLogo} title={t('dashboard.update.title')}>&times;</big>
-                                </div>
+                                    <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.update.confirm')) && deletePicture(product.owner.brandname, product.isbn_code)} title={t('dashboard.update.title')}>&times;</big>
+                                </div>}
                                 <input type="file" {...register("picture")} disabled={product.picture && true}  name="picture" onChange={handleChange} />
                             </div>
                             <div className="form-group">

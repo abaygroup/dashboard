@@ -6,11 +6,13 @@ import { motion } from "framer-motion";
 import { useTranslation } from 'react-i18next';
 import { ActivityContainer } from './styles/activities';
 import { Center } from './styles/overview';
+import picture from '../../assets/images/picture.jpg';
 
 
 const Activity = () => {
     const [dashboard, setDashboard] = useState({});
     const [activities, setActivities] = useState([])
+    const [posts, setPost] = useState([])
     const [loading, setLoading] = useState(true)
 
     const { t } = useTranslation();
@@ -41,6 +43,7 @@ const Activity = () => {
                 if(!cleanupFunction) {
                     setDashboard(response.data.dashboard)
                     setActivities(response.data.activities);
+                    setPost(response.data.posts);
                     setLoading(false)
                 }
             } catch (e) {
@@ -75,7 +78,7 @@ const Activity = () => {
                     return (
                         <div className="box" key={i}>
                             <div className="signal">
-                                <img src={dashboard.logotype} width="60px" style={{borderRadius: "50%"}} alt="" />
+                                <img src={dashboard.logotype || picture} width="60px" style={{borderRadius: "50%"}} alt="" />
                                 <p>{activity.message}</p>
                             </div>
                             <small style={{ textAlign: "center"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small>
@@ -88,14 +91,16 @@ const Activity = () => {
                 animate="visible" 
                 variants={item} 
                 transition={{duration: 0.25}}>
-                <div className="idv">
-                    <h3>Обмани меня в цене, но не в товаре.</h3>
-                    <p>Требовать благодарности за каждое из своих благодеяний - значит торговать ими.</p>
-                </div>
-                <div className="idv">
-                    <h3>Торгуя честью, не разбогатеешь.</h3>
-                    <p>Цена - стоимость плюс разумное вознаграждение за угрызения совести при назначении цены.</p>
-                </div>
+                    {posts.length > 0 ? posts.map((post, i) => {
+                        const date = new Date(Date.parse(post.date_created))
+                        return (
+                            <div className="idv" key={i}>
+                                <h3>{post.title}</h3>
+                                <p>{post.description}</p>
+                                <p style={{color: "dimgray", marginTop: "5px"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></p>
+                            </div>
+                        )
+                    }) : ""}
             </motion.div>
         </ActivityContainer>
     )
