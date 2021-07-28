@@ -26,6 +26,7 @@ import Notification from './pages/Dashboard/Notification';
 import Detail from './pages/Dashboard/productComponents/Detail';
 import Edit from './pages/Dashboard/productComponents/Edit';
 import Create from './pages/Dashboard/productComponents/Create';
+import Branding from './components/Branding';
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
       <Router>
             <Layout>
               <Switch>
+                <Route exact path="/branding" component={Branding} />
+
                 {/* Dashboard */}
                 <Route exact path='/'><Main><Overview /></Main></Route>
                 <Route exact path='/products'><Main><Products /></Main></Route>

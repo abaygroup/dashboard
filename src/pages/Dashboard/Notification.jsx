@@ -28,8 +28,6 @@ const Notification = () => {
         } catch (e) {
             console.error(e.message)
         }
-
-        console.log(id);
     }
 
 

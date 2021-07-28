@@ -10,6 +10,7 @@ import Footer from '../../components/Footer';
 import { GlobalStyles, lightTheme, darkTheme } from './styles/main';
 import { useDarkMode } from './styles/useDarkMode';
 import { ThemeProvider } from 'styled-components';
+import UserProfile from '../../components/UserProfile';
 
 const Main = (props) => {
     const {isAuthenticated, logout } = props;
@@ -59,7 +60,8 @@ const Main = (props) => {
     return (
         <ThemeProvider theme={themeMode}>
             <GlobalStyles />
-            <div className="dashboard-container">
+            {dashboard.branch ? 
+                <div className="dashboard-container">
                 <Header logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />
                 <Profile dashboard={dashboard} brand={brand} />
                 
@@ -69,7 +71,8 @@ const Main = (props) => {
                 </div>
                 {/* ======================== */}
                 <Footer />
-            </div>
+            </div>:
+            <UserProfile dashboard={dashboard} brand={brand} logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />}
         </ThemeProvider>
     )
 }
