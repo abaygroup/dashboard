@@ -39,6 +39,8 @@ const Create = () => {
     const handleProduct = (data) => {
         setDisable(true);
         
+        console.log(data);
+        
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -48,6 +50,7 @@ const Create = () => {
         const formData = new FormData()
         formData.append('title', data.title);
         formData.append('brand', data.brand);
+        formData.append('subcategory', data.subcategory);
         productImage && formData.append('picture', productImage.picture[0]);
         formData.append('first_price', data.first_price);
         formData.append('last_price', data.last_price);
@@ -87,6 +90,39 @@ const Create = () => {
         return () => cleanupFunction = true;
     }, [])
 
+    
+    const switchCategory = branch => {
+        switch (branch.slug) {
+            case "development":
+                return (
+                    <select {...register('subcategory')}>
+                        <option value="web-development">Веб разработка</option>
+                        <option value="game-development">Разработка игры</option>
+                        <option value="development-of-mobile-applications">Разработка мобильных приложений</option>
+                    </select>
+                )
+            case "design":
+                return (
+                    <select {...register('subcategory')}>
+                        <option value="web-design">Веб дизайн</option>
+                        <option value="game-design">Дизайн игры</option>
+                        <option value="3d-animation">3D и анимация</option>
+                    </select>
+                )
+            case "marketing":
+                return (
+                    <select {...register('subcategory')}>
+                        <option value="net-marketing">Интернет-маркетинг</option>
+                        <option value="seo">Поисковая оптимизация</option>
+                        <option value="smm">SMM</option>
+                    </select>
+                )
+            default:
+                return null;
+        }
+    }
+
+    
     if (created) {
         return <Redirect to={`/product/${product.owner.brandname}/${product.isbn_code}/`}/>
     }
@@ -136,17 +172,20 @@ const Create = () => {
                     <form action="" className="description" onSubmit={handleSubmit(handleProduct)}>
                         <h4>{t('dashboard.create.form.h4')}</h4>
                         <div className="form-group">
+                            <input type="file" accept="image/*" {...register("picture")} name="picture" onChange={handleChange} />
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="">{t('dashboard.create.form.title')}</label>
                             <input type="text" {...register("title")} required minLength="3"/>
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.create.form.brand')}</label>
-                            <input type="text" {...register("brand")} required minLength="3"/>
+                            <input type="text" defaultValue={dashboard.brand.brandname} {...register("brand")} required minLength="3"/>
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">
-                            <input type="file" accept="image/*" {...register("picture")} name="picture" onChange={handleChange} />
+                            {switchCategory(dashboard.branch)}
                         </div>
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.create.form.price.title')}</label>

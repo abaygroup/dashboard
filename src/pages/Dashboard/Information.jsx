@@ -158,7 +158,7 @@ const Information = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="">{t('dashboard.information.profile.brand_form.branch')}</label>
-                        <input type="text" defaultValue={profile.branch.category_name} {...register("branch")} disabled={true}/>
+                        <input type="text" defaultValue={profile.branch.name} {...register("branch")} disabled={true}/>
                         <small className="help-text"></small>
                     </div>
                     <h4>{t('dashboard.information.profile.profile_form.h4')}</h4>

@@ -34,13 +34,14 @@ export const Container = styled.div`
         }
 
         .main-edit {
+            width: 55%;
+
             form {
                 width: auto;
             }
         }
 
         form {
-            width: 50%;
             margin: 0 20px 20px 20px;
             h4 {
                 text-align: left;
@@ -71,7 +72,7 @@ export const Container = styled.div`
                     font-size: 14px;
                     margin: 0 5px;
                 }
-                input, textarea {
+                input, textarea, select {
                     display: inline-block;
                     margin: 0 5px;
                     padding: 5px 10px;
@@ -144,7 +145,8 @@ export const Container = styled.div`
     }
 
     .videohosting {
-
+        width: 45%;
+        
         .col-field {
             .form-group {
                 margin: 0 5px;
@@ -210,6 +212,7 @@ export const ProductDetail = styled.div`
                     margin: 0 10px;
         
                     img {
+                        box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
                         border-radius: 10px;
                         width: 640px;
                     }
@@ -219,18 +222,22 @@ export const ProductDetail = styled.div`
                     width: 640px;
                     margin: 0 auto;
                     height: 64px;
-                    overflow-x: auto;
                     text-align: left;
+                    overflow-y: hidden;
+                    overflow-x: scroll;
+                    white-space: nowrap;
                 
                     /* width */
                     ::-webkit-scrollbar {
-                        height: 0;
+                        height: 4px;
                     }
                     img {
                         width: 64px;
                         height: auto;
                         border-radius: 5px;
                         margin: 5px;
+                        display: inline-block;
+                        white-space: nowrap;
                         cursor: pointer;
                         box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
                     }
@@ -239,7 +246,7 @@ export const ProductDetail = styled.div`
                     
         
             .product-info {
-                padding: 0 40px;
+                padding: 20px 40px;
                 
                 h3 {
                     padding-bottom: 10px;
@@ -248,6 +255,12 @@ export const ProductDetail = styled.div`
                 h1 {
                     padding: 10px;
                     font-weight: 600;
+                }
+
+                .subcategory {
+                    font-size: 14px;
+                    display: inline-block;
+                    margin-bottom: 10px;
                 }
         
                 p {

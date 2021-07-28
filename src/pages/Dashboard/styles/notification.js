@@ -8,7 +8,7 @@ export const NotificationContainer = styled.div`
 
     .notification {
         width: 80%;
-        margin: 0 auto;
+        margin: 20px auto;
 
         .item {
             display: flex;

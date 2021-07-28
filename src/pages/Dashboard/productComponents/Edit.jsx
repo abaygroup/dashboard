@@ -47,6 +47,7 @@ const Edit = () => {
         const formData = new FormData()
         formData.append('title', data.title);
         formData.append('brand', data.brand);
+        formData.append('subcategory', data.subcategory);
         productImage && formData.append('picture', productImage.picture[0]);
         formData.append('first_price', data.first_price);
         formData.append('last_price', data.last_price);
@@ -226,10 +227,41 @@ const Edit = () => {
         return () => cleanupFunction = true;   
     }, [params, videohosting, features, ai ]);
 
+
+    const switchCategory = category => {
+        switch (category.slug) {
+            case "development":
+                return (
+                    <select defaultValue={product.subcategory.slug} {...register('subcategory')}>
+                        <option value="web-development">Веб разработка</option>
+                        <option value="game-development">Разработка игры</option>
+                        <option value="development-of-mobile-applications">Разработка мобильных приложений</option>
+                    </select>
+                )
+            case "design":
+                return (
+                    <select defaultValue={product.subcategory.slug} {...register('subcategory')}>
+                        <option value="web-design">Веб дизайн</option>
+                        <option value="game-design">Дизайн игры</option>
+                        <option value="3d-animation">3D и анимация</option>
+                    </select>
+                )
+            case "marketing":
+                return (
+                    <select defaultValue={product.subcategory.slug} {...register('subcategory')}>
+                        <option value="net-marketing">Интернет-маркетинг</option>
+                        <option value="seo">Поисковая оптимизация</option>
+                        <option value="smm">SMM</option>
+                    </select>
+                )
+            default:
+                return null;
+        }
+    }
+
     if (created) {
         return <Redirect to={`/product/${product.owner.brandname}/${product.isbn_code}/`}/>
     }
-
 
     // For motion
     const item = {
@@ -274,6 +306,9 @@ const Edit = () => {
                                 <label htmlFor="">{t('dashboard.update.main_form.brand')}</label>
                                 <input type="text" defaultValue={product.brand} {...register("brand")} required minLength="3"/>
                                 <small className="help-text"></small>
+                            </div>
+                            <div className="form-group">
+                                {switchCategory(product.category)}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">{t('dashboard.update.main_form.price.title')}</label>

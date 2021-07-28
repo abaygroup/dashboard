@@ -110,8 +110,9 @@ const Detail = () => {
                         </div>
                         
                         <div className="product-info">
-                            <h3>{product.title}</h3>
+                            <h3>{product.title} </h3>
                             <h1><small>{product.last_price}тг</small> - {product.first_price}тг</h1>
+                            <small className="subcategory"><b>Категория:</b> {product.subcategory.name}</small>
                             <Linkify><p>{product.body}</p></Linkify>
                             <div className="buttons">
                                 <Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>{t('dashboard.detail.buttons.update')}</Link>

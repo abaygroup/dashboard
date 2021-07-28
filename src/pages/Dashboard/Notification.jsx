@@ -67,8 +67,6 @@ const Notification = () => {
 
     return (
         <NotificationContainer>
-            {loading ? <Center><Loader /></Center> 
-            : notification.length > 0 ?
             <motion.div 
                 initial="hidden" 
                 animate="visible" 
@@ -76,7 +74,9 @@ const Notification = () => {
                 transition={{duration: 0.25}}
                 className="notification"
             >
-                {notification.map((n_item, i) => {
+                {loading ? <Center><Loader /></Center> 
+                : notification.length > 0 ?
+                notification.map((n_item, i) => {
                     const date = new Date(Date.parse(n_item.date_send))
                     return (
                         <div className="item" key={i}>
@@ -96,9 +96,9 @@ const Notification = () => {
                             </div>
                         </div>
                     )
-                })}    
+                }) 
+                : <small style={{ display: "block", width: "100%", textAlign: "center" }}>{t('dashboard.notification.while')}</small>}
             </motion.div>
-            : <small style={{ display: "block", width: "100%", textAlign: "center" }}>{t('dashboard.notification.while')}</small>}
         </NotificationContainer>
     )
 }
