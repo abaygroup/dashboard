@@ -295,7 +295,7 @@ const Edit = () => {
                                     <img src={product.picture} alt="" />
                                     <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.update.confirm')) && deletePicture(product.owner.brandname, product.isbn_code)} title={t('dashboard.update.title')}>&times;</big>
                                 </div>}
-                                <input type="file" {...register("picture")} disabled={product.picture && true}  name="picture" onChange={handleChange} />
+                                <input type="file" accept="image/*" {...register("picture")} disabled={product.picture && true}  name="picture" onChange={handleChange} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">{t('dashboard.update.main_form.title')}</label>
@@ -369,7 +369,7 @@ const Edit = () => {
                             {ai.length > 0 && ai.map((img, i) => 
                                 (<div className="form-group" key={i}>
                                     <img src={img.image} width="32px" alt="" />
-                                    <input type="file" disabled={true}/>
+                                    <input type="file" accept="image/*" disabled={true}/>
                                     <span onClick={() => window.confirm(t('dashboard.update.confirm')) && deleteAI(product.owner.brandname, product.isbn_code, img.id)}>&times;</span>
                                 </div>)
                             )}

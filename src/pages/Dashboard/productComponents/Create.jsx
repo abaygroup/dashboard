@@ -13,7 +13,6 @@ import { Center } from '../styles/overview';
 import { Container } from '../styles/productComponents';
 
 
-
 const Create = () => {
     const [loading, setLoading] = useState(true)
     const { register, handleSubmit } = useForm();

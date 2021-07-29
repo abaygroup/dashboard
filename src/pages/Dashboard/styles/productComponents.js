@@ -335,22 +335,29 @@ export const ProductDetail = styled.div`
                         text-decoration: underline;
                     }
                 }
-                small {
+                .collapse {
+                    cursor: pointer;
                     font-weight: normal;
-
                 }
             }
 
             small.body {
+                height: 0;
+                overflow: hidden;
+                padding: 0;
                 text-align: left;
                 display: block;
-                padding: 10px;
-                border-bottom: 1px solid ${({theme}) => theme.borderColor};
 
                 a {
                     color: rgb(0,110,255);
                     &:hover { text-decoration: underline; }
                 }
+            }
+            small.expand {
+                border-bottom: 1px solid ${({theme}) => theme.borderColor};
+                padding: 10px;
+                height: auto;
+                overflow: auto;
             }
 
             .access {

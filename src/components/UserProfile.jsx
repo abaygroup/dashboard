@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+
 const UserProfileContainer = styled.div`
     .header {
         display: flex;
@@ -22,15 +23,16 @@ const UserProfileContainer = styled.div`
         }
     }
     .profile-box {
-        position: absolute;
+        position: relative;
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
         margin: 20px 0;
 
-        h4 {
-            border-bottom: 1px solid ${({theme}) => theme.borderColor }
-        }
+    }
+
+    .edit {
+        width: 720px;
     }
 `;
 

@@ -41,6 +41,11 @@ const Detail = () => {
         }
     }
 
+    const toggleVideoBox = e => {
+        const body = e.target.parentElement.nextSibling;
+        body.classList.toggle('expand');
+    }
+
 
     useEffect(() => {
         let cleanupFunction = false;
@@ -136,7 +141,7 @@ const Detail = () => {
                                 <div className="video-box" key={i}>
                                     <h4>
                                         <a href={video.frame_url} rel="noreferrer" target="_blank">{video.title}</a>
-                                        <small>{t('dashboard.detail.videohosting.collapse')}</small>
+                                        <small className="collapse" onClick={e => toggleVideoBox(e)}>{t('dashboard.detail.videohosting.show')}</small>
                                     </h4>
                                     <Linkify><small className="body">{video.body}</small></Linkify>
                                     <div className="access">

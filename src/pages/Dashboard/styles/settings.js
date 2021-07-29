@@ -5,8 +5,20 @@ export const SettingContainer = styled.div`
     align-items: flex-start;
     width: 1280px;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
 
-    form.password-change {
+    .domain, .password-change {
+        margin: 20px auto;
+    }
+
+    form {
+        h4 {
+            padding-left: 10px;
+            padding-bottom: 10px;
+            font-size: 14px;
+            border-bottom: 1px solid ${({theme}) => theme.borderColor};
+        }
         .form-group {
             padding: 10px 0;
     

@@ -129,109 +129,103 @@ const Information = () => {
             {loading ? 
                 <Center><Loader /></Center>
             :
-            <React.Fragment>
-                <motion.form 
-                    initial="hidden" 
-                    animate="visible" 
-                    variants={item} 
-                    transition={{duration: 0.25}}
-                    className="profile" onSubmit={handleSubmit(onSubmit)}>
-                    <h4>{t('dashboard.information.profile.brand_form.h4')}</h4>
-                    <div className="form-group">
-                        {profile.logotype &&
-                        <div className="logotype-side">
-                            <img src={profile.logotype} alt="" />
-                            <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.information.confirm')) && deleteLogo()} title={t('dashboard.information.title')}>&times;</big>
+            <motion.form 
+                initial="hidden" 
+                animate="visible" 
+                variants={item} 
+                transition={{duration: 0.25}}
+                className="profile-form" onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex-row">
+                    <div className="row">
+                        <h4>{t('dashboard.information.profile.brand_form.h4')}</h4>
+                        <div className="form-group">
+                            {profile.logotype &&
+                            <div className="logotype-side">
+                                <img src={profile.logotype} alt="" />
+                                <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.information.confirm')) && deleteLogo()} title={t('dashboard.information.title')}>&times;</big>
+                            </div>}
+                            <input type="file" {...register("logotype")} disabled={profile.logotype && true} onChange={handleChange}/>
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.brand_form.brandname')}</label>
+                            <input type="text" defaultValue={profile.brand.brandname} {...register("brandname")} disabled={true}/>
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.brand_form.email')}</label>
+                            <input type="email" defaultValue={profile.brand.email} {...register("email")} disabled={true}/>
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.brand_form.branch')}</label>
+                            <input type="text" defaultValue={profile.branch.name} {...register("branch")} disabled={true}/>
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="submit">
+                            {disable ? <Loader /> : <input type="submit" value={t('dashboard.information.profile.profile_form.save')} />}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <h4>{t('dashboard.information.profile.profile_form.h4')}</h4>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.first_name')}</label>
+                            <input type="text" defaultValue={profile.first_name} {...register("first_name")} />
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.last_name')}</label>
+                            <input type="text" defaultValue={profile.last_name} {...register("last_name")} />
+                            <small className="help-text"></small>
+                        </div>
+                        {genders.find(gender => gender.label === profile.gender) &&
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.gender')}</label>
+                            <select defaultValue={genders.find(gender => gender.label === profile.gender).value} {...register("gender")}>
+                                {genders.map((gender, i) => (
+                                    <option key={i} value={gender.value}>{gender.label}</option>
+                                ))}
+                            </select>
+                            <small className="help-text"></small>
+                        </div>
+                        }
+                        {cities.find(city => city.label === profile.city) && 
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.city')}</label>
+                            <select defaultValue={cities.find(city => city.label === profile.city).value} {...register("city")} id="city">
+                                {cities.map((city, i) => (
+                                    <option key={i} value={city.value}>{city.label}</option>
+                                ))}
+                            </select>
+                            <small className="help-text"></small>
                         </div>}
-                        <input type="file" {...register("logotype")} disabled={profile.logotype && true} onChange={handleChange}/>
-                        <small className="help-text"></small>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.phone')}</label>
+                            <input type="phone" defaultValue={profile.phone} {...register("phone")} />
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.address')}</label>
+                            <textarea cols="40" rows="5" defaultValue={profile.address} {...register("address")} />
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.reserve_email')}</label>
+                            <input type="email" defaultValue={profile.reserve_email} {...register("reserve_email")} />
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.information.profile.profile_form.for_clients')}</label>
+                            <input type="checkbox" defaultChecked={profile.for_clients} {...register("for_clients")} />
+                            <small className="help-text"></small>
+                        </div>
+                        <div className="submit">
+                            {disable ? <Loader /> : <input type="submit" value={t('dashboard.information.profile.profile_form.save')} />}
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.brand_form.brandname')}</label>
-                        <input type="text" defaultValue={profile.brand.brandname} {...register("brandname")} disabled={true}/>
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.brand_form.email')}</label>
-                        <input type="email" defaultValue={profile.brand.email} {...register("email")} disabled={true}/>
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.brand_form.branch')}</label>
-                        <input type="text" defaultValue={profile.branch.name} {...register("branch")} disabled={true}/>
-                        <small className="help-text"></small>
-                    </div>
-                    <h4>{t('dashboard.information.profile.profile_form.h4')}</h4>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.first_name')}</label>
-                        <input type="text" defaultValue={profile.first_name} {...register("first_name")} />
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.last_name')}</label>
-                        <input type="text" defaultValue={profile.last_name} {...register("last_name")} />
-                        <small className="help-text"></small>
-                    </div>
-                    {genders.find(gender => gender.label === profile.gender) &&
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.gender')}</label>
-                        <select defaultValue={genders.find(gender => gender.label === profile.gender).value} {...register("gender")}>
-                            {genders.map((gender, i) => (
-                                <option key={i} value={gender.value}>{gender.label}</option>
-                            ))}
-                        </select>
-                        <small className="help-text"></small>
-                    </div>
-                    }
-                    {cities.find(city => city.label === profile.city) && 
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.city')}</label>
-                        <select defaultValue={cities.find(city => city.label === profile.city).value} {...register("city")} id="city">
-                            {cities.map((city, i) => (
-                                <option key={i} value={city.value}>{city.label}</option>
-                            ))}
-                        </select>
-                        <small className="help-text"></small>
-                    </div>}
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.phone')}</label>
-                        <input type="phone" defaultValue={profile.phone} {...register("phone")} />
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.address')}</label>
-                        <textarea cols="40" rows="5" defaultValue={profile.address} {...register("address")} />
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.reserve_email')}</label>
-                        <input type="email" defaultValue={profile.reserve_email} {...register("reserve_email")} />
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.profile.profile_form.for_clients')}</label>
-                        <input type="checkbox" defaultChecked={profile.for_clients} {...register("for_clients")} />
-                        <small className="help-text"></small>
-                    </div>
-                    <div className="submit">
-                        {disable ? <Loader /> : <input type="submit" value={t('dashboard.information.profile.profile_form.save')} />}
-                    </div>
-                </motion.form>
+                </div>
 
-                <motion.form 
-                    initial="hidden" 
-                    animate="visible" 
-                    variants={item} 
-                    transition={{duration: 0.25}}
-                    action="" className="domain">
-                    <h4>{t('dashboard.information.domain.h4')}</h4>
-                    <div className="form-group">
-                        <label htmlFor="">{t('dashboard.information.domain.website')}</label>
-                        <input type="text" defaultValue={profile.website} name="website" disabled={true}/>
-                        <small className="help-text"></small>
-                    </div>
-                </motion.form>
-                </React.Fragment>}
+            </motion.form>}
         </InformationContainer>
     )
 }

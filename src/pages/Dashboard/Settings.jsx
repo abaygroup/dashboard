@@ -7,10 +7,12 @@ import { Center } from './styles/overview';
 import { SettingContainer } from './styles/settings';
 import axios from 'axios';
 import { LOCAL_URL } from '../../actions/types';
+import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
     const [loading, setLoading] = useState(true);
     const { register, handleSubmit } = useForm();
+    const { t } = useTranslation();
 
     const passwordChangeSubmit = async (data) => {
         const config = {
@@ -52,18 +54,26 @@ const Settings = () => {
                 transition={{duration: 0.25}}
                 className="setting"
             >
-                <p>Настройки</p>
-                <form className="password-change" onSubmit={handleSubmit(passwordChangeSubmit)}>
+                <form className="domain">
+                    <h4>{t('dashboard.settings.domain.h4')}</h4>
                     <div className="form-group">
-                        <label htmlFor="">Старый пароль</label>
-                        <input type="password" {...register('old_password')} placeholder="Введите старый пароль" minLength="6" required/>
+                        <label htmlFor="">{t('dashboard.settings.domain.website')}</label>
+                        <input type="text" defaultValue="mywebsite.com" name="website" disabled={true}/>
+                        <small className="help-text"></small>
+                    </div>
+                </form>
+                <form className="password-change" onSubmit={handleSubmit(passwordChangeSubmit)}>
+                    <h4>{t('dashboard.settings.password-change.h4')}</h4>
+                    <div className="form-group">
+                        <label htmlFor="">{t('dashboard.settings.password-change.old_password')}</label>
+                        <input type="password" {...register('old_password')} placeholder={t('dashboard.settings.password-change.old_placeholder')} minLength="6" required/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Новый пароль</label>
-                        <input type="password" {...register('new_password')} placeholder="Придумаете новая пароль" minLength="6" required/>
+                        <label htmlFor="">{t('dashboard.settings.password-change.new_password')}</label>
+                        <input type="password" {...register('new_password')} placeholder={t('dashboard.settings.password-change.new_placeholder')} minLength="6" required/>
                     </div>
                     <div className="submit">
-                        <input type="submit" value="Сохранить"/>
+                        <input type="submit" value={t('dashboard.settings.password-change.submit')}/>
                     </div>
                 </form>
             </motion.div>}
