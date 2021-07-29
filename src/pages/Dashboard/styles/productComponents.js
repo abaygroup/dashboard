@@ -203,7 +203,7 @@ export const ProductDetail = styled.div`
         margin: 40px 0px;
 
         .product {
-
+            width: 60%;
             .images {
                 align-items: center;
         
@@ -310,73 +310,79 @@ export const ProductDetail = styled.div`
                 }
             }
         }
-    }
 
-    .videohosting {
-        margin-left: 40px;
-        
-        .video-box {
-            background: ${({theme}) => theme.background};
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px 0;
-            box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+        .videohosting {
+            width: 40%;
 
-            h4 {
-                display: flex;
-                justify-content: space-between;
-                text-align: left;
+            margin-left: 20px;
+            
+            .video-box {
+                background: ${({theme}) => theme.background};
+                border-radius: 5px;
                 padding: 10px;
-                border-bottom: 1px solid ${({theme}) => theme.borderColor};
-                a {
-                    font-size: 14px;
-
-                    &:hover {
-                        text-decoration: underline;
+                margin: 10px 0;
+                box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+    
+                h4 {
+                    display: flex;
+                    justify-content: space-between;
+                    text-align: left;
+                    padding: 10px;
+                    border-bottom: 1px solid ${({theme}) => theme.borderColor};
+                    a {
+                        font-size: 14px;
+    
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                    .collapse {
+                        cursor: pointer;
+                        font-weight: normal;
                     }
                 }
-                .collapse {
-                    cursor: pointer;
-                    font-weight: normal;
+    
+                small.body {
+                    /* width */
+                    ::-webkit-scrollbar {
+                        height: 5px;
+                    }
+
+                    height: 0;
+                    overflow: hidden;
+                    padding: 0;
+                    text-align: left;
+                    display: block;
+    
+                    a {
+                        color: rgb(0,110,255);
+                        &:hover { text-decoration: underline; }
+                    }
                 }
-            }
-
-            small.body {
-                height: 0;
-                overflow: hidden;
-                padding: 0;
-                text-align: left;
-                display: block;
-
-                a {
-                    color: rgb(0,110,255);
-                    &:hover { text-decoration: underline; }
+                small.expand {
+                    border-bottom: 1px solid ${({theme}) => theme.borderColor};
+                    padding: 10px;
+                    height: auto;
+                    overflow: auto;
                 }
-            }
-            small.expand {
-                border-bottom: 1px solid ${({theme}) => theme.borderColor};
-                padding: 10px;
-                height: auto;
-                overflow: auto;
-            }
-
-            .access {
-                padding: 5px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-
-                span {
+    
+                .access {
+                    padding: 5px;
                     display: flex;
+                    justify-content: space-between;
                     align-items: center;
-
-                    img {
-                        margin-right: 5px;
-                        width: 20px;
+    
+                    span {
+                        display: flex;
+                        align-items: center;
+    
+                        img {
+                            margin-right: 5px;
+                            width: 20px;
+                        }
                     }
                 }
             }
         }
-
     }
 `;
