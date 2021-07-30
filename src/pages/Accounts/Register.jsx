@@ -111,7 +111,7 @@ const Register = ({isAuthenticated, signup }) => {
                         variants={item} 
                         transition={{duration: 0.25}}
                         className="icon"
-                        href="/"><img src={icon} alt="abay" /></motion.a>
+                        href="https://abaystreet.com/"><img src={icon} alt="abay" /></motion.a>
                     <div className="nav-links">
                         <motion.a 
                             initial="hidden" 
