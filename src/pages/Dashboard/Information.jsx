@@ -62,6 +62,7 @@ const Information = () => {
         formData.append('address', data.address);
         formData.append('reserve_email', data.reserve_email);
         formData.append('for_clients', data.for_clients);
+        formData.append('branding', profile.branding);
 
         try {
             const response = await axios.put(`${LOCAL_URL}/owner/`, formData, localStorage.getItem('access') && config);
@@ -122,7 +123,7 @@ const Information = () => {
             opacity: 1
         }
     }
-
+    
     return (
         <InformationContainer>
             {loading ? 
