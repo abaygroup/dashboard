@@ -72,7 +72,6 @@ const Information = () => {
             console.error(e.message)
         }
     }
-
     
     const deleteLogo = () => {
         const config = {
@@ -187,8 +186,7 @@ const Information = () => {
                                 ))}
                             </select>
                             <small className="help-text"></small>
-                        </div>
-                        }
+                        </div>}
                         {cities.find(city => city.label === profile.city) && 
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.information.profile.profile_form.city')}</label>

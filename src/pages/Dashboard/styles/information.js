@@ -25,7 +25,7 @@ export const InformationContainer = styled.div`
                     font-size: 14px;
                     border-bottom: 1px solid ${({theme}) => theme.borderColor};
                 }
-
+            
                 .form-group {
                     padding: 10px 0;
             

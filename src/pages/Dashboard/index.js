@@ -11,6 +11,7 @@ import { GlobalStyles, lightTheme, darkTheme } from './styles/main';
 import { useDarkMode } from './styles/useDarkMode';
 import { ThemeProvider } from 'styled-components';
 import UserProfile from '../../components/UserProfile';
+import FullLoader from '../../components/FullScreen';
 
 const Main = (props) => {
     const {isAuthenticated, logout } = props;
@@ -18,6 +19,7 @@ const Main = (props) => {
     const [brand, setBrand] = useState({})
     const location = useLocation()
     const [theme, toggleTheme ] = useDarkMode()
+    const [loader, setLoader] = useState(true);
     const themeMode = theme === 'light' ? lightTheme : darkTheme;
     
     const handleToggleTheme = e => {
@@ -41,6 +43,7 @@ const Main = (props) => {
                     if (isAuthenticated) {
                         setDashboard(response.data.dashboard)
                         setBrand(response.data.dashboard.brand)
+                        setLoader(false)
                     }
                 }
             } catch (e) {
@@ -59,20 +62,25 @@ const Main = (props) => {
     document.title = `${brand.brandname || "..."} | Панель управления`;
     return (
         <ThemeProvider theme={themeMode}>
-            <GlobalStyles />
-            {dashboard.branch ? 
-                <div className="dashboard-container">
-                <Header logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />
-                <Profile dashboard={dashboard} brand={brand} />
-                
-                {/* ======================== */}
-                <div className="container" style={{ paddingBottom: "100px" }}>
-                    {props.children} 
-                </div>
-                {/* ======================== */}
-                <Footer />
-            </div>:
-            <UserProfile dashboard={dashboard} brand={brand} logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />}
+            {loader ? <FullLoader theme={theme} /> : 
+            <React.Fragment>
+                <GlobalStyles />
+                {dashboard.branch ? 
+                    <div className="dashboard-container">
+                    <Header logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />
+                    <Profile dashboard={dashboard} brand={brand} />
+                    
+                    {/* ======================== */}
+                    <div className="container" style={{ paddingBottom: "100px" }}>
+                        {props.children} 
+                    </div>
+                    {/* ======================== */}
+                    <Footer />
+                </div>:
+                <UserProfile dashboard={dashboard} brand={brand} logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />}
+            </React.Fragment>
+            }
+            
         </ThemeProvider>
     )
 }

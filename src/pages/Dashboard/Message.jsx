@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { LOCAL_URL } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
@@ -71,31 +71,13 @@ const Message = () => {
                 <div className="instruction">
                     <h4>{t('dashboard.message.instruction.h4')}</h4>
                     <small>
-                        Вы можете импортировать товар по выбранной вами категории. 
-                        Т. е. какое направление выбрал бренд, работа ведется по той же категории. 
-                        Если выбранная категория неверна, <Link to={'#'}>напишите здесь</Link>
-
+                        {t('dashboard.message.instruction.text.first')}
                         <ul>
-                            <li>Обязательно нужно написать название товара</li>
-                            <li>Для наглядности на товар нужно поставить рисунок. Но это не имеет значения. 
-                                Рисунок лучше нарисовать в максимально квадратичном формате. Например 400x400
-                            </li>
-                            <li>
-                                Обязательно нужно написать цену. Цена указана в двух видах. 
-                                Первая начальная цена, верхняя цена товара. 
-                                И последняя цена это последняя цена после торговли через клиента.
-                            </li>
-                            <li>
-                                Описание товара у вас очень важное поле. А нам не важно :). 
-                                Это поле можно оставить пустым. Но мы рекомендуем написать 
-                                описание продукта, максимально используя это поле. Потому 
-                                что продукт с четко прописанным описанием торгуется быстро.
-                            </li>
+                            <li>{t('dashboard.message.instruction.text.second')}</li>
+                            <li>{t('dashboard.message.instruction.text.third')}</li>
+                            <li>{t('dashboard.message.instruction.text.four')}</li>
                         </ul>
-
-                        После импорта товара с подробной справкой отправляет товар на главную страницу. 
-                        Там же даются формы для нанесения дополнительных рисунков на товар и выдачи 
-                        дополнительной характеристики.
+                        {t('dashboard.message.instruction.text.last')}
                     </small>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
