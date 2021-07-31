@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import registerImg  from "../../assets/images/register.jpg";
 import abayst  from "../../assets/images/abayst.png";
-import icon from '../../assets/images/icon64.png';
 import { Link, Redirect } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { connect } from 'react-redux';
@@ -14,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
+import Navbar from './Navbar';
 
 
 const Register = ({isAuthenticated, signup }) => {
@@ -75,6 +75,7 @@ const Register = ({isAuthenticated, signup }) => {
     }
     const { register, handleSubmit, formState:{ errors } } = useForm({ resolver: yupResolver(schema) });
 
+    // register
     const onSubmit = data => {
         signup(data.brandname, data.email, data.password, data.re_password);
         setAccountCreated(true);
@@ -88,52 +89,16 @@ const Register = ({isAuthenticated, signup }) => {
     }
 
     // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-          y: 0,
-          opacity: 1
-        }
-    }
-
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
     }
 
     return (
-        <div className="register-container">
-            <div className="register-block">
-                <div className="navbar">
-                    <motion.a 
-                        initial="hidden" 
-                        animate="visible" 
-                        variants={item} 
-                        transition={{duration: 0.25}}
-                        className="icon"
-                        href="https://abaystreet.com/"><img src={icon} alt="abay" /></motion.a>
-                    <div className="nav-links">
-                        <motion.a 
-                            initial="hidden" 
-                            animate="visible" 
-                            variants={item} 
-                            transition={{duration: 0.25}}
-                            href="/">{t('accounts.navbar.regulations')}</motion.a>
-                        <motion.a 
-                            initial="hidden" 
-                            animate="visible" 
-                            variants={item} 
-                            transition={{duration: 0.5}}
-                            href="/">{t('accounts.navbar.confidentiality')}</motion.a>
-                        <motion.a 
-                            initial="hidden" 
-                            animate="visible" 
-                            variants={item} 
-                            transition={{duration: 1}}
-                            href="/">{t('accounts.navbar.terms')}</motion.a>
-                    </div>
-                </div>
-                <div className="register-center">
+        <div className="accounts-container">
+            <div className="accounts-block">
+                <Navbar />
+                <div className="accounts-center">
                     <div className="logo" style={{ backgroundImage: `url(${abayst})` }}></div>
                     <h1>{t('accounts.register.form.title')}</h1>
                     <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -155,7 +120,7 @@ const Register = ({isAuthenticated, signup }) => {
                 animate="visible" 
                 variants={variants} 
                 transition={{duration: 1}}
-                className="register-image-block" style={{ backgroundImage: `url(${registerImg})` }}>
+                className="accounts-image-block" style={{ backgroundImage: `url(${registerImg})` }}>
             </motion.div>
         </div>
     )

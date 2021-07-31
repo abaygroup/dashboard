@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import abayst from '../../assets/images/abayst.png'
 import passwrodResetImg from '../../assets/images/password-reset.jpg'
-import icon from '../../assets/images/icon64.png';
 
 import { motion } from "framer-motion"
 import { connect } from 'react-redux';
@@ -12,6 +11,7 @@ import { reset_password } from '../../actions/auth';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import Navbar from './Navbar';
 
 let schema;
 
@@ -35,6 +35,7 @@ const PasswordReset = ({ reset_password }) => {
     const [requestSent, setRequestSent] = useState(false);
     const { t } = useTranslation() 
 
+    // password reset
     const onSubmit = data => {
         reset_password(data.email);
         setRequestSent(true);
@@ -45,52 +46,16 @@ const PasswordReset = ({ reset_password }) => {
     }
 
     // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    }
-
     const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
     }
     
     return (
-        <div className="login-container">
-            <div className="login-block">
-            <div className="navbar">
-                    <motion.a 
-                        initial="hidden" 
-                        animate="visible" 
-                        variants={item} 
-                        transition={{duration: 0.25}}
-                        className="icon"
-                        href="https://abaystreet.com/"><img src={icon} alt="abay" /></motion.a>
-                    <div className="nav-links">
-                        <motion.a 
-                            initial="hidden" 
-                            animate="visible" 
-                            variants={item} 
-                            transition={{duration: 0.25}}
-                            href="/">{t('accounts.navbar.regulations')}</motion.a>
-                        <motion.a 
-                            initial="hidden" 
-                            animate="visible" 
-                            variants={item} 
-                            transition={{duration: 0.5}}
-                            href="/">{t('accounts.navbar.confidentiality')}</motion.a>
-                        <motion.a 
-                            initial="hidden" 
-                            animate="visible" 
-                            variants={item} 
-                            transition={{duration: 1}}
-                            href="/">{t('accounts.navbar.terms')}</motion.a>
-                    </div>
-                </div>
-                <div className="login-center">
+        <div className="accounts-container">
+            <div className="accounts-block">
+                <Navbar />
+                <div className="accounts-center">
                     <div className="logo" style={{ backgroundImage: `url(${abayst})` }}>
                     </div>
                     <h1>{t('accounts.password-reset.form.title')}</h1>
@@ -110,7 +75,7 @@ const PasswordReset = ({ reset_password }) => {
                 animate="visible" 
                 variants={variants} 
                 transition={{duration: 1}} 
-                className="login-image-block" style={{ backgroundImage: `url(${passwrodResetImg})` }}></motion.div>
+                className="accounts-image-block" style={{ backgroundImage: `url(${passwrodResetImg})` }}></motion.div>
         </div>
     )
 }
