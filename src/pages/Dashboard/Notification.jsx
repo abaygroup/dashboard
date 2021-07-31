@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 import axios from 'axios';
 import Moment from 'react-moment';
 
@@ -19,6 +19,12 @@ const Notification = () => {
     // Подтверждение 
     const checkedMessage = async (id) => {
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.post(`${BACKEND_URL}/notification/${id}/`, {}, localStorage.getItem('access') && config);
         } catch (e) {
             console.error(e.message)
@@ -29,6 +35,12 @@ const Notification = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(`${BACKEND_URL}/notification/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setNotification(response.data)

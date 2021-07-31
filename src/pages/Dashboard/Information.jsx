@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loader from './../../components/Loader';
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
 import { motion } from "framer-motion";
@@ -60,6 +60,12 @@ const Information = () => {
         formData.append('branding', profile.branding);
 
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             const response = await axios.put(`${BACKEND_URL}/owner/`, formData, localStorage.getItem('access') && config);
             setProfile(response.data);
             setDisable(false);
@@ -71,6 +77,12 @@ const Information = () => {
     
     // Удаление логотипа
     const deleteLogo = () => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         axios.delete(`${BACKEND_URL}/owner/logo/`, localStorage.getItem('access') && config)
             .then(response => {
                 console.log(response.data);
@@ -82,6 +94,12 @@ const Information = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(`${BACKEND_URL}/owner/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProfile(response.data);

@@ -4,7 +4,7 @@ import Loader from '../../../components/Loader';
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import axios from 'axios';
-import { BACKEND_URL, config, item } from '../../../actions/types';
+import { BACKEND_URL, item } from '../../../actions/types';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom'; 
 
@@ -48,6 +48,12 @@ const Create = () => {
         formData.append('last_price', data.last_price);
         formData.append('body', data.body);
         
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         axios.post(`${BACKEND_URL}/products/`, formData, localStorage.getItem('access') && config)
             .then(response => {
                 setProduct(response.data)
@@ -62,6 +68,12 @@ const Create = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(BACKEND_URL, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setDashboard(response.data.dashboard)

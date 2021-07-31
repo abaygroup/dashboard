@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
-import { BACKEND_URL, config, item } from '../../../actions/types';
+import { BACKEND_URL, item } from '../../../actions/types';
 import { motion } from "framer-motion";
 import Loader from '../../../components/Loader';
 import { useForm } from "react-hook-form";
@@ -49,6 +49,12 @@ const Edit = () => {
         formData.append('body', data.body);
 
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             const response = await axios.put(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, formData, localStorage.getItem('access') && config);
             setProduct(response.data)
             setCreated(true);
@@ -60,6 +66,12 @@ const Edit = () => {
 
     // Удаление изброжение
     const deletePicture = (owner, isbn_code) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/picture/`, localStorage.getItem('access') && config)
             .then(response => {
                 console.log(response.data);
@@ -78,7 +90,12 @@ const Edit = () => {
     const handleFeature = e => {
         e.preventDefault()
         setDisable(true);
-
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/features/`, featureData, localStorage.getItem('access') && config)
         .then(response => {
             setCreated(true);
@@ -90,6 +107,12 @@ const Edit = () => {
     // Удаление характеристика
     const deleteFeatureHandle = async (owner, isbn_code, id) => {
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/feature/${id}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
@@ -116,7 +139,12 @@ const Edit = () => {
     const handleAI = e => {
         e.preventDefault();
         setDisable(true);
-
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/ais/`, data, localStorage.getItem('access') && config)
         .then(response => {
             setCreated(true);
@@ -128,6 +156,12 @@ const Edit = () => {
     // Удаление AI
     const deleteAI = async (owner, isbn_code, id) => {
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/ai/${id}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
@@ -147,7 +181,12 @@ const Edit = () => {
     const handleVideo = e => {
         e.preventDefault();
         setDisable(true);
-
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/videohosting/`, videoData, localStorage.getItem('access') && config)
         .then(response => {
             setCreated(true);
@@ -158,7 +197,12 @@ const Edit = () => {
 
     const deleteVideo = async (owner, isbn_code, id) => {
         try {
-   
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/video/${id}/`, localStorage.getItem('access') && config)
             
         } catch(e) {
@@ -172,6 +216,12 @@ const Edit = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProduct(response.data.products);

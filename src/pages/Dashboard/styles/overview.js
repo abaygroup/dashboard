@@ -154,6 +154,41 @@ export const OverviewContainer = styled.div`
             opacity: .7;
         }
     }
+
+    @media screen and (max-width: 1040px) {
+        width: 100%;
+        display: block;
+        
+        .products-overview {
+            width: 90%;
+            margin: 10px auto 20px auto;
+        }
+
+        .activity {
+            width: 90%;
+            margin: 20px auto;
+
+            h4 {
+                padding-bottom: 0;
+            }  
+            
+            .activities {
+                margin: 0 0 10px 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 660px) {
+        .products-overview {
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .activity {
+            width: 98%;
+            padding: 0 10px;
+        }
+    }
 `;
 
 export const Center = styled.div`

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Center } from './styles/overview';
 import { SettingContainer } from './styles/settings';
 import axios from 'axios';
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
@@ -17,6 +17,12 @@ const Settings = () => {
     const passwordChangeSubmit = async (data) => {
         const formData = JSON.stringify(data)
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             const response = await axios.put(`${BACKEND_URL}/accounts/password-change/`, formData, localStorage.getItem('access') && config);
             console.log(response.data);
         } catch (e) {

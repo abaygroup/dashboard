@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import { BACKEND_URL, config, item } from '../../../actions/types';
+import { BACKEND_URL, item } from '../../../actions/types';
 import Loader from '../../../components/Loader';
 import picture from '../../../assets/images/picture.jpg';
 import Moment from 'react-moment';
@@ -29,6 +29,12 @@ const Detail = () => {
     // Удаление продукта
     const deleteProductHandle = async (owner, isbn_code) => {
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
             alert(`${product.title} удалено!`)
         } catch(e) {
@@ -45,6 +51,12 @@ const Detail = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProduct(response.data.products);

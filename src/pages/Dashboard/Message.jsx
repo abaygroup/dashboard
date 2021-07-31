@@ -5,7 +5,7 @@ import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
 import { MessageContainer } from './styles/message';
@@ -26,6 +26,12 @@ const Message = () => {
         formData.append('body', data.body);
 
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.post(`${BACKEND_URL}/notification/`, formData, localStorage.getItem('access') && config);
             setDisable(false);
             setCreated(true)

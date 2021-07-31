@@ -15,7 +15,7 @@ import { useDarkMode } from './styles/useDarkMode';
 import { ThemeProvider } from 'styled-components';
 
 
-import { BACKEND_URL, config } from '../../actions/types';
+import { BACKEND_URL } from '../../actions/types';
 
 const Main = (props) => {
     const {isAuthenticated, logout } = props;
@@ -38,6 +38,12 @@ const Main = (props) => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(BACKEND_URL, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     if (isAuthenticated) {

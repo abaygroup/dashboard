@@ -7,7 +7,7 @@ import Loader from '../../components/Loader';
 import Search from '../../components/Search';
 
 import picture from '../../assets/images/picture.jpg';
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
 import { ProductsContainer } from './styles/products';
@@ -24,6 +24,12 @@ const Products = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(`${BACKEND_URL}/products/${mainInput ? `?search=${mainInput}`: ''}`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProducts(response.data)
@@ -40,6 +46,12 @@ const Products = () => {
     // Удаление продукта
     const deleteProductHandle = async (owner, isbn_code) => {
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);

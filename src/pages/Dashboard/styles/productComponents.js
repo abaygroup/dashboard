@@ -12,8 +12,7 @@ export const Container = styled.div`
 
     .edit-form, .create-form {
         margin-top: 20px;
-        display: flex;
-        justify-content: center;
+        display: block;
 
         .instruction {
             width: 50%;
@@ -176,6 +175,38 @@ export const Container = styled.div`
             border-bottom: 1px solid ${({theme}) => theme.borderColor};
         }
     }
+
+    @media screen and (max-width: 1280px) {
+        width: 1024px;
+    }
+
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+
+        .edit-form, .create-form {
+            .instruction {
+                display: none;
+            }
+
+            .main-edit {
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
+
+        .videohosting {
+            width: 90%;
+            margin: 0 auto;
+            
+            .col-field {
+                .form-group {
+                    a {
+                        width: 260px;
+                    }
+                }
+            }
+        }
+    }
 `;
 
 
@@ -205,8 +236,6 @@ export const ProductDetail = styled.div`
         .product {
             width: 60%;
             .images {
-                align-items: center;
-        
                 .main-image {
                     width: 100%;
                     margin: 0 10px;
@@ -221,7 +250,6 @@ export const ProductDetail = styled.div`
                 .ai-images {
                     width: 640px;
                     margin: 0 auto;
-                    height: 64px;
                     text-align: left;
                     overflow-y: hidden;
                     overflow-x: scroll;
@@ -380,6 +408,44 @@ export const ProductDetail = styled.div`
                             margin-right: 5px;
                             width: 20px;
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1040px) {
+        width: 100%;
+
+        .product-block {
+            display: block;
+            margin: 40px 0px;
+
+            .product {
+                width: 100%;
+            }
+
+            .videohosting {
+                width: 100%;
+                margin: 20px auto;
+            }
+        }
+    }
+
+    @media screen and (max-width: 660px) {
+        .product-block {
+            .product {
+                .images {
+                    .main-image {
+                        img {
+                            width: 100%;
+                        }
+                    }
+            
+                    .ai-images {
+                        width: 100%;
+                        overflow: auto;
+                        white-space: nowrap;
                     }
                 }
             }

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityContainer } from './styles/activities';
 import { Center } from './styles/overview';
 import picture from '../../assets/images/picture.jpg';
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 
 
 const Activity = () => {
@@ -20,6 +20,12 @@ const Activity = () => {
 
     // Удаление все активности
     const deleteAll = async () => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${localStorage.getItem('access')}`
+            }
+        }
         try {
             await axios.delete(`${BACKEND_URL}/activities/`, config)
         } catch(e) {
@@ -31,6 +37,12 @@ const Activity = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(`${BACKEND_URL}/activities/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setDashboard(response.data.dashboard)

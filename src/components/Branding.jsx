@@ -141,6 +141,28 @@ const BrandingContainer = styled.div`
             }
         }
     }
+
+
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+    }
+
+    @media screen and (max-width: 780px) {
+        .branding-block {
+            .instruction {
+                display: none;
+            }
+            .dashboard-form {
+                width: 100%;
+
+                form {
+                    textarea {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
 `;
 
 const genders = [
@@ -162,12 +184,6 @@ const Branding = () => {
     const { t } = useTranslation();
 
     const onSubmit = async (data) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         const formData = new FormData()
         formData.append('branch', data.branch)
         formData.append('first_name', data.first_name);
@@ -180,6 +196,12 @@ const Branding = () => {
         formData.append('for_clients', data.for_clients);
 
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `JWT ${localStorage.getItem('access')}`
+                }
+            }
             const response = await axios.put(`${BACKEND_URL}/owner/`, formData, localStorage.getItem('access') && config);
             console.log(response.data);
             setCreated(true)
@@ -263,7 +285,7 @@ const Branding = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.information.profile.profile_form.address')}</label>
-                            <textarea cols="40" rows="5" {...register("address")} />
+                            <textarea cols="30" rows="5" {...register("address")} />
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">

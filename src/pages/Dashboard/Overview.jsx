@@ -10,7 +10,7 @@ import Moment from 'react-moment';
 import 'moment/locale/ru';
 import 'moment/locale/kk';
 import { useTranslation } from 'react-i18next';
-import { BACKEND_URL, config, item } from '../../actions/types';
+import { BACKEND_URL, item } from '../../actions/types';
 
 
 const Overview = () => {
@@ -25,6 +25,12 @@ const Overview = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
                 const response = await axios.get(BACKEND_URL, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     
