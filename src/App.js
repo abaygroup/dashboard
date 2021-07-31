@@ -37,7 +37,7 @@ function App() {
               <Switch>
                 <Route exact path="/branding" component={Branding} />
 
-                {/* Dashboard */}
+                {/* Dashboard URL */}
                 <Route exact path='/'><Main><Overview /></Main></Route>
                 <Route exact path='/products'><Main><Products /></Main></Route>
                 <Route exact path='/activities'><Main><Activities /></Main></Route>
@@ -46,19 +46,19 @@ function App() {
                 <Route exact path='/profile'><Main><Information /></Main></Route>
                 <Route exact path='/settings'><Main><Settings /></Main></Route>
                 
-                {/* Products */}
+                {/* Products URL */}
                 <Route exact path='/product/create'><Main><Create /></Main></Route>
                 <Route exact path='/product/:owner/:isbn_code'><Main><Detail /></Main></Route>
                 <Route exact path='/product/:owner/:isbn_code/edit'><Main><Edit /></Main></Route>
 
-                {/* Accounts */}
+                {/* Accounts URL */}
                 <Route exact path="/accounts/login" component={Login} />
                 <Route exact path="/accounts/password/reset" component={PasswordReset} />
                 <Route exact path='/password/reset/confirm/:uid/:token' component={PasswordResetConfirm} />
                 <Route exact path="/accounts/register" component={Register} />
                 <Route exact path='/activate/:uid/:token' component={Activate} />
 
-                {/* Page not found */}
+                {/* 404 PAGE URL */}
                 <Route exact component={NotFound}/>
               </Switch>
             </Layout>

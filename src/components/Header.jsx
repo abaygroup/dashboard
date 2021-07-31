@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { BACKEND_URL } from '../actions/types';
 
 
 
@@ -106,7 +107,7 @@ const Header = (props) => {
                         'Authorization': `JWT ${localStorage.getItem('access')}`
                     }
                 }
-                const response = await axios.get(`http://127.0.0.1:8000/notification/count/`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/notification/count/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setCount(response.data);
                 }

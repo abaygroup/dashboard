@@ -16,6 +16,22 @@ export const PASSWORD_RESET_CONFIRM_FAIL = 'PASSWORD_RESET_CONFIRM_FAIL';
 export const PASSWORD_RESET_CONFIRM_SUCCESS = 'PASSWORD_RESET_CONFIRM_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 
-// URLS
-export const LOCAL_URL = 'http://127.0.0.1:8000';
-export const GLOBAL_URL = 'https://abayst.pythonanywhere.com';
+// URL
+export const BACKEND_URL = 'http://127.0.0.1:8000';
+
+// Get Token
+export const config = {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`
+    }
+}
+
+// Frame motion
+export const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1
+    }
+}

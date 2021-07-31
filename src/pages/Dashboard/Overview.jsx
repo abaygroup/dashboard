@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import picture from '../../assets/images/picture.jpg';
+import { Center, OverviewContainer } from './styles/overview';
 
 import { motion } from "framer-motion";
 import axios from 'axios';
 import Moment from 'react-moment';
 import 'moment/locale/ru';
 import 'moment/locale/kk';
-
 import { useTranslation } from 'react-i18next';
-import { Center, OverviewContainer } from './styles/overview';
+import { BACKEND_URL, config, item } from '../../actions/types';
 
 
 const Overview = () => {
@@ -25,13 +25,7 @@ const Overview = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`http://127.0.0.1:8000/`, localStorage.getItem('access') && config);
+                const response = await axios.get(BACKEND_URL, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     
                     setDashboard(response.data.dashboard)
@@ -46,15 +40,6 @@ const Overview = () => {
         fetchData()
         return () => cleanupFunction = true;
     }, [])
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    }
 
     return (
         <OverviewContainer>

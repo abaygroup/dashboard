@@ -7,7 +7,7 @@ import Loader from '../../components/Loader';
 import Search from '../../components/Search';
 
 import picture from '../../assets/images/picture.jpg';
-import { LOCAL_URL } from '../../actions/types';
+import { BACKEND_URL, config, item } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
 import { ProductsContainer } from './styles/products';
@@ -18,20 +18,13 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [mainInput, setMainInput] = useState('');
-
     const { t } = useTranslation();
 
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`http://127.0.0.1:8000/products/${mainInput ? `?search=${mainInput}`: ''}`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/products/${mainInput ? `?search=${mainInput}`: ''}`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProducts(response.data)
                     setLoading(false)
@@ -44,27 +37,12 @@ const Products = () => {
         return () => cleanupFunction = true;
     }, [products, mainInput])
 
+    // Удаление продукта
     const deleteProductHandle = async (owner, isbn_code) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            await axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
-            
+            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
-        }
-    }
-    
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
         }
     }
 

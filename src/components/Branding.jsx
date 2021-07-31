@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
-import { LOCAL_URL } from '../actions/types';
+import { BACKEND_URL } from '../actions/types';
 import axios from 'axios';
 
 const BrandingContainer = styled.div`
@@ -180,7 +180,7 @@ const Branding = () => {
         formData.append('for_clients', data.for_clients);
 
         try {
-            const response = await axios.put(`${LOCAL_URL}/owner/`, formData, localStorage.getItem('access') && config);
+            const response = await axios.put(`${BACKEND_URL}/owner/`, formData, localStorage.getItem('access') && config);
             console.log(response.data);
             setCreated(true)
         } catch (e) {

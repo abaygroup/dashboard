@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
-import { LOCAL_URL } from '../../actions/types';
+import { BACKEND_URL, config, item } from '../../actions/types';
 import axios from 'axios';
 import Moment from 'react-moment';
 
@@ -16,32 +16,20 @@ const Notification = () => {
 
     const { t } = useTranslation();
 
+    // Подтверждение 
     const checkedMessage = async (id) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         try {
-            await axios.post(`${LOCAL_URL}/notification/${id}/`, {}, localStorage.getItem('access') && config);
+            await axios.post(`${BACKEND_URL}/notification/${id}/`, {}, localStorage.getItem('access') && config);
         } catch (e) {
             console.error(e.message)
         }
     }
 
-
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`${LOCAL_URL}/notification/`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/notification/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setNotification(response.data)
                     setLoading(false);
@@ -53,15 +41,6 @@ const Notification = () => {
         fetchData()
         return () => cleanupFunction = true;
     }, [notification])
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    }
 
     return (
         <NotificationContainer>

@@ -4,7 +4,7 @@ import Loader from '../../../components/Loader';
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import axios from 'axios';
-import { LOCAL_URL } from '../../../actions/types';
+import { BACKEND_URL, config, item } from '../../../actions/types';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom'; 
 
@@ -26,6 +26,7 @@ const Create = () => {
 
     const { t } = useTranslation();
 
+    // onChange для изброжение
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'picture') {
 			setProductImage({
@@ -34,18 +35,10 @@ const Create = () => {
 		}
     }
 
-    // Product
+    // Создание продукта
     const handleProduct = (data) => {
         setDisable(true);
         
-        console.log(data);
-        
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         const formData = new FormData()
         formData.append('title', data.title);
         formData.append('brand', data.brand);
@@ -55,7 +48,7 @@ const Create = () => {
         formData.append('last_price', data.last_price);
         formData.append('body', data.body);
         
-        axios.post(`${LOCAL_URL}/products/`, formData, localStorage.getItem('access') && config)
+        axios.post(`${BACKEND_URL}/products/`, formData, localStorage.getItem('access') && config)
             .then(response => {
                 setProduct(response.data)
                 setCreated(true)
@@ -69,15 +62,8 @@ const Create = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`http://127.0.0.1:8000/`, localStorage.getItem('access') && config);
+                const response = await axios.get(BACKEND_URL, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
-                    
                     setDashboard(response.data.dashboard)
                     setLoading(false)
                 }
@@ -128,15 +114,6 @@ const Create = () => {
     
     if(dashboard.branding === false) {
         return <Redirect to='/' />
-    }
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
     }
 
     return (

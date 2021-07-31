@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import { LOCAL_URL } from '../../../actions/types';
+import { BACKEND_URL, config, item } from '../../../actions/types';
 import Loader from '../../../components/Loader';
 import picture from '../../../assets/images/picture.jpg';
 import Moment from 'react-moment';
@@ -26,15 +26,10 @@ const Detail = () => {
 
     const { t } = useTranslation();
 
+    // Удаление продукта
     const deleteProductHandle = async (owner, isbn_code) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            await axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
+            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
             alert(`${product.title} удалено!`)
         } catch(e) {
             console.log(e.message);
@@ -46,18 +41,11 @@ const Detail = () => {
         body.classList.toggle('expand');
     }
 
-
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
             try {
-                const response = await axios.get(`${LOCAL_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProduct(response.data.products);
                     setFeatures(response.data.features);
@@ -77,15 +65,6 @@ const Detail = () => {
 
     const changeImg = (e) => {
         imageRef.current.src = e.target.src;
-    }
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
     }
 
     return (

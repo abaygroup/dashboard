@@ -3,15 +3,19 @@ import { Redirect, useLocation } from "react-router-dom";
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import axios from 'axios';
+
 import Header from '../../components/Header';
 import Profile from '../../components/Profile';
 import Footer from '../../components/Footer';
+import UserProfile from '../../components/UserProfile';
+import FullLoader from '../../components/FullScreen';
 
 import { GlobalStyles, lightTheme, darkTheme } from './styles/main';
 import { useDarkMode } from './styles/useDarkMode';
 import { ThemeProvider } from 'styled-components';
-import UserProfile from '../../components/UserProfile';
-import FullLoader from '../../components/FullScreen';
+
+
+import { BACKEND_URL, config } from '../../actions/types';
 
 const Main = (props) => {
     const {isAuthenticated, logout } = props;
@@ -22,23 +26,19 @@ const Main = (props) => {
     const [loader, setLoader] = useState(true);
     const themeMode = theme === 'light' ? lightTheme : darkTheme;
     
+    // Change theme
     const handleToggleTheme = e => {
         e.preventDefault()
         toggleTheme()
     }
 
     localStorage.setItem('currentPage', location.pathname)
+
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`http://127.0.0.1:8000/`, localStorage.getItem('access') && config);
+                const response = await axios.get(BACKEND_URL, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     if (isAuthenticated) {
                         setDashboard(response.data.dashboard)
@@ -80,7 +80,6 @@ const Main = (props) => {
                 <UserProfile dashboard={dashboard} brand={brand} logout={logout} handleToggleTheme={handleToggleTheme} theme={theme} />}
             </React.Fragment>
             }
-            
         </ThemeProvider>
     )
 }

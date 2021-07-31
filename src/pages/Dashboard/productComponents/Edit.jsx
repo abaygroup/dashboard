@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
-import { LOCAL_URL } from '../../../actions/types';
+import { BACKEND_URL, config, item } from '../../../actions/types';
 import { motion } from "framer-motion";
 import Loader from '../../../components/Loader';
 import { useForm } from "react-hook-form";
@@ -27,6 +27,7 @@ const Edit = () => {
 
     const { t } = useTranslation();
 
+    // onChange для изброжение
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'picture') {
 			setProductImage({
@@ -35,15 +36,9 @@ const Edit = () => {
 		}
     }
 
+    // Изменение продукта
     const onSubmit = async (data) => {
         setDisable(true);
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         const formData = new FormData()
         formData.append('title', data.title);
         formData.append('brand', data.brand);
@@ -54,7 +49,7 @@ const Edit = () => {
         formData.append('body', data.body);
 
         try {
-            const response = await axios.put(`${LOCAL_URL}/product/${params.owner}/${params.isbn_code}/`, formData, localStorage.getItem('access') && config);
+            const response = await axios.put(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, formData, localStorage.getItem('access') && config);
             setProduct(response.data)
             setCreated(true);
             setDisable(false);
@@ -63,36 +58,28 @@ const Edit = () => {
         }
     }
 
+    // Удаление изброжение
     const deletePicture = (owner, isbn_code) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/picture/`, localStorage.getItem('access') && config)
+        axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/picture/`, localStorage.getItem('access') && config)
             .then(response => {
                 console.log(response.data);
             })
             .catch(error => console.log(error.error))
     }
+    // =========================================================
 
     // Features
     const [featureData, setFeatureData] = useState({label: '', value: ''});
     const { label, value } = featureData;
-
+    // onChange для характеристика
     const featureChange = e => setFeatureData({ ...featureData, [e.target.name]: e.target.value });
+
+    // Добавление характеристика
     const handleFeature = e => {
         e.preventDefault()
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
 
-        axios.post(`${LOCAL_URL}/product/${params.owner}/${params.isbn_code}/features/`, featureData, localStorage.getItem('access') && config)
+        axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/features/`, featureData, localStorage.getItem('access') && config)
         .then(response => {
             setCreated(true);
             setDisable(false);
@@ -100,24 +87,21 @@ const Edit = () => {
         .catch(e => console.error(e.message))
     }
 
+    // Удаление характеристика
     const deleteFeatureHandle = async (owner, isbn_code, id) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            await axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/feature/${id}/`, localStorage.getItem('access') && config)
-            
+            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/feature/${id}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
         }
     }
+    // =========================================================
+
 
     // AI image
     const [AImage, setAImage] = useState(null);
-
+    
+    // onChange для AI
     const handleAIChange = (e) => {
 		if ([e.target.name].toString() === 'image') {
 			setAImage({
@@ -128,54 +112,43 @@ const Edit = () => {
     const data = new FormData();
     AImage && data.append('image', AImage.image[0]);
 
+    // Добавление AI
     const handleAI = e => {
         e.preventDefault();
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.post(`${LOCAL_URL}/product/${params.owner}/${params.isbn_code}/ais/`, data, localStorage.getItem('access') && config)
+
+        axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/ais/`, data, localStorage.getItem('access') && config)
         .then(response => {
             setCreated(true);
             setDisable(false);
         })
         .catch(e => console.error(e.message))
     }
-    
+
+    // Удаление AI
     const deleteAI = async (owner, isbn_code, id) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            await axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/ai/${id}/`, localStorage.getItem('access') && config)
-            
+            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/ai/${id}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
         }
     }
+    // =========================================================
+
 
     // Videohosting
     const [videoData, setVideoData] = useState({title: '', frame_url: '', body: '', access: true});
     const { title, frame_url, body, access } = videoData;
-
+    
+    // onChange для Videohosting
     const videoChange = e => setVideoData({ ...videoData, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value });
 
+    // Добавление Video
     const handleVideo = e => {
         e.preventDefault();
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.post(`${LOCAL_URL}/product/${params.owner}/${params.isbn_code}/videohosting/`, videoData, localStorage.getItem('access') && config)
+
+        axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/videohosting/`, videoData, localStorage.getItem('access') && config)
         .then(response => {
             setCreated(true);
             setDisable(false);
@@ -185,32 +158,21 @@ const Edit = () => {
 
     const deleteVideo = async (owner, isbn_code, id) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            await axios.delete(`${LOCAL_URL}/product/${owner}/${isbn_code}/video/${id}/`, localStorage.getItem('access') && config)
+   
+            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/video/${id}/`, localStorage.getItem('access') && config)
             
         } catch(e) {
             console.log(e.message);
         }
     }
-    
+    // =========================================================
 
     // UseEffect
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
             try {
-                const response = await axios.get(`${LOCAL_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProduct(response.data.products);
                     setVideohosting(response.data.videohosting);
@@ -261,15 +223,6 @@ const Edit = () => {
 
     if (created) {
         return <Redirect to={`/product/${product.owner.brandname}/${product.isbn_code}/`}/>
-    }
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
     }
 
     return (

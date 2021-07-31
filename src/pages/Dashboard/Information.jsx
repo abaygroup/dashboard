@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import {Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loader from './../../components/Loader';
-import { motion } from "framer-motion";
-import { LOCAL_URL } from '../../actions/types';
+import { BACKEND_URL, config, item } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
-
+import { motion } from "framer-motion";
 import { InformationContainer } from './styles/information';
 import { Center } from './styles/overview';
 
@@ -44,14 +43,10 @@ const Information = () => {
 		}
     }
 
+    // Сохранение профиля
     const onSubmit = async (data) => {
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
+
         const formData = new FormData()
         logotypeImg && formData.append('logotype', logotypeImg.logotype[0]);
         formData.append('first_name', data.first_name);
@@ -65,7 +60,7 @@ const Information = () => {
         formData.append('branding', profile.branding);
 
         try {
-            const response = await axios.put(`${LOCAL_URL}/owner/`, formData, localStorage.getItem('access') && config);
+            const response = await axios.put(`${BACKEND_URL}/owner/`, formData, localStorage.getItem('access') && config);
             setProfile(response.data);
             setDisable(false);
             setCreated(true)
@@ -74,14 +69,9 @@ const Information = () => {
         }
     }
     
+    // Удаление логотипа
     const deleteLogo = () => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.delete(`${LOCAL_URL}/owner/logo/`, localStorage.getItem('access') && config)
+        axios.delete(`${BACKEND_URL}/owner/logo/`, localStorage.getItem('access') && config)
             .then(response => {
                 console.log(response.data);
             })
@@ -92,13 +82,7 @@ const Information = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`${LOCAL_URL}/owner/`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/owner/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProfile(response.data);
                     setLoading(false);
@@ -113,15 +97,6 @@ const Information = () => {
 
     if (created) {
         return <Redirect to="/" />
-    }
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
     }
     
     return (
@@ -223,7 +198,6 @@ const Information = () => {
                         </div>
                     </div>
                 </div>
-
             </motion.form>}
         </InformationContainer>
     )

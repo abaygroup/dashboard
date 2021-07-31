@@ -5,7 +5,7 @@ import Loader from '../../components/Loader';
 import { motion } from "framer-motion";
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { LOCAL_URL } from '../../actions/types';
+import { BACKEND_URL, config, item } from '../../actions/types';
 
 import { useTranslation } from 'react-i18next';
 import { MessageContainer } from './styles/message';
@@ -17,23 +17,16 @@ const Message = () => {
     const { register, handleSubmit } = useForm();
     const [disable, setDisable] = useState(false);
     const [created, setCreated] = useState(false);
-
     const { t } = useTranslation();
 
     const onSubmit = async (data) => {
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         const formData = new FormData()
         formData.append('title', data.title);
         formData.append('body', data.body);
 
         try {
-            await axios.post(`${LOCAL_URL}/notification/`, formData, localStorage.getItem('access') && config);
+            await axios.post(`${BACKEND_URL}/notification/`, formData, localStorage.getItem('access') && config);
             setDisable(false);
             setCreated(true)
         } catch (e) {
@@ -41,23 +34,12 @@ const Message = () => {
         }
     };
 
-    useEffect(() => {
-        setLoading(false)
-    }, [])
+    useEffect(() => setLoading(false), [])
 
     if (created) {
         return <Redirect to="/" />
     }
 
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    }
-    
     return (
         <MessageContainer>
             {loading ? <Center><Loader /></Center> :

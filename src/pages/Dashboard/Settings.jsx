@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Center } from './styles/overview';
 import { SettingContainer } from './styles/settings';
 import axios from 'axios';
-import { LOCAL_URL } from '../../actions/types';
+import { BACKEND_URL, config, item } from '../../actions/types';
 import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
@@ -15,34 +15,16 @@ const Settings = () => {
     const { t } = useTranslation();
 
     const passwordChangeSubmit = async (data) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         const formData = JSON.stringify(data)
         try {
-            const response = await axios.put(`${LOCAL_URL}/accounts/password-change/`, formData, localStorage.getItem('access') && config);
+            const response = await axios.put(`${BACKEND_URL}/accounts/password-change/`, formData, localStorage.getItem('access') && config);
             console.log(response.data);
         } catch (e) {
             console.error(e.message)
         }
     }
 
-    useEffect(() => {
-        setLoading(false)
-    }, []);
-
-    
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    }
+    useEffect(() => setLoading(false), []);
 
     return (
         <SettingContainer>

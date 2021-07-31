@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityContainer } from './styles/activities';
 import { Center } from './styles/overview';
 import picture from '../../assets/images/picture.jpg';
+import { BACKEND_URL, config, item } from '../../actions/types';
 
 
 const Activity = () => {
@@ -17,29 +18,20 @@ const Activity = () => {
 
     const { t } = useTranslation();
 
-    const deleteAll = () => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
+    // Удаление все активности
+    const deleteAll = async () => {
+        try {
+            await axios.delete(`${BACKEND_URL}/activities/`, config)
+        } catch(e) {
+            console.log(e.message)
         }
-        axios.delete('http://127.0.0.1:8000/activities/', config)
-            .then(res => console.log(res.data))
-            .catch(e => console.log(e.message))
     }
 
     useEffect(() => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
-                const response = await axios.get(`http://127.0.0.1:8000/activities/`, localStorage.getItem('access') && config);
+                const response = await axios.get(`${BACKEND_URL}/activities/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setDashboard(response.data.dashboard)
                     setActivities(response.data.activities);
@@ -53,15 +45,6 @@ const Activity = () => {
         fetchData()
         return () => cleanupFunction = true;
     }, [activities])
-
-    // For motion
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    }
     
     return (
         <ActivityContainer>
@@ -71,7 +54,7 @@ const Activity = () => {
                 variants={item} 
                 transition={{duration: 0.25}}
                 className="activities">
-                {activities.length > 0 && <small onClick={deleteAll} className="del-all-btn">{t('dashboard.activities.delete_btn')}</small>}
+                {activities.length > 0 && <small onClick={() => window.confirm(t('dashboard.activities.confirm')) && deleteAll} className="del-all-btn">{t('dashboard.activities.delete_btn')}</small>}
                 {loading ? <Center><Loader /></Center> : activities.length > 0 ?
                 activities.map((activity, i) => {
                     const date = new Date(Date.parse(activity.created_at))
@@ -90,17 +73,18 @@ const Activity = () => {
                 initial="hidden" 
                 animate="visible" 
                 variants={item} 
-                transition={{duration: 0.25}}>
-                    {posts.length > 0 ? posts.map((post, i) => {
+                transition={{duration: 0.25}}
+                className="posts">
+                    {posts.length > 0 && posts.map((post, i) => {
                         const date = new Date(Date.parse(post.date_created))
                         return (
-                            <div className="idv" key={i}>
+                            <div className="post" key={i}>
                                 <h3>{post.title}</h3>
                                 <p>{post.description}</p>
                                 <p style={{color: "dimgray", marginTop: "5px"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></p>
                             </div>
                         )
-                    }) : ""}
+                    })}
             </motion.div>
         </ActivityContainer>
     )
