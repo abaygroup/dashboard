@@ -96,24 +96,4 @@ export const MessageContainer = styled.div`
             }
         }
     }
-
-    @media screen and (max-width: 1280px) {
-        width: 1024px;
-    }
-
-    @media screen and (max-width: 1040px) {
-        width: 100%;
-
-        .message {
-            margin: 20px auto;
-            
-            .instruction {
-                display: none;
-            }
-    
-            form {
-                width: 100%;
-            }
-        }
-    }
 `;

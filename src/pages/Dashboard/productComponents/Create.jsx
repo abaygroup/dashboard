@@ -128,6 +128,8 @@ const Create = () => {
         return <Redirect to='/' />
     }
 
+    document.title = "Создание продукта";
+
     return (
         <Container>
             {loading ? 

@@ -54,6 +54,8 @@ const Notification = () => {
         return () => cleanupFunction = true;
     }, [notification])
 
+    document.title = "Уведомление";
+
     return (
         <NotificationContainer>
             <motion.div 

@@ -79,6 +79,8 @@ const Detail = () => {
         imageRef.current.src = e.target.src;
     }
 
+    document.title = product.title || "...";
+
     return (
         <ProductDetail>
             <Link className="close" to="/products">{t('dashboard.detail.close')}</Link>

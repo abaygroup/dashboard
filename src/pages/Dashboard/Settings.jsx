@@ -32,6 +32,8 @@ const Settings = () => {
 
     useEffect(() => setLoading(false), []);
 
+    document.title = "Настройки";
+
     return (
         <SettingContainer>
             {loading ? <Center><Loader/></Center> :

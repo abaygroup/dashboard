@@ -46,6 +46,8 @@ const Message = () => {
         return <Redirect to="/" />
     }
 
+    document.title = "Сообщение";
+
     return (
         <MessageContainer>
             {loading ? <Center><Loader /></Center> :

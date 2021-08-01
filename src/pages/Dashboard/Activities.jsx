@@ -58,6 +58,8 @@ const Activity = () => {
         return () => cleanupFunction = true;
     }, [activities])
     
+    document.title = "Активности";
+
     return (
         <ActivityContainer>
             <motion.div 

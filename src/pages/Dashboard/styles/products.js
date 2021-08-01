@@ -140,40 +140,4 @@ export const ProductsContainer = styled.div`
             }
         }
     }
-
-    @media screen and (max-width: 1280px) {
-        width: 1024px;
-    
-        .product-list {
-            width: 80%;
-        }
-        .filter {
-            width: 20%;
-        }
-    }
-
-    @media screen and (max-width: 1040px) {
-        width: 100%;
-    
-        .product-list {
-            width: 90%;
-            margin: 0 auto;
-        }
-        .filter {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width: 900px) {
-        .product-list {
-            .product {
-                .title {
-                    width: 100%; 
-                }
-                .image {
-                    display: none;
-                }
-            }
-        }
-    }
 `;

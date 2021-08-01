@@ -58,6 +58,8 @@ const Products = () => {
         }
     }
 
+    document.title = "Продукты";
+
     return (
         <ProductsContainer>
             <motion.div 

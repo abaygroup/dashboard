@@ -90,13 +90,4 @@ export const SettingContainer = styled.div`
             }
         }
     }
-
-
-    @media screen and (max-width: 1280px) {
-        width: 1024px;
-    }
-
-    @media screen and (max-width: 1040px) {
-        width: 100%;
-    }
 `;

@@ -275,6 +275,8 @@ const Edit = () => {
         return <Redirect to={`/product/${product.owner.brandname}/${product.isbn_code}/`}/>
     }
 
+    document.title = `Изменение продукта ${product.title}` || "...";
+
     return (
         <Container>
             {loading ? 

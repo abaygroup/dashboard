@@ -116,6 +116,8 @@ const Information = () => {
     if (created) {
         return <Redirect to="/" />
     }
+
+    document.title = "Профиль";
     
     return (
         <InformationContainer>
