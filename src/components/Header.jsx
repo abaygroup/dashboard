@@ -42,13 +42,6 @@ const HeaderContainer = styled.div`
             }
         }
     }
-
-    @media screen and (max-width: 1024px) {
-        .intro-header {
-            width: 100%;
-            padding: 20px 20px;
-        }
-    }
 `;
 
 const Navigation = styled.div`
@@ -93,25 +86,6 @@ const Navigation = styled.div`
             &:first-child, &:last-child {
                 margin: 0;
             }
-        }
-    }
-
-    @media screen and (max-width: 1024px) {
-        nav {
-            width: 100%;
-            padding: 0 20px;
-            overflow: auto;
-            white-space: nowrap;
-        }
-    }
-
-    @media screen and (max-width: 660px) {
-        nav {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: auto;
-            white-space: nowrap;
         }
     }
 `;

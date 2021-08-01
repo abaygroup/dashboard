@@ -61,7 +61,6 @@ const ProfileContainer = styled.div`
                         text-decoration: underline;
                     }
                 }
-
             }
 
             .checked {
@@ -94,46 +93,6 @@ const ProfileContainer = styled.div`
                 border: 1px solid ${({theme}) => theme.btnBackground};
                 color: ${({theme}) => theme.btnBackground};
                 background: transparent;
-            }
-        }
-    }
-
-    @media screen and (max-width: 1024px) {
-        .intro-profile {
-            width: 100%;
-            justify-content: space-around;
-        }
-    }
-
-    @media screen and (max-width: 660px) {
-        
-        .intro-profile {
-            width: 100%;
-            display: block;
-            text-align: center;
-            
-            .brand {
-                display: block;
-
-                .avatar {
-                    width: 90px;
-                    height: 90px;
-                    margin: 0 auto;
-                }
-                .title {
-                    margin: 10px;
-
-                    h1 {
-                        font-size: 26px;
-                    }
-                }
-
-                .checked {
-                    transform: translate(80px,-105px);
-                    img {
-                        position: relative
-                    }
-                }
             }
         }
     }
