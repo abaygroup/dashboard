@@ -164,6 +164,8 @@ export const ProductsContainer = styled.div`
 
     @media screen and (max-width: 720px) {
         .product-list {
+            padding: 20px 10px;
+
             .product {
                 flex-direction: column;
                 justify-content: flex-start;

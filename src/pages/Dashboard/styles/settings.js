@@ -99,5 +99,9 @@ export const SettingContainer = styled.div`
 
     @media screen and (max-width: 1040px) {
         width: 100%;
+
+        .domain, .password-change {
+            padding: 0 10px;
+        }
     }
 `;
