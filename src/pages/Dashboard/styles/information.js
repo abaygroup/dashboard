@@ -60,6 +60,7 @@ export const InformationContainer = styled.div`
                         font-family: "Inter", sans-serif;
                     }
                     textarea {
+                        width: 100%;
                         resize: vertical;
                         display: block;
                     }

@@ -200,7 +200,7 @@ const Information = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.information.profile.profile_form.address')}</label>
-                            <textarea cols="40" rows="5" defaultValue={profile.address} {...register("address")} />
+                            <textarea rows="5" defaultValue={profile.address} {...register("address")} />
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">

@@ -78,7 +78,7 @@ const Message = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="">{t('dashboard.message.sending.body')}</label>
-                        <textarea {...register("body")} cols="50" rows="5"></textarea>
+                        <textarea {...register("body")} rows="5"></textarea>
                     </div>
                     <div className="submit">
                         {disable ? <Loader /> : <input type="submit" value={t('dashboard.message.sending.submit')} />}

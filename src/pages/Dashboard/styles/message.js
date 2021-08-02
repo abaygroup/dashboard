@@ -58,6 +58,7 @@ export const MessageContainer = styled.div`
                     font-family: "Inter", sans-serif;
                 }
                 textarea {
+                    width: 80%;
                     resize: vertical;
                     display: block;
                 }
@@ -117,6 +118,12 @@ export const MessageContainer = styled.div`
             form {
                 width: 100%;
                 margin: 0 20px;
+
+                .form-group {
+                    textarea {
+                        width: 100%;
+                    }
+                }
             }
         }
     }
