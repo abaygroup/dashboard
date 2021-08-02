@@ -10,6 +10,7 @@ import { BACKEND_URL, item } from '../../actions/types';
 import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
+    const [dashboard, setDashboard] = useState({})
     const [loading, setLoading] = useState(true);
     const { register, handleSubmit } = useForm();
     const { t } = useTranslation();
@@ -30,9 +31,31 @@ const Settings = () => {
         }
     }
 
-    useEffect(() => setLoading(false), []);
+    useEffect(() => {
+        let cleanupFunction = false;
+        const fetchData = async () => {
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${localStorage.getItem('access')}`
+                    }
+                }
+                const response = await axios.get(`${BACKEND_URL}/settings/`, localStorage.getItem('access') && config);
+                if(!cleanupFunction) {
+                    setDashboard(response.data);
+                    setLoading(false);
+                }
+            } catch (e) {
+                console.error(e.message)
+            }
+        };
+        fetchData()
+        return () => cleanupFunction = true;
+    }, []);
 
-    document.title = "Настройки";
+    
+    document.title = "Настройки | Панель управление";
 
     return (
         <SettingContainer>
@@ -48,7 +71,7 @@ const Settings = () => {
                     <h4>{t('dashboard.settings.domain.h4')}</h4>
                     <div className="form-group">
                         <label htmlFor="">{t('dashboard.settings.domain.website')}</label>
-                        <input type="text" defaultValue="mywebsite.com" name="website" disabled={true}/>
+                        <input type="text" defaultValue={dashboard.website} name="website" disabled={true}/>
                         <small className="help-text"></small>
                     </div>
                 </form>
