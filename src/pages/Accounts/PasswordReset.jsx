@@ -50,6 +50,8 @@ const PasswordReset = ({ reset_password }) => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
     }
+
+    document.title = "Сброс пароля | aBay st.";
     
     return (
         <div className="accounts-container">

@@ -94,6 +94,8 @@ const Register = ({isAuthenticated, signup }) => {
         visible: { opacity: 1 },
     }
 
+    document.title = "Регистрация | aBay st.";
+
     return (
         <div className="accounts-container">
             <div className="accounts-block">

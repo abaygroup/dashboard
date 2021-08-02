@@ -34,6 +34,8 @@ const Activate = ({ verify, match }) => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
     }
+
+    document.title = "Активация | aBay st.";
     
     return (
         <div className="accounts-container">

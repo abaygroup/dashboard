@@ -59,6 +59,8 @@ const PasswordResetConfirm = ({ match, reset_password_confirm }) => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
     }
+
+    document.title = "Новый пароль | aBay st.";
     
     return (
         <div className="accounts-container">

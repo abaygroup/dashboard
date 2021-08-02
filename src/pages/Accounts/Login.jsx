@@ -55,6 +55,8 @@ const Login = ({isAuthenticated, login }) => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
     }
+
+    document.title = "Авторизация | aBay st.";
     
     return (
         <div className="accounts-container">
