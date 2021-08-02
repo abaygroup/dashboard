@@ -68,7 +68,7 @@ const Activity = () => {
                 variants={item} 
                 transition={{duration: 0.25}}
                 className="activities">
-                {activities.length > 0 && <small onClick={() => window.confirm(t('dashboard.activities.confirm')) && deleteAll} className="del-all-btn">{t('dashboard.activities.delete_btn')}</small>}
+                {activities.length > 0 && <small onClick={() => window.confirm(t('dashboard.activities.confirm')) && deleteAll()} className="del-all-btn">{t('dashboard.activities.delete_btn')}</small>}
                 {loading ? <Center><Loader /></Center> : activities.length > 0 ?
                 activities.map((activity, i) => {
                     const date = new Date(Date.parse(activity.created_at))

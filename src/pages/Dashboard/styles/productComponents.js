@@ -175,6 +175,64 @@ export const Container = styled.div`
             border-bottom: 1px solid ${({theme}) => theme.borderColor};
         }
     }
+
+    // ========================================
+    @media screen and (max-width: 1280px) {
+        width: 1024px;
+    
+        .edit-form {
+            form {
+                .form-group {
+                    label {
+                        display: block;
+                    }
+                }
+            }
+
+            .videohosting {
+                .col-field {
+                    .form-group {
+                        a {
+                            width: 260px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+
+        .edit-form, .create-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            .instruction {
+                display: none;
+            }
+    
+            .main-edit {
+                width: 100%;
+            }
+    
+            form {
+                margin: 20px;
+    
+                .form-group {
+                    label {
+                        display: inline-block;
+                    }
+                }
+            }
+
+            .videohosting {
+                width: 100%;
+                padding: 0 20px;
+            }
+        }
+    }
 `;
 
 
@@ -378,6 +436,63 @@ export const ProductDetail = styled.div`
                         }
                     }
                 }
+            }
+        }
+    }
+
+    // ========================================
+    @media screen and (max-width: 1200px) {
+        .product-block {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+    
+            .product {
+                width: 80%;
+                margin: 0;
+                .images {
+                    .main-image {
+                        width: 100%;
+                        margin: 0;
+            
+                        img {
+                            box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
+                            border-radius: 10px;
+                            width: 100%;
+                        }
+                    }
+            
+                    .ai-images {
+                        width: 100%;
+                        overflow: auto
+                        white-space: nowrap;
+                    }
+                }
+
+                .product-info {
+                    padding: 10px 0px;
+                }
+
+                .features {
+                    margin: 20px 0;
+                }
+            }
+    
+            .videohosting {
+                width: 80%;
+                margin: 0;
+            }
+        }
+    }
+
+
+    @media screen and (max-width: 720px) {
+        .product-block {
+            .product {
+                width: 100%;
+            }
+            .videohosting {
+                width: 100%;
             }
         }
     }

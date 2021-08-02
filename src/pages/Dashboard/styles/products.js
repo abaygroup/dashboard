@@ -100,6 +100,7 @@ export const ProductsContainer = styled.div`
 
             .image {
                 img {
+                    height: 120px;
                     border-radius: 5px;
                 }
             }
@@ -136,6 +137,55 @@ export const ProductsContainer = styled.div`
                 }
                 input {
                     padding: 5px;
+                }
+            }
+        }
+    }
+
+    // ===========================================
+
+    @media screen and (max-width: 1280px) {
+        width: 1024px;
+    }
+
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+        justify-content: center;
+
+        .product-list {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .filter {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 720px) {
+        .product-list {
+            .product {
+                flex-direction: column;
+                justify-content: flex-start;
+    
+                .title {
+                    width: 100%;
+                
+                    .owner {
+                        margin: 10px 0;
+                        flex-wrap: wrap;
+                        
+                        small {
+                            padding: 5px 10px;
+                        }
+                    }
+                }
+
+                .image {
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
                 }
             }
         }

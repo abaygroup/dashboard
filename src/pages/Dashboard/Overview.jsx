@@ -85,7 +85,6 @@ const Overview = () => {
                     
                 {products.length > 0 && <Link to="/products" className="view-all">{t('dashboard.overview.product.all_view')}</Link>}
             </motion.div>
-
             <motion.div
                 initial="hidden" 
                 animate="visible" 
@@ -106,7 +105,7 @@ const Overview = () => {
                                 <small style={{ textAlign: "center"}}><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{date}</Moment></small>
                             </div>
                         )
-                    }) : <small style={{ display: "block" }}>{t('dashboard.overview.activity.while')}</small>}
+                    }) : <small style={{ display: "block", textAlign: "center" }}>{t('dashboard.overview.activity.while')}</small>}
                 </div>
                 {activities.length > 0 && <Link to="/activities" className="view-all">{t('dashboard.overview.activity.all_view')}</Link>}
             </motion.div>

@@ -69,4 +69,31 @@ export const ActivityContainer = styled.div`
             }
         }
     }
+
+    // ==============================================
+
+    @media screen and (max-width: 1280px) {
+        width: 1024px;
+    }
+
+    @media screen and (max-width: 1040px) {
+        width: 100%;
+        padding: 0 20px;
+        flex-direction: column;
+
+        .activities {
+            width: 100%;
+            margin: 20px 0;
+        }
+    
+        .posts {
+            width: 100%;
+    
+            .post {
+                margin: 40px 0;
+                padding-left: 20px;
+            }
+        }
+    }
+
 `;

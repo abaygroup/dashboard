@@ -42,12 +42,21 @@ const HeaderContainer = styled.div`
             }
         }
     }
+
+    // ===================================================
+    
+    @media screen and (max-width: 1040px) {
+        .intro-header {
+            width: 100%;
+            justify-content: space-around;
+        }
+    }
 `;
 
 const Navigation = styled.div`
     position: sticky;
     background-color: ${({theme}) => theme.background };
-    top: 0;
+    top: 0; left: 0;
     border-bottom: 1px solid ${({theme}) => theme.borderColor };
     z-index: 1000;
 
@@ -86,6 +95,24 @@ const Navigation = styled.div`
             &:first-child, &:last-child {
                 margin: 0;
             }
+        }
+    }
+
+    // ===================================================
+
+    @media screen and (max-width: 1040px) {
+        nav {
+            width: 100%;
+            padding: 0 40px;
+        }
+    }
+
+    @media screen and (max-width: 720px) {
+        nav {
+            width: 100%;
+            padding: 0;
+            overflow: auto;
+            white-space: nowrap;
         }
     }
 `;

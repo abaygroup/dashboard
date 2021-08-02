@@ -153,6 +153,41 @@ export const OverviewContainer = styled.div`
             opacity: .7;
         }
     }
+    
+    // ===========================================
+
+    @media screen and (max-width: 1040px) {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        .products-overview {
+            width: 80%;
+            padding: 0 0 20px 0;
+        }
+
+        .activity {
+            width: 80%;
+            padding: 20px 0 0 0;
+
+            .activities {
+                margin: 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 720px) {
+        .products-overview {
+            width: 100%;
+            padding: 0 10px 20px 10px;
+        }
+
+        .activity {
+            width: 100%;
+            padding: 20px 10px 0 10px;
+        }
+    }
 `;
 
 export const Center = styled.div`

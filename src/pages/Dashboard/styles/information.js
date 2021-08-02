@@ -100,4 +100,39 @@ export const InformationContainer = styled.div`
             }
         }
     }
+
+    // ======================================
+
+    @media screen and (max-width: 1280px) {
+        width: 1024px;
+    }
+
+    @media screen and (max-width: 1040px) {
+        width: 100%;
+
+        .profile-form {
+            width: 100%;
+    
+            .flex-row {
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+    
+                .row {
+                    width: 100%;
+                    margin: 10px 0;
+                    text-align: center;
+
+                    .form-group {
+                        .logotype-side {
+                            justify-content: center;
+                        }
+                        textarea {
+                            margin: 0 auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
 `;

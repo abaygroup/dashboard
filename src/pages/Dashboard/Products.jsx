@@ -91,7 +91,7 @@ const Products = () => {
                                         </div>
                                     </div>
                                     <div className="image">
-                                        <img src={product.picture ? product.picture : picture} height="120" alt="" />
+                                        <img src={product.picture ? product.picture : picture} alt="" />
                                     </div>
                                 </div>   
                             )
