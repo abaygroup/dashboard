@@ -148,18 +148,6 @@ const ProfileContainer = styled.div`
                         }
                     }
                 }
-    
-                .checked {
-                    position: relative;
-    
-                    img {
-                        position: absolute;
-                        top: 10px;
-                        width: 24px;
-                        box-shadow: 0 5px 10px rgb(0 0 0 / 12%);
-                        border-radius: 50%;
-                    }
-                }
             }
     
             .create-proj-btn {
@@ -215,7 +203,7 @@ const ProfileContainer = styled.div`
                 .checked {
                     img {
                         top: 18px;
-                        left: -30px;
+                        left: -10px;
                     }
                 }
             }
