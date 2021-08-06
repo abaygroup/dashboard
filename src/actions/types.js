@@ -18,7 +18,7 @@ export const LOGOUT = 'LOGOUT';
 
 // URL
 // export const BACKEND_URL = 'http://127.0.0.1:8000';
-export const BACKEND_URL = 'https://abaygroup.pythonanywhere.com';
+export const BACKEND_URL = 'https://api.abaystreet.com';
 
 // Get Token
 export const config = {
