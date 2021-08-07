@@ -29,14 +29,10 @@ export const Container = styled.div`
                     margin: 10px 40px;
                     line-height: 1.5;
                 }
-            }
-        }
 
-        .main-edit {
-            width: 55%;
-
-            form {
-                width: auto;
+                a {
+                    color: rgb(0, 110, 255);
+                }
             }
         }
 
@@ -141,38 +137,57 @@ export const Container = styled.div`
                 width: 100%;
             }
         }
-    }
-
-    .videohosting {
-        width: 45%;
-        
-        .col-field {
-            .form-group {
-                margin: 0 5px;
-
-                a {
-                    display: block;
-                    width: 360px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    font-size: 14px;
-                    &:hover {
-                        text-decoration: underline; 
-                    }
-                }
-
-                img {
-                    margin: 0 5px;
-                    width: 20px;
-                }
-                textarea {
-                    width: 90%;
-                }
+    
+        .main-edit {
+            width: 55%;
+    
+            form {
+                width: auto;
             }
         }
-        .lists {
-            border-bottom: 1px solid ${({theme}) => theme.borderColor};
+    
+        .videohosting {
+            width: 45%;
+
+            .help-text {
+                color: dimgray;
+                a {
+                    color: rgb(0, 110, 255);
+                }
+            }
+            
+            .col-field {
+                .form-group {
+                    margin: 0 5px;
+    
+                    a {
+                        display: block;
+                        width: 300px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        font-size: 14px;
+                        &:hover {
+                            text-decoration: underline; 
+                        }
+                    }
+    
+                    img {
+                        margin: 0 5px;
+                        width: 20px;
+                    }
+                    textarea {
+                        width: 90%;
+                    }
+                }
+            }
+            .lists {
+                border-bottom: 1px solid ${({theme}) => theme.borderColor};
+
+                small {
+                    margin: 0 5px;
+                }
+            }
         }
     }
 
@@ -368,8 +383,6 @@ export const ProductDetail = styled.div`
         .videohosting {
             width: 40%;
 
-            margin-left: 20px;
-            
             .video-box {
                 background: ${({theme}) => theme.background};
                 border-radius: 5px;
@@ -441,6 +454,11 @@ export const ProductDetail = styled.div`
     }
 
     // ========================================
+    @media screen and (min-width: 1800px) {
+        width: 1280px;
+        margin: 0 auto;
+    }
+
     @media screen and (max-width: 1200px) {
         .product-block {
             flex-direction: column;

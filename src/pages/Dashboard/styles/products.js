@@ -146,6 +146,14 @@ export const ProductsContainer = styled.div`
 
     @media screen and (max-width: 1280px) {
         width: 1024px;
+
+        .product-list {
+            .product {
+                .image {
+                    margin: 0 5px;
+                }
+            }
+        }
     }
 
     @media screen and (max-width: 1024px) {
@@ -184,6 +192,7 @@ export const ProductsContainer = styled.div`
                 }
 
                 .image {
+                    margin: 0;
                     img {
                         width: 100%;
                         height: auto;

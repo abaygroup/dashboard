@@ -12,9 +12,11 @@ import { BACKEND_URL, item } from '../../actions/types';
 import { useTranslation } from 'react-i18next';
 import { ProductsContainer } from './styles/products';
 import { Center } from './styles/overview'; 
+import { deleteProduct } from '../../actions/product';
+import { connect } from 'react-redux';
 
 
-const Products = () => {
+const Products = ({deleteProduct}) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [mainInput, setMainInput] = useState('');
@@ -44,21 +46,11 @@ const Products = () => {
     }, [products, mainInput])
 
     // Удаление продукта
-    const deleteProductHandle = async (owner, isbn_code) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/`, localStorage.getItem('access') && config)
-        } catch(e) {
-            console.log(e.message);
-        }
+    const deleteProductHandle = (owner, isbn_code) => {
+        deleteProduct({owner, isbn_code})
     }
 
-    document.title = "Продукты";
+    document.title = "Продукты | Панель управление";
 
     return (
         <ProductsContainer>
@@ -117,4 +109,4 @@ const Products = () => {
     )
 }
 
-export default Products
+export default connect(null, { deleteProduct })(Products);

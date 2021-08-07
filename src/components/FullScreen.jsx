@@ -13,11 +13,10 @@ const LoaderContainer = styled.div`
 
     .loading-box {
         position: absolute;
-        top: 40%; left: 50%;
+        top: 50%; left: 42%;
 
         div {
             position: absolute;
-            top: 33px;
             width: 13px;
             height: 13px;
             border-radius: 50%;

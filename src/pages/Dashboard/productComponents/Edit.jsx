@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Redirect, useParams } from 'react-router';
-import { BACKEND_URL, item } from '../../../actions/types';
+import { useParams } from 'react-router';
+import { BACKEND_URL, config, item } from '../../../actions/types';
 import { motion } from "framer-motion";
 import Loader from '../../../components/Loader';
 import { useForm } from "react-hook-form";
@@ -9,69 +9,55 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 import { Container } from '../styles/productComponents';
 import { Center } from '../styles/overview';
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addAI, addFeature, updateProduct, addVideo } from '../../../actions/product';
 
 
+const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
+    const [product, setProduct] = useState({});
+    const [videohosting, setVideohosting] = useState([]);
+    const [features, setFeatures] = useState([]);
+    const [ai, setAi] = useState([]);
 
-const Edit = () => {
-    const [product, setProduct] = useState({})
-    const [videohosting, setVideohosting] = useState([])
-    const [features, setFeatures] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [ai, setAi] = useState([])
-    let params = useParams()
-    const [created, setCreated] = useState(false)
-    const [disable, setDisable] = useState(false)
+    const [disable, setDisable] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { register, handleSubmit } = useForm();
     const [productImage, setProductImage] = useState(null);
+    let params = useParams();
+    const {owner, isbn_code} = params;
 
     const { t } = useTranslation();
+    let history = useHistory();
 
     // onChange для изброжение
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'picture') {
-			setProductImage({
-				picture: e.target.files,
-			});
+            if (e.target.files[0].size < 5000000) {
+                setProductImage({
+                    picture: e.target.files,
+                });
+            } else {
+                alert('Изброжение слишком большой. Рекомендуемые размер менее 5MB');
+                e.target.value = '';
+            }
 		}
     }
 
     // Изменение продукта
     const onSubmit = async (data) => {
-        setDisable(true);
-        const formData = new FormData()
-        formData.append('title', data.title);
-        formData.append('brand', data.brand);
-        formData.append('subcategory', data.subcategory);
-        productImage && formData.append('picture', productImage.picture[0]);
-        formData.append('first_price', data.first_price);
-        formData.append('last_price', data.last_price);
-        formData.append('body', data.body);
-
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
-            const response = await axios.put(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, formData, localStorage.getItem('access') && config);
-            setProduct(response.data)
-            setCreated(true);
-            setDisable(false);
-        } catch (e) {
-            console.error(e.message)
-        }
+        setDisable(true)
+        const {title, brand, subcategory, first_price, last_price, body} = data
+        updateProduct({owner, isbn_code, title, brand, subcategory, productImage, first_price, last_price, body})
+        setTimeout(() => {
+            setDisable(false)
+            history.push(`/product/${owner}/${isbn_code}`)
+        }, 1500)
     }
 
     // Удаление изброжение
     const deletePicture = (owner, isbn_code) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
         axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/picture/`, localStorage.getItem('access') && config)
             .then(response => {
                 console.log(response.data);
@@ -90,29 +76,16 @@ const Edit = () => {
     const handleFeature = e => {
         e.preventDefault()
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/features/`, featureData, localStorage.getItem('access') && config)
-        .then(response => {
-            setCreated(true);
-            setDisable(false);
-        })
-        .catch(e => console.error(e.message))
+        addFeature({owner, isbn_code, label, value})
+        setTimeout(() => {
+            setDisable(false)
+            setFeatureData({label: '', value: ''})
+        }, 1500);
     }
 
     // Удаление характеристика
     const deleteFeatureHandle = async (owner, isbn_code, id) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/feature/${id}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
@@ -127,41 +100,31 @@ const Edit = () => {
     // onChange для AI
     const handleAIChange = (e) => {
 		if ([e.target.name].toString() === 'image') {
-			setAImage({
-				image: e.target.files,
-			});
+            if (e.target.files[0].size < 5000000) {
+                setAImage({
+                    image: e.target.files,
+                });
+            } else {
+                alert('Изброжение слишком большой. Рекомендуемые размер менее 5MB');
+                e.target.value = ''
+            }
 		}
     }
-    const data = new FormData();
-    AImage && data.append('image', AImage.image[0]);
 
     // Добавление AI
     const handleAI = e => {
         e.preventDefault();
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/ais/`, data, localStorage.getItem('access') && config)
-        .then(response => {
-            setCreated(true);
+        addAI({owner, isbn_code, AImage})
+        setTimeout(() => { 
             setDisable(false);
-        })
-        .catch(e => console.error(e.message))
+            window.location.reload();
+        }, 1500);
     }
 
     // Удаление AI
     const deleteAI = async (owner, isbn_code, id) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/ai/${id}/`, localStorage.getItem('access') && config)
         } catch(e) {
             console.log(e.message);
@@ -181,30 +144,16 @@ const Edit = () => {
     const handleVideo = e => {
         e.preventDefault();
         setDisable(true);
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        axios.post(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/videohosting/`, videoData, localStorage.getItem('access') && config)
-        .then(response => {
-            setCreated(true);
+        addVideo({owner, isbn_code, videoData})
+        setTimeout(() => {
             setDisable(false);
-        })
-        .catch(e => console.error(e.message))
+            setVideoData({title: '', frame_url: '', body: '', access: true});
+        }, 1500)
     }
 
     const deleteVideo = async (owner, isbn_code, id) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${localStorage.getItem('access')}`
-                }
-            }
             await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/video/${id}/`, localStorage.getItem('access') && config)
-            
         } catch(e) {
             console.log(e.message);
         }
@@ -216,12 +165,6 @@ const Edit = () => {
         let cleanupFunction = false;
         const fetchData = async () => {
             try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${localStorage.getItem('access')}`
-                    }
-                }
                 const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProduct(response.data.products);
@@ -271,10 +214,6 @@ const Edit = () => {
         }
     }
 
-    if (created) {
-        return <Redirect to={`/product/${product.owner.brandname}/${product.isbn_code}/`}/>
-    }
-
     document.title = `Изменение продукта ${product.title}` || "...";
 
     return (
@@ -283,7 +222,7 @@ const Edit = () => {
                 <Center><Loader /></Center>
             :
             <React.Fragment>
-                <h4>{t('dashboard.update.h4')} {product.title}</h4>
+                <h4>{t('dashboard.product.update.h4')} {product.title}</h4>
                 <motion.div 
                     initial="hidden" 
                     animate="visible" 
@@ -293,89 +232,89 @@ const Edit = () => {
                     <div className="main-edit">
                         <form action="" className="description" onSubmit={handleSubmit(onSubmit)}>
                             {/* Описание товара */}
-                            <h4>{t('dashboard.update.main_form.h4')}</h4>
+                            <h4>{t('dashboard.product.update.main_form.h4')}</h4>
                             <div className="form-group">
                                 {product.picture &&
                                 <div className="picture-side">
                                     <img src={product.picture} alt="" />
-                                    <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.update.confirm')) && deletePicture(product.owner.brandname, product.isbn_code)} title={t('dashboard.update.title')}>&times;</big>
+                                    <big className="delete-logo-btn" onClick={() => window.confirm(t('dashboard.product.update.confirm')) && deletePicture(product.owner.brandname, product.isbn_code)} title={t('dashboard.product.update.title')}>&times;</big>
                                 </div>}
                                 <input type="file" accept="image/*" {...register("picture")} disabled={product.picture && true}  name="picture" onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.main_form.title')}</label>
-                                <input type="text" defaultValue={product.title} {...register("title")} name="title" required/>
+                                <label htmlFor="">{t('dashboard.product.update.main_form.title')}</label>
+                                <input type="text" defaultValue={product.title} {...register("title")} name="title" required minLength="3" maxLength="64"/>
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.main_form.brand')}</label>
-                                <input type="text" defaultValue={product.brand} {...register("brand")} required minLength="3"/>
+                                <label htmlFor="">{t('dashboard.product.update.main_form.brand')}</label>
+                                <input type="text" defaultValue={product.brand} {...register("brand")} required minLength="3" maxLength="32"/>
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
                                 {switchCategory(product.category)}
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.main_form.price.title')}</label>
-                                <input type="number" defaultValue={product.first_price} {...register("first_price")} placeholder={t('dashboard.update.main_form.price.first_price')} required/>
-                                <input type="number" defaultValue={product.last_price} {...register("last_price")} placeholder={t('dashboard.update.main_form.price.last_price')} required/>
+                                <label htmlFor="">{t('dashboard.product.update.main_form.price.title')}</label>
+                                <input type="number" defaultValue={product.first_price} {...register("first_price")} placeholder={t('dashboard.product.update.main_form.price.first_price')} required min="0" max="1000000"/>
+                                <input type="number" defaultValue={product.last_price} {...register("last_price")} placeholder={t('dashboard.product.update.main_form.price.last_price')} required min="0" max="1000000"/>
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.main_form.body')}</label>
+                                <label htmlFor="">{t('dashboard.product.update.main_form.body')}</label>
                                 <small className="help-text"></small>
                                 <br />
                                 <textarea defaultValue={product.body} {...register("body")} cols="50" rows="10"></textarea>
                             </div>
 
                             <div className="submit">
-                                {disable ? <Loader/> : <input type="submit" value={t('dashboard.update.main_form.submit')} />}
+                                {disable ? <Loader/> : <input type="submit" value={t('dashboard.product.update.main_form.submit')} />}
                             </div>
                         </form>
 
                         {/* Xарактеристики */}
                         <form action="" className="features" onSubmit={handleFeature}>
-                            <h4>{t('dashboard.update.feature_form.h4')}</h4>
+                            <h4>{t('dashboard.product.update.feature_form.h4')}</h4>
                             {features.length > 0 && features.map((feature, i) => {
                                 return (
                                     <div className="col-field" key={i}>
                                         <div className="form-group">
-                                            <label htmlFor="">{t('dashboard.update.feature_form.label')}</label>
+                                            <label htmlFor="">{t('dashboard.product.update.feature_form.label')}</label>
                                             <input type="text" value={feature.label} name="label" disabled={true}/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="">{t('dashboard.update.feature_form.value')}</label>
+                                            <label htmlFor="">{t('dashboard.product.update.feature_form.value')}</label>
                                             <input type="text" value={feature.value}  name="value" disabled={true}/>
                                         </div>
                                         <div className="form-group">
-                                            <span onClick={() => window.confirm(t('dashboard.update.confirm')) && deleteFeatureHandle(product.owner.brandname, product.isbn_code, feature.id)} title={t('dashboard.update.title')}>&times;</span>
+                                            <span onClick={() => window.confirm(t('dashboard.product.update.confirm')) && deleteFeatureHandle(product.owner.brandname, product.isbn_code, feature.id)} title={t('dashboard.product.update.title')}>&times;</span>
                                         </div>
                                     </div>
                                 )
                             })}
                             <div className="col-field">
                                 <div className="form-group">
-                                    <label htmlFor="">{t('dashboard.update.feature_form.label')}</label>
+                                    <label htmlFor="">{t('dashboard.product.update.feature_form.label')}</label>
                                     <input type="text" value={label} onChange={featureChange}  name="label" required/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="">{t('dashboard.update.feature_form.value')}</label>
+                                    <label htmlFor="">{t('dashboard.product.update.feature_form.value')}</label>
                                     <input type="text" value={value} onChange={featureChange} name="value" required/>
                                 </div>
                             </div>
                             <div className="submit">
-                                {disable ? <Loader /> : <input type="submit" value={t('dashboard.update.feature_form.submit')}/>}
+                                {disable ? <Loader /> : <input type="submit" value={t('dashboard.product.update.feature_form.submit')}/>}
                             </div>
                         </form>
 
                         {/* Дополнительный иллюстраций */} 
                         <form action="" className="ai" onSubmit={handleAI}>
-                            <h4>{t('dashboard.update.ai_form.h4')}</h4>
+                            <h4>{t('dashboard.product.update.ai_form.h4')}</h4>
                             {ai.length > 0 && ai.map((img, i) => 
                                 (<div className="form-group" key={i}>
                                     <img src={img.image} width="32px" alt="" />
                                     <input type="file" accept="image/*" disabled={true}/>
-                                    <span onClick={() => window.confirm(t('dashboard.update.confirm')) && deleteAI(product.owner.brandname, product.isbn_code, img.id)}>&times;</span>
+                                    <span onClick={() => window.confirm(t('dashboard.product.update.confirm')) && deleteAI(product.owner.brandname, product.isbn_code, img.id)}>&times;</span>
                                 </div>)
                             )}
                             <div className="col-field">
@@ -383,7 +322,7 @@ const Edit = () => {
                                     <input type="file" accept="image/*" onChange={e => handleAIChange(e)} name="image" required/>
                                 </div>
                                 <div className="submit">
-                                    {disable ? <Loader /> : <input type="submit" value={t('dashboard.update.ai_form.submit')}/>}
+                                    {disable ? <Loader /> : <input type="submit" value={t('dashboard.product.update.ai_form.submit')}/>}
                                 </div>        
                             </div>
                         </form>
@@ -392,6 +331,10 @@ const Edit = () => {
                     {/* Видеохостинг */}
                     <form action="" className="videohosting" onSubmit={handleVideo}>
                         <h4>Видеохостинг</h4>
+                        <small className="help-text">
+                            {t('dashboard.product.update.videohosting.help_text')}
+                            <Link to="/docs">{t('dashboard.product.update.videohosting.h_link')}</Link>
+                        </small>
                         {videohosting.length > 0 && videohosting.map((video, i) => {
                             return (
                                 <div className="col-field lists" key={i}>
@@ -403,31 +346,32 @@ const Edit = () => {
                                         : <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNDgiIGhlaWdodD0iNDgiCnZpZXdCb3g9IjAgMCAxNzIgMTcyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE3MnYtMTcyaDE3MnYxNzJ6IiBmaWxsPSJub25lIj48L3BhdGg+PHBhdGggZD0iTTg2LDE3MmMtNDcuNDk2NDksMCAtODYsLTM4LjUwMzUxIC04NiwtODZ2MGMwLC00Ny40OTY0OSAzOC41MDM1MSwtODYgODYsLTg2djBjNDcuNDk2NDksMCA4NiwzOC41MDM1MSA4Niw4NnYwYzAsNDcuNDk2NDkgLTM4LjUwMzUxLDg2IC04Niw4NnoiIGZpbGw9IiNlNzQ2M2MiPjwvcGF0aD48ZyBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNNDYuNzY0NjUsNDMuNTAwOTVsLTMuMjYzNywzLjI2MzdsMzkuMjM1MzUsMzkuMjM1MzVsLTM5LjIzNTM1LDM5LjIzNTM1bDMuMjYzNywzLjI2MzdsMzkuMjM1MzUsLTM5LjIzNTM1bDM5LjIzNTM1LDM5LjIzNTM1bDMuMjYzNywtMy4yNjM3bC0zOS4yMzUzNSwtMzkuMjM1MzVsMzkuMjM1MzUsLTM5LjIzNTM1bC0zLjI2MzcsLTMuMjYzN2wtMzkuMjM1MzUsMzkuMjM1MzV6Ij48L3BhdGg+PC9nPjwvZz48L3N2Zz4=" alt=""/>}
                                     </div> |
                                     <div className="form-group">
-                                        <span onClick={() => window.confirm("Вы действительно хотите удалить?") && deleteVideo(product.owner.brandname, product.isbn_code, video.id)} title={t('dashboard.update.title')}>&times;</span>
-                                    </div>
+                                        <span onClick={() => window.confirm(t('dashboard.product.update.confirm')) && deleteVideo(product.owner.brandname, product.isbn_code, video.id)} title={t('dashboard.product.update.title')}>&times;</span>
+                                    </div> | 
+                                    <small><Link to={`/product/${product.owner.brandname}/${product.isbn_code}/video/${video.id}/edit`}>Изменить</Link></small>
                                 </div>
                             )
                         })}
                         <div className="col-field">
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.videohosting.title')}</label>
+                                <label htmlFor="">{t('dashboard.product.update.videohosting.title')}</label>
                                 <input type="text" value={title} onChange={videoChange}  name="title" required/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.videohosting.link')}</label>
+                                <label htmlFor="">{t('dashboard.product.update.videohosting.link')}</label>
                                 <input type="text" value={frame_url} onChange={videoChange} name="frame_url" required/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.videohosting.body')}</label>
+                                <label htmlFor="">{t('dashboard.product.update.videohosting.body')}</label>
                                 <textarea value={body} onChange={videoChange} cols="50" rows="5"  name="body"/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.update.videohosting.access')}</label>
+                                <label htmlFor="">{t('dashboard.product.update.videohosting.access')}</label>
                                 <input type="checkbox" checked={access} onChange={videoChange} name="access"/>
                             </div>
                         </div>
                         <div className="submit">
-                            {disable ? <Loader /> : <input type="submit" value={t('dashboard.update.videohosting.submit')}/>}
+                            {disable ? <Loader /> : <input type="submit" value={t('dashboard.product.update.videohosting.submit')}/>}
                         </div>
                     </form>
                 </motion.div>
@@ -436,4 +380,4 @@ const Edit = () => {
     )
 }
 
-export default Edit
+export default connect(null, { updateProduct, addFeature, addAI, addVideo })(Edit)

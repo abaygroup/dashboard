@@ -8,12 +8,15 @@ import { SettingContainer } from './styles/settings';
 import axios from 'axios';
 import { BACKEND_URL, item } from '../../actions/types';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '../../actions/alert';
 
 const Settings = () => {
     const [dashboard, setDashboard] = useState({})
     const [loading, setLoading] = useState(true);
     const { register, handleSubmit } = useForm();
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const passwordChangeSubmit = async (data) => {
         const formData = JSON.stringify(data)
@@ -24,10 +27,14 @@ const Settings = () => {
                     'Authorization': `JWT ${localStorage.getItem('access')}`
                 }
             }
-            const response = await axios.put(`${BACKEND_URL}/accounts/password-change/`, formData, localStorage.getItem('access') && config);
-            console.log(response.data);
+            await axios.put(`${BACKEND_URL}/accounts/password-change/`, formData, localStorage.getItem('access') && config);
+            localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Пароль сохранен', 'success'));
+            localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Пароль сәтті өзгертілді', 'success'));
+            
         } catch (e) {
             console.error(e.message)
+            localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Произошла ошибка при вводе пароля', 'error'));
+            localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Пароль енгізу барысында қателік кетті', 'error'));
         }
     }
 

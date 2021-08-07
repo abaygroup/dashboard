@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loader from './../../components/Loader';
 import { BACKEND_URL, item } from '../../actions/types';
@@ -9,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { motion } from "framer-motion";
 import { InformationContainer } from './styles/information';
 import { Center } from './styles/overview';
-
+import { useDispatch } from 'react-redux';
+import { setAlert } from '../../actions/alert';
 
 const genders = [
     { value: 'NOT_DEFINED', label: 'Не указано' },
@@ -28,12 +28,12 @@ const Information = () => {
 
     const [loading, setLoading] = useState(true);
     const [disable, setDisable] = useState(false);
-    const [created, setCreated] = useState(false);
     const { register, handleSubmit } = useForm();
 
     const [logotypeImg, setLogotypeImg] = useState(null);
 
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
 		if ([e.target.name].toString() === 'logotype') {
@@ -69,7 +69,8 @@ const Information = () => {
             const response = await axios.put(`${BACKEND_URL}/owner/`, formData, localStorage.getItem('access') && config);
             setProfile(response.data);
             setDisable(false);
-            setCreated(true)
+            localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Профиль сохранен', 'success'));
+            localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Профиль сақталды', 'success'));
         } catch (e) {
             console.error(e.message)
         }
@@ -113,11 +114,7 @@ const Information = () => {
         return () => cleanupFunction = true;
     }, [])
 
-    if (created) {
-        return <Redirect to="/" />
-    }
-
-    document.title = "Профиль";
+    document.title = "Профиль | Панель управление";
     
     return (
         <InformationContainer>

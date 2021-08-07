@@ -27,6 +27,8 @@ import Detail from './pages/Dashboard/productComponents/Detail';
 import Edit from './pages/Dashboard/productComponents/Edit';
 import Create from './pages/Dashboard/productComponents/Create';
 import Branding from './components/Branding';
+import VideoDetail from './pages/Dashboard/productComponents/VideoDetail';
+import VideoEdit from './pages/Dashboard/productComponents/VideoEdit';
 
 
 function App() {
@@ -50,6 +52,10 @@ function App() {
                 <Route exact path='/product/create'><Main><Create /></Main></Route>
                 <Route exact path='/product/:owner/:isbn_code'><Main><Detail /></Main></Route>
                 <Route exact path='/product/:owner/:isbn_code/edit'><Main><Edit /></Main></Route>
+
+                {/* Videohosting URL */}
+                <Route exact path='/product/:owner/:isbn_code/video/:pk'><Main><VideoDetail /></Main></Route>
+                <Route exact path='/product/:owner/:isbn_code/video/:pk/edit'><Main><VideoEdit /></Main></Route>
 
                 {/* Accounts URL */}
                 <Route exact path="/accounts/login" component={Login} />

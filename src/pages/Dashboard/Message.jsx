@@ -46,7 +46,7 @@ const Message = () => {
         return <Redirect to="/" />
     }
 
-    document.title = "Сообщение";
+    document.title = "Сообщение | Панель управление";
 
     return (
         <MessageContainer>

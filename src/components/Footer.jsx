@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import icon64 from '../assets/images/icon64.png';
 
@@ -33,7 +32,7 @@ const Footer = () => {
         <FooterContainer>
             <div className="copyright">
                 <img src={icon64} width="32px" alt=""/>
-                <Link to="/">Компания aBay <small>st.</small></Link>
+                <a href="https://abaystreet.com" rel="noreferrer" target="_blank">Компания aBay <small>st.</small></a>
             </div>
         </FooterContainer>
     )

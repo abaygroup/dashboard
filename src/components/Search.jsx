@@ -11,7 +11,7 @@ const SearchContainer = styled.form`
     .search {
         width: 100%;
         display: block;
-        padding: 10px;
+        padding: 10px 50px 10px 10px;
         position: relative;
         margin-bottom: 10px;
         border-radius: 5px;

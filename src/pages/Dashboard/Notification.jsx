@@ -54,7 +54,7 @@ const Notification = () => {
         return () => cleanupFunction = true;
     }, [notification])
 
-    document.title = "Уведомление";
+    document.title = "Уведомление | Панель управление";
 
     return (
         <NotificationContainer>

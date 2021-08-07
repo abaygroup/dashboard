@@ -203,7 +203,7 @@ const ProfileContainer = styled.div`
                 .checked {
                     img {
                         top: 18px;
-                        left: -10px;
+                        left: -30px;
                     }
                 }
             }
