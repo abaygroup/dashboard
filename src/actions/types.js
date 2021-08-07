@@ -34,8 +34,8 @@ export const ADD_VIDEO_FAIL = 'ADD_VIDEO_FAIL';
 
 
 // URL
-export const BACKEND_URL = 'http://127.0.0.1:8000';
-// export const BACKEND_URL = 'https://api.abaystreet.com';
+// export const BACKEND_URL = 'http://127.0.0.1:8000';
+export const BACKEND_URL = 'https://api.abaystreet.com';
 
 // Get Token
 export const config = {
