@@ -52,7 +52,7 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
         updateProduct({owner, isbn_code, title, brand, subcategory, productImage, first_price, last_price, body})
         setTimeout(() => {
             setDisable(false)
-            history.push(`/product/${owner}/${isbn_code}`)
+            history.push(`/product/${owner}/${isbn_code}`);
         }, 1500)
     }
 

@@ -74,7 +74,7 @@ export const updateProduct = (data) => async dispatch => {
             }
         }
         try {
-            const response = await axios.get(`${BACKEND_URL}/product/${data.owner}/${data.isbn_code}/`, config);
+            const response = await axios.put(`${BACKEND_URL}/product/${data.owner}/${data.isbn_code}/`, formData,  config);
             dispatch({
                 type: UPDATE_PRODUCT_SUCCESS,
                 payload: response.data

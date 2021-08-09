@@ -77,7 +77,7 @@ const Products = ({deleteProduct}) => {
                                         <hr />
                                         <div className="owner">
                                             <small>{t('dashboard.products.product.date')}: <strong>{date.getDate()}.{date.getMonth()}.{date.getFullYear()} {date.getHours()}:{date.getMinutes()}</strong></small> | 
-                                            <small>{t('dashboard.products.product.view')} <strong>{product.view}</strong></small> | 
+                                            <small>{t('dashboard.products.product.view')} <strong>0</strong></small> | 
                                             <small className="deleteBtn" onClick={() => window.confirm(t('dashboard.products.product.confirm')) && deleteProductHandle(product.owner.brandname, product.isbn_code)}>{t('dashboard.products.product.delete_btn')}</small> | 
                                             <small className="editBtn"><Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>{t('dashboard.products.product.update_btn')}</Link></small>
                                         </div>

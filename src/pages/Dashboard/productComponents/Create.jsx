@@ -14,6 +14,8 @@ import { Container } from '../styles/productComponents';
 import { connect } from 'react-redux';
 import { createProduct } from '../../../actions/product';
 
+import { DefaultEditor } from 'react-simple-wysiwyg';
+
 
 const Create = ({createProduct}) => {
     const [loading, setLoading] = useState(true)
@@ -21,6 +23,7 @@ const Create = ({createProduct}) => {
     const { register, handleSubmit } = useForm();
     const [dashboard, setDashboard] = useState({});
     const [productImage, setProductImage] = useState(null);
+    const [value, setValue] = useState('');
 
     const { t } = useTranslation();
     let history = useHistory();
@@ -173,6 +176,10 @@ const Create = ({createProduct}) => {
                             <small className="help-text"></small>
                             <br />
                             <textarea {...register("body")} cols="70" rows="10"></textarea>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">{t('dashboard.product.create.form.body')}</label>
+                            <DefaultEditor value={value} onChange={(e) => setValue(e.target.value)} />
                         </div>
                         <div className="submit">
                             {disable ? <Loader/> : <input type="submit" value={t('dashboard.product.create.form.submit')} />}
