@@ -117,11 +117,31 @@ export const VideoDetailContainer = styled.div`
         .documentation {
             margin: 10px 40px;
             
-            h2 {
-                padding: 10px 0;
-                text-align: center;
+            .header {
+                display: flex;
+                justify-content: space-around;
+
+                h2 {
+                    padding: 10px 0;
+                    text-align: center;
+                }
+                button {
+                    margin: 5px;
+                    display: inline-block;
+                    padding: 4px 20px;
+                    border-radius: 5px;
+                    border: 1px solid ${({theme}) => theme.borderColor};
+                    font-size: 13px;
+                    cursor: pointer;
+
+                    &:hover {
+                        border: 1px solid ${({theme}) => theme.color};
+                    }
+                }
             }
-            p {
+            
+            .docs-body {
+                margin-top: 20px;
                 font-size: 14px;
             }
         }
@@ -178,6 +198,13 @@ export const VideoDetailContainer = styled.div`
                         min-height: 200px;
                     }
                 }
+            }
+        }
+
+        .documentation {
+            .header {
+                flex-direction: column;
+                align-items: center;
             }
         }
     }

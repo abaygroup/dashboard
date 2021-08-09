@@ -326,9 +326,9 @@ export const ProductDetail = styled.div`
                     font-weight: 600;
                 }
 
-                .subcategory {
+                .subcategory, .observers-count, .production {
                     font-size: 14px;
-                    display: inline-block;
+                    display: block;
                     margin-bottom: 10px;
                 }
         

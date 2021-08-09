@@ -116,16 +116,17 @@ const VideoDetail = () => {
                     <React.Fragment>
                         <div className="header">
                             <h2>{docs[0].title}</h2>
-                            <small>{docs[0].date_created}</small><br />
-                            <small>{docs[0].date_updated}</small><br />
-                            <button onClick={deleteDocs}>Удалить</button>
+                            <div className="date-created">
+                                <small><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{new Date(Date.parse(docs[0].date_created))}</Moment></small><br />
+                                <button onClick={() => window.confirm(t('dashboard.product.detail.confirm')) && deleteDocs()}>Удалить</button>
+                            </div>
                         </div>
-                        <div>{ ReactHtmlParser(docs[0].body) }</div>
+                        <div className="docs-body">{ ReactHtmlParser(docs[0].body) }</div>
                     </React.Fragment>
                     : <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>Нет документации</small>}
                 </div>
             </motion.div>}
-        </VideoDetailContainer>        
+        </VideoDetailContainer>
     )
 }
 

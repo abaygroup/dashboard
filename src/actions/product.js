@@ -66,6 +66,7 @@ export const updateProduct = (data) => async dispatch => {
         formData.append('first_price', data.first_price);
         formData.append('last_price', data.last_price);
         formData.append('body', data.body);
+        formData.append('production', data.production);
 
         const config = {
             headers: {

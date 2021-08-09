@@ -82,6 +82,11 @@ export const ProductsContainer = styled.div`
                         img, strong {
                             margin: 0 2px;
                         }
+                        img {
+                            width: 18px;
+                            height: 18px;
+                            margin-left: 5px;
+                        }
                     }
                     .deleteBtn, .editBtn {
                         border: 1px solid ${({theme}) => theme.borderColor};

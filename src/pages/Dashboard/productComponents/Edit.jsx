@@ -48,8 +48,8 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
     // Изменение продукта
     const onSubmit = async (data) => {
         setDisable(true)
-        const {title, brand, subcategory, first_price, last_price, body} = data
-        updateProduct({owner, isbn_code, title, brand, subcategory, productImage, first_price, last_price, body})
+        const {title, brand, subcategory, first_price, last_price, body, production} = data
+        updateProduct({owner, isbn_code, title, brand, subcategory, productImage, first_price, last_price, body, production})
         setTimeout(() => {
             setDisable(false)
             history.push(`/product/${owner}/${isbn_code}`);
@@ -266,7 +266,11 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
                                 <br />
                                 <textarea defaultValue={product.body} {...register("body")} cols="50" rows="10"></textarea>
                             </div>
-
+                            <div className="form-group">
+                                <label htmlFor="">Публиковать в продакшн</label>
+                                <input type="checkbox" defaultChecked={product.production} {...register("production")} />
+                                <small className="help-text"></small>
+                            </div>
                             <div className="submit">
                                 {disable ? <Loader/> : <input type="submit" value={t('dashboard.product.update.main_form.submit')} />}
                             </div>

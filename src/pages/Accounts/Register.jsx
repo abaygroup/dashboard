@@ -14,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
 import Navbar from './Navbar';
+import { BACKEND_URL } from '../../actions/types';
 
 
 const Register = ({isAuthenticated, signup }) => {
@@ -24,7 +25,7 @@ const Register = ({isAuthenticated, signup }) => {
 
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/accounts/users/', {
+        axios.get(`${BACKEND_URL}/accounts/users/`, {
             headers: {
             'Content-Type': 'application/json'
             }  
@@ -43,6 +44,9 @@ const Register = ({isAuthenticated, signup }) => {
         schema = yup.object().shape({
             brandname: yup.string()
                 .notOneOf(brandList, 'Имя такое же бренд уже существует')
+                .matches(
+                /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/, 
+                "Введите правильные имя бренда")
                 .required('Требуется название бренда'),
             email: yup.string()
                 .email('Электронная почта должна быть действительной')
@@ -60,6 +64,9 @@ const Register = ({isAuthenticated, signup }) => {
         schema = yup.object().shape({
             brandname: yup.string()
                 .notOneOf(brandList, 'Бұндай бренд тіркелген')
+                .matches(
+                    /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/, 
+                    "Дұрыс бренд атауын жазыңыз")
                 .required('Бренд атауы қажет'),
             email: yup.string()
                 .email('Электрондық пошта жарамды болуы керек')

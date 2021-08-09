@@ -18,7 +18,8 @@ import { deleteProduct } from '../../../actions/product';
 
 
 const Detail = ({deleteProduct}) => {
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState({});
+    const [observersCount, setObserversCount] = useState(null);
     const [videohosting, setVideohosting] = useState([])
     const [features, setFeatures] = useState([])
     const [loading, setLoading] = useState(true)
@@ -48,6 +49,7 @@ const Detail = ({deleteProduct}) => {
                 const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
                     setProduct(response.data.products);
+                    setObserversCount(response.data.observers_count);
                     setFeatures(response.data.features);
                     setVideohosting(response.data.videohosting);
                     setAi(response.data.ai)
@@ -99,6 +101,8 @@ const Detail = ({deleteProduct}) => {
                         <h3>{product.title} </h3>
                         <h1><small>{product.last_price}тг</small> - {product.first_price}тг</h1>
                         <small className="subcategory"><b>Категория:</b> {product.subcategory.name}</small>
+                        <small className="observers-count"><b>Количество людей:</b> {observersCount}</small>
+                        <small className="production"><b>Продакшн:</b> {product.production ? "Да" : "Нет"}</small>
                         <Linkify><p>{product.body}</p></Linkify>
                         <div className="buttons">
                             <Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>{t('dashboard.product.detail.buttons.update')}</Link>
