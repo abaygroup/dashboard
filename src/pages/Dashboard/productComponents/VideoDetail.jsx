@@ -8,13 +8,11 @@ import { BACKEND_URL, config, item } from '../../../actions/types';
 import Loader from '../../../components/Loader';
 import { Center } from '../styles/overview';
 import { VideoDetailContainer } from '../styles/videohosting';
-import ReactHtmlParser from 'react-html-parser';
 
 const VideoDetail = () => {
     const [video, setVideo] = useState({})
     const [product, setProduct] = useState({})
     const [comments, setComments] = useState([]);
-    const [docs, setDocs] = useState([]);
     const [loading, setLoading] = useState(true)
     let params = useParams()
     let history = useHistory();
@@ -31,7 +29,6 @@ const VideoDetail = () => {
                     setProduct(response.data.product)
                     setVideo(response.data.video);
                     setComments(response.data.comment);
-                    setDocs(response.data.docs);
                     setLoading(false)
                 }
             } catch (e) {
@@ -47,15 +44,6 @@ const VideoDetail = () => {
         try {
             await axios.delete(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/video/${video.id}/`, localStorage.getItem('access') && config)
             history.push(`/product/${params.owner}/${params.isbn_code}/`);
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    const deleteDocs = async () => {
-        try {
-            await axios.delete(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/video/${video.id}/docs/${docs[0].id}/`, localStorage.getItem('access') && config)
-            history.push(`/product/${params.owner}/${params.isbn_code}/video/${video.id}`);
         } catch (e) {
             console.log(e);
         }
@@ -109,21 +97,7 @@ const VideoDetail = () => {
                             </div>
                         )
                     })}
-                    </div>: <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>Нет комментарии</small>}
-                </div>
-                <div className="documentation">
-                    {docs.length > 0 ? 
-                    <React.Fragment>
-                        <div className="header">
-                            <h2>{docs[0].title}</h2>
-                            <div className="date-created">
-                                <small><Moment locale={localStorage.getItem('i18nextLng') === 'ru'  ? "ru": "kz"} fromNow>{new Date(Date.parse(docs[0].date_created))}</Moment></small><br />
-                                <button onClick={() => window.confirm(t('dashboard.product.detail.confirm')) && deleteDocs()}>Удалить</button>
-                            </div>
-                        </div>
-                        <div className="docs-body">{ ReactHtmlParser(docs[0].body) }</div>
-                    </React.Fragment>
-                    : <small style={{ display: "block", width: "100%", textAlign: "center", marginTop: "50px" }}>Нет документации</small>}
+                    </div>: <small style={{ display: "block", width: "40%", textAlign: "center", marginTop: "50px" }}>Нет комментарии</small>}
                 </div>
             </motion.div>}
         </VideoDetailContainer>

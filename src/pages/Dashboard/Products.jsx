@@ -73,7 +73,7 @@ const Products = ({deleteProduct}) => {
                                             <h4>{product.title}</h4>
                                             <Link to={`product/${product.owner.brandname}/${product.isbn_code}`}>{t('dashboard.products.product.visit')}</Link>
                                         </div>
-                                        <p>{product.body}</p>
+                                        <p>{product.about}</p>
                                         <hr />
                                         <div className="owner">
                                             <small>{t('dashboard.products.product.date')}: <strong>{date.getDate()}.{date.getMonth()}.{date.getFullYear()} {date.getHours()}:{date.getMinutes()}</strong></small> | 

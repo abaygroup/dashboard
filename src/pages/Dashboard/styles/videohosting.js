@@ -113,38 +113,6 @@ export const VideoDetailContainer = styled.div`
                 }
             }
         }
-
-        .documentation {
-            margin: 10px 40px;
-            
-            .header {
-                display: flex;
-                justify-content: space-around;
-
-                h2 {
-                    padding: 10px 0;
-                    text-align: center;
-                }
-                button {
-                    margin: 5px;
-                    display: inline-block;
-                    padding: 4px 20px;
-                    border-radius: 5px;
-                    border: 1px solid ${({theme}) => theme.borderColor};
-                    font-size: 13px;
-                    cursor: pointer;
-
-                    &:hover {
-                        border: 1px solid ${({theme}) => theme.color};
-                    }
-                }
-            }
-            
-            .docs-body {
-                margin-top: 20px;
-                font-size: 14px;
-            }
-        }
     }
 
     @media screen and (min-width: 1800px) {
@@ -170,9 +138,6 @@ export const VideoDetailContainer = styled.div`
                 .comments {
                     display: none;
                 }
-            }
-            .documentation {
-                margin: 10px;
             }
         }
     }
@@ -200,13 +165,6 @@ export const VideoDetailContainer = styled.div`
                 }
             }
         }
-
-        .documentation {
-            .header {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
     }
 `;
 
@@ -229,11 +187,12 @@ export const VideoEditContainer = styled.div`
     .video-edit {
         display: flex;
         justify-content: center;
-        padding: 50px 0;
+        padding: 20px 0;
         
         form {
             width: 40%;
             margin: 0 20px 20px 20px;
+            
             h4 {
                 text-align: left;
                 padding-bottom: 5px;
@@ -312,25 +271,6 @@ export const VideoEditContainer = styled.div`
                 }
             }
         }
-
-        form.docs {
-            width: 60%;
-
-            h4 {
-                text-align: center;
-                padding-bottom: 5px;
-                font-size: 14px;
-            }
-
-            .docs-body {
-                max-width: 760px;
-                padding: 10px 20px;
-            }
-
-            .submit {
-                margin: 10px 0;
-            }
-        }
     }
 
     // ========================================
@@ -349,15 +289,6 @@ export const VideoEditContainer = styled.div`
             form {
                 width: 100%;
                 margin: 20px 0;
-            }
-    
-            form.docs {
-                width: 100%;
-                margin: 20px 0;
-    
-                .docs-body {
-                    max-width: 760px;
-                }
             }
         }
     }

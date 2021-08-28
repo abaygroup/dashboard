@@ -11,25 +11,26 @@ import { Container } from '../styles/productComponents';
 import { Center } from '../styles/overview';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addAI, addFeature, updateProduct, addVideo } from '../../../actions/product';
+import { addFeature, updateProduct, addVideo } from '../../../actions/product';
+// import { DefaultEditor } from 'react-simple-wysiwyg';
 
 
-const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
+const Edit = ({updateProduct, addFeature, addVideo }) => {
     const [product, setProduct] = useState({});
     const [videohosting, setVideohosting] = useState([]);
     const [features, setFeatures] = useState([]);
-    const [ai, setAi] = useState([]);
 
     const [disable, setDisable] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const { register, handleSubmit } = useForm();
-    const [productImage, setProductImage] = useState(null);
     let params = useParams();
     const {owner, isbn_code} = params;
+    const [productImage, setProductImage] = useState(null);
 
     const { t } = useTranslation();
     let history = useHistory();
+    // const [bodyData, setBodyData] = useState('');
 
     // onChange для изброжение
     const handleChange = (e) => {
@@ -48,8 +49,8 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
     // Изменение продукта
     const onSubmit = async (data) => {
         setDisable(true)
-        const {title, brand, subcategory, first_price, last_price, body, production} = data
-        updateProduct({owner, isbn_code, title, brand, subcategory, productImage, first_price, last_price, body, production})
+        const {title, brand, subcategory, first_price, last_price, about, production} = data
+        updateProduct({owner, isbn_code, title, brand, subcategory, productImage, first_price, last_price, about, production})
         setTimeout(() => {
             setDisable(false)
             history.push(`/product/${owner}/${isbn_code}`);
@@ -93,46 +94,6 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
     }
     // =========================================================
 
-
-    // AI image
-    const [AImage, setAImage] = useState(null);
-    
-    // onChange для AI
-    const handleAIChange = (e) => {
-		if ([e.target.name].toString() === 'image') {
-            if (e.target.files[0].size < 5000000) {
-                setAImage({
-                    image: e.target.files,
-                });
-            } else {
-                alert('Изброжение слишком большой. Рекомендуемые размер менее 5MB');
-                e.target.value = ''
-            }
-		}
-    }
-
-    // Добавление AI
-    const handleAI = e => {
-        e.preventDefault();
-        setDisable(true);
-        addAI({owner, isbn_code, AImage})
-        setTimeout(() => { 
-            setDisable(false);
-            window.location.reload();
-        }, 1500);
-    }
-
-    // Удаление AI
-    const deleteAI = async (owner, isbn_code, id) => {
-        try {
-            await axios.delete(`${BACKEND_URL}/product/${owner}/${isbn_code}/ai/${id}/`, localStorage.getItem('access') && config)
-        } catch(e) {
-            console.log(e.message);
-        }
-    }
-    // =========================================================
-
-
     // Videohosting
     const [videoData, setVideoData] = useState({title: '', frame_url: '', body: '', access: true});
     const { title, frame_url, body, access } = videoData;
@@ -167,10 +128,9 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
             try {
                 const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
-                    setProduct(response.data.products);
+                    setProduct(response.data.product);
                     setVideohosting(response.data.videohosting);
                     setFeatures(response.data.features);
-                    setAi(response.data.ai)
                     setLoading(false)
                 }
             } catch (e) {
@@ -180,7 +140,8 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
 
         fetchData()
         return () => cleanupFunction = true;   
-    }, [params, videohosting, features, ai ]);
+    }, [params, videohosting, features ]);
+
 
 
     const switchCategory = category => {
@@ -191,6 +152,8 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
                         <option value="web-development">Веб разработка</option>
                         <option value="game-development">Разработка игры</option>
                         <option value="development-of-mobile-applications">Разработка мобильных приложений</option>
+                        <option value="cybersecurity">Кибербезопасность</option>
+                        <option value="data-analysis">Обработка и анализ данных</option>
                     </select>
                 )
             case "design":
@@ -261,11 +224,16 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
                                 <small className="help-text"></small>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">{t('dashboard.product.update.main_form.body')}</label>
+                                <label htmlFor="">{t('dashboard.product.update.main_form.shortcut_body')}</label>
                                 <small className="help-text"></small>
                                 <br />
-                                <textarea defaultValue={product.body} {...register("body")} cols="50" rows="10"></textarea>
+                                <textarea defaultValue={product.about} {...register("about")} cols="50" rows="5"></textarea>
                             </div>
+                            {/* <div className="form-group">
+                                <label htmlFor="">{t('dashboard.product.create.form.body')}</label>
+                                <br />
+                                <DefaultEditor value={product.body} />
+                            </div> */}
                             <div className="form-group">
                                 <label htmlFor="">Публиковать в продакшн</label>
                                 <input type="checkbox" defaultChecked={product.production} {...register("production")} />
@@ -308,26 +276,6 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
                             </div>
                             <div className="submit">
                                 {disable ? <Loader /> : <input type="submit" value={t('dashboard.product.update.feature_form.submit')}/>}
-                            </div>
-                        </form>
-
-                        {/* Дополнительный иллюстраций */} 
-                        <form action="" className="ai" onSubmit={handleAI}>
-                            <h4>{t('dashboard.product.update.ai_form.h4')}</h4>
-                            {ai.length > 0 && ai.map((img, i) => 
-                                (<div className="form-group" key={i}>
-                                    <img src={img.image} width="32px" alt="" />
-                                    <input type="file" accept="image/*" disabled={true}/>
-                                    <span onClick={() => window.confirm(t('dashboard.product.update.confirm')) && deleteAI(product.owner.brandname, product.isbn_code, img.id)}>&times;</span>
-                                </div>)
-                            )}
-                            <div className="col-field">
-                                <div className="form-group">
-                                    <input type="file" accept="image/*" onChange={e => handleAIChange(e)} name="image" required/>
-                                </div>
-                                <div className="submit">
-                                    {disable ? <Loader /> : <input type="submit" value={t('dashboard.product.update.ai_form.submit')}/>}
-                                </div>        
                             </div>
                         </form>
                     </div>
@@ -384,4 +332,4 @@ const Edit = ({updateProduct, addFeature, addAI, addVideo }) => {
     )
 }
 
-export default connect(null, { updateProduct, addFeature, addAI, addVideo })(Edit)
+export default connect(null, { updateProduct, addFeature, addVideo })(Edit)

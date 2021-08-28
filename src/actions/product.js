@@ -9,8 +9,6 @@ import { BACKEND_URL,
     ADD_FEATURE_FAIL,
     DELETE_PRODUCT_SUCCESS,
     ADD_FEATURE_SUCCESS,
-    ADD_AI_SUCCESS,
-    ADD_AI_FAIL,
     ADD_VIDEO_SUCCESS,
     ADD_VIDEO_FAIL
 } from './types';
@@ -26,6 +24,7 @@ export const createProduct = (data) => async dispatch => {
         data.productImage && formData.append('picture', data.productImage.picture[0]);
         formData.append('first_price', data.first_price);
         formData.append('last_price', data.last_price);
+        formData.append('about', data.about);
         formData.append('body', data.body);
 
         const config = {
@@ -65,7 +64,8 @@ export const updateProduct = (data) => async dispatch => {
         data.productImage && formData.append('picture', data.productImage.picture[0]);
         formData.append('first_price', data.first_price);
         formData.append('last_price', data.last_price);
-        formData.append('body', data.body);
+        formData.append('about', data.about);
+        // formData.append('body', data.body);
         formData.append('production', data.production);
 
         const config = {
@@ -149,36 +149,6 @@ export const addFeature = data => async dispatch => {
         dispatch({ type: ADD_FEATURE_FAIL });
         localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Произошла ошибка при добавление характеристики', 'error'));
         localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Өнім сипаттамасын жою кезінде қателік кетті', 'error'));
-    }
-}
-
-
-// AI
-export const addAI = data => async dispatch => {
-    if (localStorage.getItem('access')) {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
-            }
-        }
-        try {
-            const imageData = new FormData();
-            data.AImage && imageData.append('image', data.AImage.image[0]);
-            axios.post(`${BACKEND_URL}/product/${data.owner}/${data.isbn_code}/ais/`, imageData, config)
-            dispatch({ type: ADD_AI_SUCCESS });
-            localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Дополнительное изображение успешно загружено', 'success'));
-            localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Қосымша сурет сәтті жүктелді', 'success'));
-            
-        } catch(e) {
-            dispatch({ type: ADD_AI_FAIL });
-            localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Произошла ошибка при загрузке дополнительного изображения', 'error'));
-            localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Қосымша суретті жүктеу кезінде қателік кетті', 'error'));
-        }
-    } else {
-        dispatch({ type: ADD_AI_FAIL});
-        localStorage.getItem('i18nextLng') === 'ru' && dispatch(setAlert('Произошла ошибка при загрузке дополнительного изображения', 'error'));
-        localStorage.getItem('i18nextLng') === 'kz' && dispatch(setAlert('Қосымша суретті жүктеу кезінде қателік кетті', 'error'));
     }
 }
 

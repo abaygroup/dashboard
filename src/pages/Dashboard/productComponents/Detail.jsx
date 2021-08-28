@@ -8,6 +8,7 @@ import Loader from '../../../components/Loader';
 import picture from '../../../assets/images/picture.jpg';
 import Moment from 'react-moment';
 import Linkify from 'react-linkify';
+import ReactHtmlParser from 'react-html-parser'
 
 import { useTranslation } from 'react-i18next';
 import { ProductDetail } from '../styles/productComponents';
@@ -23,7 +24,6 @@ const Detail = ({deleteProduct}) => {
     const [videohosting, setVideohosting] = useState([])
     const [features, setFeatures] = useState([])
     const [loading, setLoading] = useState(true)
-    const [ai, setAi] = useState([])
     let params = useParams()
     const imageRef = useRef(null)
     let history = useHistory();
@@ -48,11 +48,10 @@ const Detail = ({deleteProduct}) => {
             try {
                 const response = await axios.get(`${BACKEND_URL}/product/${params.owner}/${params.isbn_code}/`, localStorage.getItem('access') && config);
                 if(!cleanupFunction) {
-                    setProduct(response.data.products);
+                    setProduct(response.data.product);
                     setObserversCount(response.data.observers_count);
                     setFeatures(response.data.features);
                     setVideohosting(response.data.videohosting);
-                    setAi(response.data.ai)
                     setLoading(false)
                 }
             } catch (e) {
@@ -64,10 +63,6 @@ const Detail = ({deleteProduct}) => {
         return () => cleanupFunction = true;   
     }, [params])
 
-
-    const changeImg = (e) => {
-        imageRef.current.src = e.target.src;
-    }
 
     document.title = product.title || "...";
 
@@ -88,22 +83,18 @@ const Detail = ({deleteProduct}) => {
                         <div className="main-image">
                             <img src={product.picture ? product.picture : picture} ref={imageRef} alt="" />
                         </div>
-                        {ai.length > 0 && 
-                        <div className="ai-images">
-                            <img src={product.picture} onClick={e => changeImg(e)} alt="" />
-                            {ai.map((image, i) => {
-                                return <img key={i} onClick={e => changeImg(e)}  src={image.image ? image.image : picture} alt="" />
-                            })}
-                        </div>}
                     </div>
                     
                     <div className="product-info">
                         <h3>{product.title} </h3>
                         <h1><small>{product.last_price}тг</small> - {product.first_price}тг</h1>
-                        <small className="subcategory"><b>Категория:</b> {product.subcategory.name}</small>
-                        <small className="observers-count"><b>Количество людей:</b> {observersCount}</small>
-                        <small className="production"><b>Продакшн:</b> {product.production ? "Да" : "Нет"}</small>
-                        <Linkify><p>{product.body}</p></Linkify>
+                        <div className="product-features">
+                            <small className="subcategory"><b>Категория:</b> {product.subcategory.name}</small>
+                            <small className="observers-count"><b>Количество людей:</b> {observersCount}</small>
+                            <small className="production"><b>Продакшн:</b> {product.production ? "Да" : "Нет"}</small>
+                        </div>
+                        <Linkify><h4>{product.about}</h4></Linkify>
+                        <p>{ReactHtmlParser(product.body)}</p>
                         <div className="buttons">
                             <Link to={`/product/${product.owner.brandname}/${product.isbn_code}/edit`}>{t('dashboard.product.detail.buttons.update')}</Link>
                             <span onClick={() => window.confirm(t('dashboard.product.detail.confirm')) && deleteProductHandle(product.owner.brandname, product.isbn_code)}>{t('dashboard.product.detail.buttons.delete')}</span>

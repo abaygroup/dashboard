@@ -13,7 +13,6 @@ import { Center } from '../styles/overview';
 import { Container } from '../styles/productComponents';
 import { connect } from 'react-redux';
 import { createProduct } from '../../../actions/product';
-
 import { DefaultEditor } from 'react-simple-wysiwyg';
 
 
@@ -22,11 +21,11 @@ const Create = ({createProduct}) => {
     const [disable, setDisable] = useState(false)
     const { register, handleSubmit } = useForm();
     const [dashboard, setDashboard] = useState({});
-    const [productImage, setProductImage] = useState(null);
-    const [value, setValue] = useState('');
-
     const { t } = useTranslation();
     let history = useHistory();
+
+    const [productImage, setProductImage] = useState(null);
+    const [body, setBody] = useState('');
 
     // onChange для изброжение
     const handleChange = (e) => {
@@ -45,8 +44,8 @@ const Create = ({createProduct}) => {
     // Создание продукта
     const handleProduct = (data) => {
         setDisable(true)
-        const {title, brand, subcategory, first_price, last_price, body} = data
-        createProduct({title, brand, subcategory, productImage, first_price, last_price, body})
+        const {title, brand, subcategory, first_price, last_price, about} = data
+        createProduct({title, brand, subcategory, productImage, first_price, last_price, about, body})
         setTimeout(() => {
             setDisable(false)
             history.push(`/products`)
@@ -67,9 +66,9 @@ const Create = ({createProduct}) => {
                 console.error(e.message)
             }
         };
-        fetchData()
+        fetchData();
         return () => cleanupFunction = true;
-    }, [])
+    }, []);
 
     
     const switchCategory = branch => {
@@ -80,6 +79,8 @@ const Create = ({createProduct}) => {
                         <option value="web-development">Веб разработка</option>
                         <option value="game-development">Разработка игры</option>
                         <option value="development-of-mobile-applications">Разработка мобильных приложений</option>
+                        <option value="cybersecurity">Кибербезопасность</option>
+                        <option value="data-analysis">Обработка и анализ данных</option>
                     </select>
                 )
             case "design":
@@ -154,7 +155,7 @@ const Create = ({createProduct}) => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.product.create.form.title')}</label>
-                            <input type="text" {...register("title")} required minLength="3" maxLength="64"/>
+                            <input type="text" {...register("title")} required minLength="3" maxLength="32"/>
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">
@@ -172,14 +173,14 @@ const Create = ({createProduct}) => {
                             <small className="help-text"></small>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="">{t('dashboard.product.create.form.body')}</label>
+                            <label htmlFor="">{t('dashboard.product.create.form.shortcut_body')}</label>
                             <small className="help-text"></small>
                             <br />
-                            <textarea {...register("body")} cols="70" rows="10"></textarea>
+                            <textarea {...register("about")} cols="70" rows="5" maxLength="300" required/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="">{t('dashboard.product.create.form.body')}</label>
-                            <DefaultEditor value={value} onChange={(e) => setValue(e.target.value)} />
+                            <DefaultEditor className="body" value={body} onChange={(e) => setBody(e.target.value)} />
                         </div>
                         <div className="submit">
                             {disable ? <Loader/> : <input type="submit" value={t('dashboard.product.create.form.submit')} />}
